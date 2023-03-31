@@ -36,9 +36,9 @@ body {
   margin: 0 auto;
   z-index: 1;
 
-  @include responsive(big-table) {
-    padding: 0 1rem;
-  }
+  // @include responsive(big-table) {
+  //   padding: 0  1rem;
+  // }
 }
 
 main {

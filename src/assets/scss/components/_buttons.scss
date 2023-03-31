@@ -1,0 +1,60 @@
+.btn {
+  border-radius: 1rem;
+  color: $color-secondary;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 2rem;
+  padding: 1.3rem 2.5rem 1.1rem;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+
+  &__primary {
+    background: $color-ink;
+  }
+
+  &__secondary {
+    background: $color-blue;
+  }
+  &__dark {
+    background: $color-text;
+  }
+
+  &__danger {
+    background: $color-danger;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+// links
+.link{
+  padding: 1.6rem  1.7rem;
+  max-width: 15.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 1rem;
+  transition:all 0.5s ease-in;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 700;
+
+  svg{
+    margin-right: 1.5rem;
+  }
+ &__dark{
+  background-color: $color-gray;
+  color: $color-bg;
+
+  & svg{
+    fill: $color-bg;
+  }
+ }
+
+ &:hover{
+  text-decoration: underline;
+ }
+}
