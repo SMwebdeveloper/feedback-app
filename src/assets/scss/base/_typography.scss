@@ -27,6 +27,8 @@
   font-weight: 700;
   line-height: 34rem;
   letter-spacing: -0.03rem;
+  width: 0;
+  height: 0;
 
   @include responsive(table) {
     font-size: 2rem;

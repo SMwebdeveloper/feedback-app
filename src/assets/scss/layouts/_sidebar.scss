@@ -1,0 +1,31 @@
+.sidebar {
+  top: 0;
+  left: 0;
+
+  &__item {
+    width: 25.5rem;
+    height: 13.7rem;
+    border-radius: 1rem;
+    background-color: $color-bg;
+    padding: 2.4rem;
+  }
+  &__item--content {
+    background: radial-gradient(
+        128.88% 128.88% at 103.9% -10.39%,
+        #e84d70 0%,
+        #a337f6 53.09%,
+        #28a7ed 100%
+      );
+       display: flex;
+       flex-direction: column;
+       align-items: left;
+       justify-content: flex-end;
+  }
+
+  &__title{
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.8rem;
+    color: $color-bg;
+  }
+}
