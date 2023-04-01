@@ -1,0 +1,163 @@
+.sidebar {
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  @include responsive(table) {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+  @include responsive(phone) {
+    position: relative;
+    display: none;
+  }
+
+  &__item {
+    width: 25.5rem;
+    border-radius: 1rem;
+    background-color: $color-bg;
+    padding: 2.4rem 2.4rem;
+
+    &:not(:last-child) {
+      margin-bottom: 2.4rem;
+    }
+
+    @include responsive(table) {
+      max-width: 22.3rem;
+      max-height: 17.8rem;
+      margin: 0;
+      padding: 1.9rem;
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  //   sidebar content item
+  &__item--content {
+    background: radial-gradient(
+      128.88% 128.88% at 103.9% -10.39%,
+      #e84d70 0%,
+      #a337f6 53.09%,
+      #28a7ed 100%
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-end;
+    height: 13.7rem;
+    @include responsive(phone) {
+      position: absolute;
+      z-index: 999;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.8rem;
+    color: $color-bg;
+  }
+  &__subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 2.1rem;
+    color: $color-bg;
+    opacity: 0.75;
+  }
+
+  //   sidebar filter item
+
+  &__item--filter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    column-gap: 0.35rem;
+  }
+  &__btn {
+    padding: 0.6rem 1.6rem;
+    background-color: $color-secondary;
+    border-radius: 1rem;
+    font-weight: 600;
+    line-height: 1.8rem;
+    color: $color-blue;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      background: $color-btn-hover;
+    }
+
+    &:focus {
+      background: $color-blue;
+      color: $color-secondary;
+    }
+  }
+
+  //   sidebar roadmap
+  &__item--roadmap {
+    padding-top: 1.5rem;
+  }
+
+  &__roadmap--content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.4rem;
+
+    @include responsive(table) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__roadmap--link {
+    font-weight: 600;
+    line-height: 1.8rem;
+    color: $color-blue;
+  }
+
+  &__roadmap--list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+  &__roadmap--list__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:nth-child(1) .sidebar__roadmap--circle {
+      background: $color-pink;
+    }
+    &:nth-child(2) .sidebar__roadmap--circle {
+      background: $color-ink;
+    }
+    &:nth-child(3) .sidebar__roadmap--circle {
+      background: $color-blue-secondary;
+    }
+  }
+
+  &__roadmap--circle {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 1.6rem;
+  }
+  &__roadmap--text {
+    font-size: 1.6rem;
+    line-height: 2.3rem;
+    color: $color-gray-secondary;
+  }
+  &__roadmap--number {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 2.3rem;
+    color: $color-gray-secondary;
+  }
+}
