@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="container">
     <div class="home__wrapper">
       <div class="sidebar">
@@ -24,10 +23,9 @@
           </div>
 
           <ul class="sidebar__roadmap--list">
-
             <li class="sidebar__roadmap--list__item">
               <p class="sidebar__roadmap--text">
-              <span class="sidebar__roadmap--circle"></span>
+                <span class="sidebar__roadmap--circle"></span>
                 Planned
               </p>
               <p class="sidebar__roadmap--number">2</p>
@@ -35,7 +33,7 @@
 
             <li class="sidebar__roadmap--list__item">
               <p class="sidebar__roadmap--text">
-              <span class="sidebar__roadmap--circle"></span>
+                <span class="sidebar__roadmap--circle"></span>
                 In-Progress
               </p>
               <p class="sidebar__roadmap--number">3</p>
@@ -43,49 +41,21 @@
 
             <li class="sidebar__roadmap--list__item">
               <p class="sidebar__roadmap--text">
-              <span class="sidebar__roadmap--circle"></span>
+                <span class="sidebar__roadmap--circle"></span>
                 Live
               </p>
               <p class="sidebar__roadmap--number">1</p>
             </li>
-
           </ul>
-
         </div>
       </div>
     </div>
-=======
-  <div class="home">
-<<<<<<< HEAD
-    <img alt="Vue logo" src="../assets/logo.png">
-=======
-   
->>>>>>> 27396e7d2adf362f8cb6b63a17d120b3e5f3ef0e
->>>>>>> b72fb414717b9ba3cc7a146bbb5cb83946b0e668
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
 export default {
   name: "HomeView",
   components: {},
 };
-=======
-<<<<<<< HEAD
-// @ is an alias to /src
-
-export default {
-  name: 'HomeView',
-
-=======
-
-export default {
-  name: 'HomeView',
-  components: {
-    
-  }
->>>>>>> 27396e7d2adf362f8cb6b63a17d120b3e5f3ef0e
-}
->>>>>>> b72fb414717b9ba3cc7a146bbb5cb83946b0e668
 </script>
