@@ -1,11 +1,13 @@
 <template lang="">
   <div>
     <div class="sidebar">
+        <!-- sidebar content -->
       <div class="sidebar__item sidebar__item--content">
         <h3 class="sidebar__title">Forntend Mentor</h3>
         <h5 class="sidebar__subtitle">FeedBack Board</h5>
       </div>
 
+      <!-- sidebar filter -->
       <div class="sidebar__item sidebar__item--filter">
         <button class="sidebar__btn">All</button>
         <button class="sidebar__btn">UI</button>
@@ -15,6 +17,7 @@
         <button class="sidebar__btn">Feature</button>
       </div>
 
+       <!-- sidebar roadmap -->
       <div class="sidebar__item sidebar__item--roadmap">
         <div class="sidebar__roadmap--content">
           <h6 class="title">Roadmap</h6>
@@ -51,6 +54,7 @@
 
     <!-- sidebar mobile -->
     <div class="sidebar__mobile" :class="`${sidebarAnim && 'sidebar__mobile--bg'}`">
+        <!-- sidebar mobile content -->
       <div class="sidebar__content">
         <div class="sidebar__content--text">
           <h3 class="sidebar__title">Forntend Mentor</h3>
@@ -83,6 +87,8 @@
           </svg>
         </button>
       </div>
+
+      <!-- sidebar mobile filter -->
       <div
         class="sidebar__mobile--item"
         :class="`${sidebarAnim && 'sidebar__mobile--animation'}`"
@@ -96,6 +102,7 @@
           <button class="sidebar__btn">Feature</button>
         </div>
 
+        <!-- sidebar mobile roadmap -->
         <div class="sidebar__item sidebar__item--roadmap">
           <div class="sidebar__roadmap--content">
             <h6 class="title">Roadmap</h6>
