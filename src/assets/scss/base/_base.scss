@@ -36,6 +36,9 @@ body {
   @include responsive(big-table) {
     padding: 0  1rem;
   }
+  @include responsive(phone){
+    padding: 0 0;
+  }
 }
 
 main {
