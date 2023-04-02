@@ -10,10 +10,6 @@ const routes = [
     name: 'home',
     component: HomeView
   },
-<<<<<<< HEAD
-  
-=======
->>>>>>> 27396e7d2adf362f8cb6b63a17d120b3e5f3ef0e
 ]
 
 const router = new VueRouter({

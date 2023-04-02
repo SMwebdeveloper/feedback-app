@@ -28,13 +28,16 @@ body {
 .container {
   max-width: 120rem;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 3rem;
   margin: 0 auto;
   z-index: 1;
   padding-top: 2rem;
 
   @include responsive(big-table) {
     padding: 0  1rem;
+  }
+  @include responsive(phone){
+    padding: 0 0;
   }
 }
 
