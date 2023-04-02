@@ -1,6 +1,6 @@
 .sidebar {
-  top: 0;
-  left: 0;
+  top: 2rem;
+  left: 2rem;
   position: fixed;
 
   @include responsive(table) {
@@ -205,6 +205,6 @@
   }
   &--bg {
     background: rgba(0, 0, 0, 0.5);
-    height: 90vh;
+    height: 100vh;
   }
 }
