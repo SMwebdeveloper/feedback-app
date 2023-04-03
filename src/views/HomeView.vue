@@ -29,9 +29,5 @@ export default {
 </script>
 
 <style lang="scss">
-.home__wrapper{
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
+
 </style>
