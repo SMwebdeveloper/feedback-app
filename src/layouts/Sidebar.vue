@@ -53,7 +53,7 @@
     </div>
 
     <!-- sidebar mobile -->
-    <div class="sidebar__mobile" :class="`${sidebarAnim && 'sidebar__mobile--bg'}`">
+    <div class="sidebar__mobile">
         <!-- sidebar mobile content -->
       <div class="sidebar__content">
         <div class="sidebar__content--text">
@@ -89,7 +89,8 @@
       </div>
 
       <!-- sidebar mobile filter -->
-      <div
+      <div class="sidebar__mobile--blackmode" :class="`${sidebarAnim && 'sidebar__mobile--bg'}`">
+        <div
         class="sidebar__mobile--item"
         :class="`${sidebarAnim && 'sidebar__mobile--animation'}`"
       >
@@ -137,6 +138,7 @@
         </div>
       </div>
     </div>
+      </div>
   </div>
 </template>
 <script>

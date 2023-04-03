@@ -1,7 +1,6 @@
 .sidebar {
-  top: 2rem;
-  left: 2rem;
-  position: fixed;
+  top: 0;
+  left:0;
 
   @include responsive(table) {
     display: flex;
@@ -71,8 +70,8 @@
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
-    row-gap: 0.5rem;
-    column-gap: 0.35rem;
+    row-gap: 0.8rem;
+    column-gap: 0.5rem;
   }
   &__btn {
     padding: 0.6rem 1.6rem;
@@ -180,8 +179,8 @@
     align-items: center;
     padding: 0 2.4rem;
     height: 7.2rem;
-    position: relative;
-    z-index: 9999;
+    position: absolute;
+    z-index: 999;
   }
 
   svg {
@@ -190,21 +189,35 @@
   }
 
   &--item {
+    visibility: hidden;
     position: absolute;
-    top: 7rem;
+    top: 0;
     right: -27rem;
     background-color: $color-primary;
     width: 27rem;
     height: 100%;
     padding: 2.4rem;
     transition: all 0.5s ease-in-out;
+    transition-delay: 0.2s;
+    z-index: 998;
   }
   //   animation
   &--animation {
     right: 0;
+    visibility: visible;
+  }
+  &--blackmode{
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 12vh;
+    left: 0;
+    z-index: 998;
+    visibility: hidden;
+    transition: 0.5s;
   }
   &--bg {
-    background: rgba(0, 0, 0, 0.5);
-    height: 100vh;
+    visibility: visible; 
   }
 }
