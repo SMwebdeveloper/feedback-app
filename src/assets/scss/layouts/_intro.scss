@@ -12,12 +12,17 @@
   &__content {
     display: flex;
     align-items: center;
+
+    
   }
 
   img {
     width: 15.6rem;
     height: 2.6rem;
     margin-right: 3.8rem;
+    @include responsive(phone){
+      display: none;
+    }
   }
 
   &__select {

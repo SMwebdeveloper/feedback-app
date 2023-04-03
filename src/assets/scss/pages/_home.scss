@@ -1,0 +1,22 @@
+.home__wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  &--item:nth-child(1) {
+    margin-right: 3rem;
+  }
+  &--item:nth-child(2) {
+    width: 85%;
+  }
+  @include responsive(table) {
+    flex-direction: column;
+    &--item:nth-child(1) {
+      width: 100%;
+      margin: 0;
+    }
+    &--item:nth-child(2) {
+      width: 100%;
+    }
+  }
+}
