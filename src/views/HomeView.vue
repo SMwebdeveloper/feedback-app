@@ -6,6 +6,7 @@
         </div>
         <div class="home__wrapper--item">
           <Intro/>
+          <NotFound/>
         </div>
     </div>
   </div>
@@ -14,11 +15,13 @@
 <script>
 import Sidebar from '@/layouts/Sidebar.vue';
 import Intro from '@/layouts/Intro.vue';
+import NotFound from '@/layouts/NotFound.vue';
 
 export default {
   components:{
     Sidebar,
-    Intro
+    Intro,
+    NotFound
   },
   data() {
     return {
