@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <a href="#" class="btn btn__primary">+Add Feedback</a>
+    <router-link to="/newFeedback" class="btn btn__primary">+Add Feedback</router-link>
   </div>
 </template>
 <script>
