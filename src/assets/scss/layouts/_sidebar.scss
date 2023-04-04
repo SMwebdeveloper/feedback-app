@@ -2,12 +2,15 @@
   top: 0;
   left:0;
   position: relative;
+  margin-right:3rem;
+
 
   @include responsive(table) {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
-    padding: 1rem;
+  
+    margin: 0;
   }
   @include responsive(phone) {
     flex-direction: column;
@@ -17,7 +20,7 @@
     @include responsive(table){
       display: flex;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: space-between;
     }
     @include responsive(phone){
       position: absolute;
@@ -27,9 +30,11 @@
       justify-content: flex-start;
       padding: 2.4rem;
       width: 27.1rem;
-      height: 80vh;
+      height: 100vh;
       background-color: $color-secondary;
       transition: all 0.3s ease-in-out;
+
+      
     }
   }
 
@@ -53,7 +58,7 @@
 
 
   &__item {
-    width: 25.5rem;
+    max-width: 25.5rem;
     border-radius: 1rem;
     background-color: $color-bg;
     padding: 2.4rem 2.4rem;
@@ -63,14 +68,20 @@
     }
 
     @include responsive(table) {
-      width: 22.3rem;
+      width: 23rem;
       height: 17.8rem;
       padding: 1.9rem;
+      margin: 0;
 
       &:not(:last-child){
-        margin-right: 1.7rem;
+        margin-right: 2.5rem;
       }
+
     }
+    @include responsive(phone){
+      max-width: 100%;
+    }
+
   }
 
   //   sidebar content item
@@ -98,6 +109,7 @@
       border-radius: 0;
       align-items: center;
       justify-content: space-between;
+      padding-right:3rem ;
     }
 
   }
@@ -115,8 +127,36 @@
     color: $color-bg;
     opacity: 0.75;
   }
-  &__header--btn{
+  .hamburger{
     visibility: hidden;
+    position: relative;
+    display: inline-block;
+    width: 2.5rem;
+    height: 2rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+
+    appearance: none;
+
+    & .bar, &::after, &::before{
+      content: '';
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: $color-bg;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+    &.is-active::before{
+      transform: rotate(-45deg) translate(-5px, 3px);
+    }
+    &.is-active::after{
+      transform: rotate(45deg) translate(-8px, -6px);
+    }
+
+    &.is-active .bar{
+      opacity: 0;
+    }
 
     @include responsive(phone){
       visibility: visible;
@@ -215,72 +255,3 @@
     color: $color-gray-secondary;
   }
 }
-
-// sidebar mobile
-// .sidebar__mobile {
-//   display: none;
-//   position: relative;
-//   transition: all 0.6s ease;
-
-//   @include responsive(phone) {
-//     display: block;
-//   }
-
-
-
-
-//   .sidebar__content {
-//     background: radial-gradient(
-//       128.88% 128.88% at 103.9% -10.39%,
-//       #e84d70 0%,
-//       #a337f6 53.09%,
-//       #28a7ed 100%
-//     );
-//     width: 100%;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 0 2.4rem;
-//     height: 7.2rem;
-//     position: absolute;
-//     z-index: 999;
-//   }
-
-//   svg {
-//     width: 2rem;
-//     height: 2rem;
-//   }
-
-//   &--item {
-//     visibility: hidden;
-//     position: absolute;
-//     top: 0;
-//     right: -27rem;
-//     background-color: $color-primary;
-//     width: 27rem;
-//     height: 100%;
-//     padding: 2.4rem;
-//     transition: all 0.5s ease-in-out;
-//     transition-delay: 0.2s;
-//     z-index: 998;
-//   }
-//   //   animation
-//   &--animation {
-//     right: 0;
-//     visibility: visible;
-//   }
-//   &--blackmode{
-//     background: rgba(0, 0, 0, 0.5);
-//     position: absolute;
-//     width: 100%;
-//     height: 100vh;
-//     top: 12vh;
-//     left: 0;
-//     z-index: 998;
-//     visibility: hidden;
-//     transition: 0.5s;
-//   }
-//   &--bg {
-//     visibility: visible;
-//   }
-// }
