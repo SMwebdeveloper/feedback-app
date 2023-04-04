@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/HomeView.vue'
+import Home from '@/views/home'
 import NewFeedback from '@/views/NewFeedbackView.vue'
 
 Vue.use(Router)
