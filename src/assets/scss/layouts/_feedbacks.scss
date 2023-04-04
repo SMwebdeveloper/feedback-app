@@ -1,0 +1,13 @@
+.feedback{
+    width:80%;
+    @include responsive(table){
+    width: 100%;
+    }
+    @include responsive(phone){
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        z-index: -2;
+    }
+}
