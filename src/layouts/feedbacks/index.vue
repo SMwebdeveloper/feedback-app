@@ -1,13 +1,13 @@
 <template lang="">
   <div class="feedback">
     <FeedbackHeader />
-    <FeedbackItem v-if="cards" :cards="cards"/>
+    <FeedbackItem v-if="cards.length" :cards="cards"/>
     <NotFeedbacks v-else/>
   </div>
 </template>
 <script>
-import FeedbackHeader from "@/layouts/feedbacks/feedbackHeader/index.vue";
-import FeedbackItem from "@/layouts/feedbacks/feddbacksItem/index.vue";
+import FeedbackHeader from "@/layouts/feedbacks/Header";
+import FeedbackItem from "@/layouts/feedbacks/Items";
 import NotFeedbacks from "@/layouts/notFeedbacks/index.vue"
 export default {
   components: {

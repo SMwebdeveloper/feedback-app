@@ -8,9 +8,9 @@
   </div>
 </template>
 <script>
-import Header from "@/layouts/sidebar/header";
-import Navigation from "@/layouts/sidebar/navigation";
-import Roadmap from "@/layouts/sidebar/roadmap";
+import Header from "@/layouts/sidebar/Header";
+import Navigation from "@/layouts/sidebar/Navigation";
+import Roadmap from "@/layouts/sidebar/Roadmap";
 export default {
   components: {
     Header,
