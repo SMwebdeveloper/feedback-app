@@ -14,15 +14,30 @@
     align-items: center;
   }
 
-  img {
-    width: 15.6rem;
-    height: 2.6rem;
+  &__content--suggetions {
+    display: flex;
+    align-items: center;
     margin-right: 3.8rem;
+    img {
+      width: 2.3rem;
+      height: 2.4rem;
+      margin-right: 1.6rem;
+    }
+
     @include responsive(phone) {
       display: none;
     }
   }
+  &__content--suggetions__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 2.6rem;
+    color: $color-bg;
 
+    span:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
   &__select {
     display: flex;
     align-items: center;
@@ -39,22 +54,19 @@
     width: 15rem;
     text-align: left;
     color: $color-secondary;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     font-weight: 700;
+
+    span {
+      margin-right: 0.5rem;
+    }
   }
   &__dropdown--icon {
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-top: -0.5rem;
-    margin-left: 0.7rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    transition: transform 0.3s ease;
 
-    img {
-      width: 0.9rem;
-      height: 0.6rem;
-      object-fit: cover;
+    &.active {
+      transform: rotateX(180deg);
     }
   }
   &__select--list {
@@ -79,29 +91,33 @@
     font-size: 1.6rem;
     line-height: 2.3rem;
     display: flex;
-    align-items: center;
     justify-content: space-between;
 
-    span {
-      display: block;
-      width: 2rem;
-      height: 1rem;
-
-      img {
-        width: inherit;
-        height: inherit;
-        margin-bottom: 0.7rem;
-      }
-    }
-    
-    
-    &:hover {
-      color: $color-ink;
+    img{
+      margin-left:auto ;
+      text-align: left;
     }
 
-    &:not(:last-child) {
-      border-bottom: 1px solid $color-secondary;
-    }
+  }
+
+  // .active {
+  //   &::after {
+  //    content:'';
+  //     width: 0.7rem;
+  //     height: 0.5rem;
+  //     background: url("@/assets/img/check.svg");
+  //     background-repeat: no-repeat;
+  //     background-size: contain;
+  //     background-position: right;
+  //   }
+  // }
+
+  &:hover {
+    color: $color-ink;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-secondary;
   }
 
   @include responsive(phone) {
@@ -112,6 +128,6 @@
     left: 0;
   }
 }
-.opacity{
+.opacity {
   opacity: 0.75;
 }

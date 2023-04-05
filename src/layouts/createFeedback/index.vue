@@ -1,6 +1,6 @@
 <template lang="">
-  <div class="createFeedback">
-    <span>
+  <div class="feedbackForm">
+    <span class="feedbackForm__icon">
       <img src="@/assets/img/plus.png" alt="plus image" />
     </span>
     <h2 class="subtitle">Create new Feedback</h2>
@@ -8,9 +8,7 @@
       <AppInput />
       <AppSelect
         @selectOn="selectOption"
-        :selectList="selectList"
-        :selected="selected"
-        :selectIn="selectIn"
+        :options="selectList"
       >
         <template #label>
           <div>
@@ -22,7 +20,7 @@
       <AppTextarea />
     </form>
 
-    <div class="createFeedback__btn">
+    <div class="feedbackForm__btn">
       <router-link to="/" class="btn btn__dark">Cancel</router-link>
       <button class="btn btn__primary">Add Feedback</button>
     </div>
@@ -67,18 +65,14 @@ export default {
           id: "5",
         },
       ],
-      selected: "Feature",
-      selectIn: false,
+
     };
   },
   methods: {
     selectOption(item) {
-      this.selectList.forEach((select) => {
-        return (select.type = true ? false : true);
-      });
+      
+      item.type = true
       this.selected = item.name;
-      item.type = true;
-      this.selectIn = false;
     },
   },
 };

@@ -34,10 +34,18 @@
     align-items: center;
     justify-content: space-between;
 
-    p {
+    span {
       font-size: 1.5rem;
       line-height: 2.1rem;
       color: $color-text;
+    }
+  }
+
+  &__btn--icon{
+    transition: transform 0.3s ease;
+
+    &.active{
+      transform: rotateX(180deg);
     }
   }
   &__select--list {
@@ -51,6 +59,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    z-index: 3;
   }
   &__list--item {
     padding: 1.2rem 2.4rem;
@@ -61,8 +70,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    color: $color-gray-secondary;
     &:not(:last-child) {
-      border-bottom: 1px solid #3A4374;
+      border-bottom: 1px solid $color-text;
     }
     &:hover{
         color: $color-ink;

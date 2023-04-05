@@ -1,30 +1,30 @@
 <template lang="">
   <div class="control">
- 
-        <slot name="label"></slot>
-   
+    <slot name="label"></slot>
+
     <div class="control__item control__select">
       <button
         type="button"
         class="control__select--btn"
-        @click="selectIn = !selectIn"
+        @click="areOptionsVisible = !areOptionsVisible"
       >
-        <p>{{ selected }}</p>
-        <div class="control__btn--icon" v-if="selectIn">
-          <img src="@/assets/img/arrow-up.png" alt="arrow down" />
-        </div>
-        <div class="control__btn--icon" v-else>
-          <img src="@/assets/img/arrow-down.png" alt="arrow down" />
-        </div>
+        <span>{{ selected }}</span>
+
+        <img
+          class="control__btn--icon"
+          :class="`${areOptionsVisible && 'active'}`"
+          src="@/assets/img/arrow-up.png"
+          alt="arrow down"
+        />
       </button>
 
-      <div class="control__select--list" v-if="selectIn">
+      <div class="control__select--list" v-if="areOptionsVisible">
         <button
           type="button"
           class="control__list--item"
-          v-for="item in selectList"
+          v-for="item in options"
           ::key="item.id"
-          @click="$emit('selectOn', item)"
+          @click="selecOption(item)"
         >
           {{ item.name }}
           <div v-if="item.type">
@@ -38,18 +38,27 @@
 <script>
 export default {
   props: {
-
-    selectList: {
+    options: {
       type: Array,
       required: true,
     },
-    selectIn: {
-      type: Boolean,
-      default: false,
-    },
-    selected: {
-      type: String,
-      required: true,
+  },
+  data() {
+    return {
+      selected: "Feature",
+      areOptionsVisible: false,
+    };
+  },
+
+  methods: {
+    selecOption(item) {
+      this.options.forEach((select) => {
+        return (select.type = true ? false : true);
+      });
+      this.$emit("selectOn", item);
+      item.type = true;
+      this.selected = item.name;
+      this.areOptionsVisible = false;
     },
   },
 };
