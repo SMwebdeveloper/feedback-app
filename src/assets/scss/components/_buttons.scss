@@ -10,22 +10,32 @@
 
   &__primary {
     background: $color-ink;
+
+    &:hover{
+      background: $color-ink-hover;
+    }
   }
 
   &__secondary {
     background: $color-blue;
+    &:hover{
+      background: $color-blue-hover;
+    }
   }
   &__dark {
     background: $color-text;
+    &:hover{
+      background: $color-dark-hover;
+    }
   }
 
   &__danger {
     background: $color-danger;
+    &:hover{
+      background: $color-danger-hover;
+    }
   }
 
-  &:hover {
-    opacity: 0.5;
-  }
 }
 
 // links
