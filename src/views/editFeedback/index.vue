@@ -7,15 +7,15 @@
                 </span>
                 Go back
             </router-link>
-            <CreateFeedback/>
+            <EditFeedback/>
         </div>
     </div>
 </template>
 <script>
-import CreateFeedback from '@/layouts/createFeedback'
+import EditFeedback from '@/layouts/editFeedback'
 export default {
     components:{
-        CreateFeedback
+        EditFeedback
     }
 }
 </script>

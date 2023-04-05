@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/home'
 import NewFeedback from '@/views/newFeedback'
+import EditFeedback from '@/views/editFeedback'
 
 Vue.use(Router)
 
@@ -14,9 +15,14 @@ export default new Router({
       component:Home
     },
     {
-      path:'/newFeedback',
-      name:'newFeedback',
+      path:'/addFeedback',
+      name:'addFeedback',
       component:NewFeedback
+    },
+    {
+      path:'/editFeedback',
+      name:'eidtFeedback',
+      component:EditFeedback
     },
   ]
 })
