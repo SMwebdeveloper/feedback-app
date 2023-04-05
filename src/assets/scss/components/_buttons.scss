@@ -29,32 +29,30 @@
 }
 
 // links
-.link{
-  padding: 1.6rem  1.7rem;
-  max-width: 15.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.link {
   text-decoration: none;
   border-radius: 1rem;
-  transition:all 0.5s ease-in;
+  transition: all 0.5s ease-in;
   font-size: 1.4rem;
   line-height: 2rem;
   font-weight: 700;
+  color: $color-gray-secondary;
 
-  svg{
+  svg {
     margin-right: 1.5rem;
   }
- &__dark{
-  background-color: $color-gray;
-  color: $color-bg;
+  &__dark {
+    background-color: $color-gray;
+    color: $color-bg;
+    padding: 1.6rem 1.7rem;
+    max-width: 15.8rem;
 
-  & svg{
-    fill: $color-bg;
+    & svg {
+      fill: $color-bg;
+    }
   }
- }
 
- &:hover{
-  text-decoration: underline;
- }
+  &:hover {
+    text-decoration: underline;
+  }
 }
