@@ -1,7 +1,10 @@
 <template lang="">
   <div class="feedbackHeader">
     <div class="feedbackHeader__content">
-      <img src="@/assets/img/intro-log.svg" alt="feedbackHeader logo img" />
+      <img
+        src="@/assets/img/intro-log.svg"
+        alt="feedbackHeader logo img" />
+
       <FeedbackSelect
         :selectOn="selectOn"
         @selectOption="selectOption"
@@ -43,9 +46,7 @@ export default {
       item.check = true;
       this.areOptionsVisible = false;
     },
-    hideSelect() {
-      this.areOptionsVisible = false;
-    },
+
   },
 };
 </script>

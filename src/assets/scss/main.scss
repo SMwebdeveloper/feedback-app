@@ -3,10 +3,13 @@
 @import './base/_base';
 @import './base/_typography';
 @import './components/_buttons';
+@import './components/_control';
 @import './layouts/_sidebar';
 @import './layouts/_notFound';
 @import './layouts/_card';
 @import './layouts/_feedbacks';
 @import './layouts/_feedbackHeader';
-@import './pages/_home'
+@import './layouts/_createFeedback';
+@import './pages/_home';
+@import './pages/_newFeedback';
 
