@@ -186,11 +186,10 @@
     &:hover {
       background: $color-btn-hover;
     }
-
-    &:focus {
-      background: $color-blue;
-      color: $color-secondary;
-    }
+  }
+  .active {
+    background: $color-blue;
+    color: $color-secondary;
   }
 
   //   sidebar roadmap
