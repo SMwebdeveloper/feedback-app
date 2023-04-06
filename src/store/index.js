@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import getFeedback from '@/modules/getFeedback.js'
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
   state: {
   },
   getters: {
@@ -13,5 +13,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+      getFeedback
   }
 })

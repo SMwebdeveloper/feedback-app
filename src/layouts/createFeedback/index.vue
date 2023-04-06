@@ -4,12 +4,9 @@
       <img src="@/assets/img/plus.png" alt="plus image" />
     </span>
     <h2 class="subtitle">Create new Feedback</h2>
-    <form>
-      <AppInput />
-      <AppSelect
-        @selectOn="selectOption"
-        :options="selectList"
-      >
+    <form @submit.prevent="onSubmit">
+      <AppInput v-model="feedback.title" />
+      <AppSelect v-model="feedback.type" :options="selectList">
         <template #label>
           <div>
             <h2 class="control__title">Category</h2>
@@ -17,19 +14,21 @@
           </div>
         </template>
       </AppSelect>
-      <AppTextarea />
-    </form>
+      <AppTextarea v-model="feedback.descr" />
 
-    <div class="feedbackForm__btn">
-      <router-link to="/" class="btn btn__dark">Cancel</router-link>
-      <button class="btn btn__primary">Add Feedback</button>
-    </div>
+      <div class="feedbackForm__btn">
+        <router-link to="/" class="btn btn__dark">Cancel</router-link>
+        <button class="btn btn__primary">Add Feedback</button>
+      </div>
+    </form>
   </div>
 </template>
 <script>
 import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
+import { mapActions } from "vuex";
+
 export default {
   components: {
     AppInput,
@@ -65,14 +64,23 @@ export default {
           id: "5",
         },
       ],
-
+      feedback: {
+        title: "",
+        type: "",
+        descr: "",
+      },
     };
   },
   methods: {
-    selectOption(item) {
+    ...mapActions({
+      'addFeedback': 'addFeedback'
+    }),
+    onSubmit() {
+      const feedback = this.feedback;
+      this.addFeedback(feedback).then(() =>{
+        this.$router.push('/')
+      })
       
-      item.type = true
-      this.selected = item.name;
     },
   },
 };

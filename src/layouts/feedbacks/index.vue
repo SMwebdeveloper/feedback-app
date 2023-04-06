@@ -1,14 +1,21 @@
 <template lang="">
   <div class="feedback">
-    <FeedbackHeader />
-    <FeedbackItem v-if="cards.length" :cards="cards"/>
-    <NotFeedbacks v-else/>
+    <FeedbackHeader :feedbacksLength="feedbacks.length" />
+    <FeedbackItem
+      v-if="feedbacks.length"
+      v-for="feedback in feedbacks"
+      :feedback="feedback"
+    />
+    <NotFeedbacks v-else />
+    {{ loading }}
   </div>
 </template>
 <script>
 import FeedbackHeader from "@/layouts/feedbacks/Header";
-import FeedbackItem from "@/layouts/feedbacks/Items";
-import NotFeedbacks from "@/layouts/notFeedbacks/index.vue"
+import FeedbackItem from "@/layouts/feedbacks/FeedbackItems";
+import NotFeedbacks from "@/layouts/notFeedbacks/index.vue";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   components: {
     FeedbackHeader,
@@ -17,39 +24,31 @@ export default {
   },
   data() {
     return {
-      cards: [
-        {
-          id: 0,
-          text: "Easier to search for solutions based on a specific stack.",
-          title: "Add tags for solutions",
-          type: "Enhancement",
-        },
-        {
-          id: 1,
-          text: "It would help people with light sensitivities and who prefer dark mode.",
-          title: "Add a dark theme option",
-          type: "UI",
-        },
-        {
-          id: 2,
-          text: "Challenge-specific Q&A would make for easy reference.",
-          title: "Q&A within the challenge hubs",
-          type: "Feature",
-        },
-        {
-          id: 3,
-          text: "Images and screencasts can enhance comments on solutions.",
-          title: "Allow image/video upload to feedback",
-          type: "Bug",
-        },
-        {
-          id: 4,
-          text: "Stay updated on comments and solutions other people post.",
-          title: "Ability to follow others",
-          type: "UX",
-        },
-      ],
+      loading: false,
     };
+  },
+  methods: {
+    ...mapActions({
+      getFeedbacks: "fetchFeedbacks",
+    }),
+    async fetchFeedbacks() {
+      try {
+        this.loading = true;
+        await this.getFeedbacks();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+  computed: {
+    ...mapGetters({
+      feedbacks: "getFeedbacks",
+    }),
+  },
+  mounted() {
+    this.fetchFeedbacks();
   },
 };
 </script>

@@ -4,7 +4,7 @@
       <div class="feedbackHeader__content--suggetions">
         <img src="@/assets/img/suggetion.svg" alt="suggetion image">
         <h4 class="feedbackHeader__content--suggetions__title">
-          <span>6</span>
+          <span>{{feedbacksLength}}</span>
           Suggetions
         </h4>
       </div>
@@ -22,10 +22,17 @@
 </template>
 <script>
 import FeedbackSelect from "@/components/feedback/feedbackSelect";
+import { mapGetters } from "vuex";
 export default {
   name: "FeedbackHeader",
   components: {
     FeedbackSelect,
+  },
+  props:{
+   fedbacksLength:{
+    typeof:Number,
+    default:0
+   }
   },
   data() {
     return {
@@ -44,6 +51,11 @@ export default {
     },
 
   },
+  computed:{
+    ...mapGetters({
+       feedbacksLength:'getFeedbacksLength'
+    })
+  }
 };
 </script>
 <style lang=""></style>

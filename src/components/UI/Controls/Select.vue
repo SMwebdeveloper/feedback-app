@@ -13,7 +13,7 @@
         <img
           class="control__btn--icon"
           :class="`${areOptionsVisible && 'active'}`"
-          src="@/assets/img/arrow-up.png"
+          src="@/assets/img/arrow-down.png"
           alt="arrow down"
         />
       </button>
@@ -23,8 +23,9 @@
           type="button"
           class="control__list--item"
           v-for="item in options"
-          ::key="item.id"
+          :key="item.id"
           @click="selecOption(item)"
+          :value="item"
         >
           {{ item.name }}
           <div v-if="item.type">
@@ -42,6 +43,10 @@ export default {
       type: Array,
       required: true,
     },
+    value: {
+      type: String,
+      default: "Feature",
+    },
   },
   data() {
     return {
@@ -55,11 +60,16 @@ export default {
       this.options.forEach((select) => {
         return (select.type = true ? false : true);
       });
-      this.$emit("selectOn", item);
+      // this.$emit("selectOn", item);
       item.type = true;
       this.selected = item.name;
       this.areOptionsVisible = false;
+      this.$emit('input', this.selected)
     },
+    // onChange(e){
+    //   console.log(e);
+    // }
+
   },
 };
 </script>
