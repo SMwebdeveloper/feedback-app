@@ -1,18 +1,38 @@
 <template lang="">
-    <div class="sidebar__item sidebar__item--filter">
-        <button class="sidebar__btn">All</button>
-        <button class="sidebar__btn">UI</button>
-        <button class="sidebar__btn">UX</button>
-        <button class="sidebar__btn">Enhancement</button>
-        <button class="sidebar__btn">Bug</button>
-        <button class="sidebar__btn">Feature</button>
-      </div>
+  <div class="sidebar__item sidebar__item--filter">
+    <button
+      class="sidebar__btn"
+      v-for="item in btn"
+      :key="item.name"
+      :class="{ active: item.type }"
+      @click="btnClick(item)"
+    >
+      {{ item.name }}
+    </button>
+  </div>
 </template>
 <script>
 export default {
-    
-}
+  data() {
+    return {
+      btn: [
+      { name: "All", type: true },
+      { name: "UI", type: false },
+      { name: "UX", type: false },
+      { name: "Enhancement", type: false },
+      { name: "Bug", type: false },
+      { name: "Feature", type: false },
+      ],
+    };
+  },
+  methods:{
+    btnClick(item){
+      this.btn.forEach(e => {
+        return e.type = true ? false : ''
+      })
+      item.type = true
+    }
+  }
+};
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>
