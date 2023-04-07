@@ -7,6 +7,7 @@
     <textarea
       class="control__item"
       :value="value"
+      required
       @input="$emit('input', $event.target.value)"
     ></textarea>
   </div>

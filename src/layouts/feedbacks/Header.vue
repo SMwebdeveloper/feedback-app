@@ -1,9 +1,9 @@
 <template lang="">
-  <div class="feedbackHeader">
-    <div class="feedbackHeader__content">
-      <div class="feedbackHeader__content--suggetions">
+  <div class="feedback-header">
+    <div class="feedback-header__content">
+      <div class="feedback-header__content--suggetions">
         <img src="@/assets/img/suggetion.svg" alt="suggetion image">
-        <h4 class="feedbackHeader__content--suggetions__title">
+        <h4 class="feedback-header__content--suggetions__title">
           <span>{{feedbacksLength}}</span>
           Suggetions
         </h4>
@@ -24,7 +24,7 @@
 import FeedbackSelect from "@/components/feedback/feedbackSelect";
 import { mapGetters } from "vuex";
 export default {
-  name: "FeedbackHeader",
+  name: "Feedback-header",
   components: {
     FeedbackSelect,
   },

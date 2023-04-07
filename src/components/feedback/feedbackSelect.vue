@@ -1,14 +1,14 @@
 <template lang="">
-  <div class="feedbackHeader__select">
+  <div class="feedback-header__select">
     <span
-      class="feedbackHeader__select--text"
+      class="feedback-header__select--text"
       :class="`${areOptionsVisible && 'opacity'}`"
     >
       Sort by :
     </span>
 
     <button
-      class="feedbackHeader__dropdown--btn"
+      class="feedback-header__dropdown--btn"
       @click="areOptionsVisible = !areOptionsVisible"
     >
       <span
@@ -17,7 +17,7 @@
       </span>
 
         <img
-          class="feedbackHeader__dropdown--icon"
+          class="feedback-header__dropdown--icon"
           :class="`${areOptionsVisible && 'active'}`"
           src="@/assets/img/arrow-down.svg"
           alt="arrow down"
@@ -25,11 +25,11 @@
     </button>
 
     <div
-      class="feedbackHeader__select--list"
+      class="feedback-header__select--list"
       v-if="areOptionsVisible">
       <button
         type="button"
-        class="feedbackHeader__select--list__item"
+        class="feedback-header__select--list__item"
         v-for="item in options"
         :key="item.value"
         @click="selectOptions(item)"

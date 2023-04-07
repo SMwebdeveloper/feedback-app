@@ -70,12 +70,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: $color-gray-secondary;
-    &:not(:last-child) {
-      border-bottom: 1px solid $color-text;
-    }
-    &:hover{
-        color: $color-ink;
+    color: black;
+    
+    &:not(:last-child){
+      border-bottom: 1px solid $color-gray-secondary;
     }
   }
 }

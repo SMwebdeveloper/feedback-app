@@ -1,6 +1,6 @@
 <template lang="">
-  <div class="feedbackForm">
-    <span class="feedbackForm__icon">
+  <div class="feedback-form">
+    <span class="feedback-form__icon">
       <img src="@/assets/img/plus.png" alt="plus image" />
     </span>
     <h2 class="subtitle">Create new Feedback</h2>
@@ -16,7 +16,7 @@
       </AppSelect>
       <AppTextarea v-model="feedback.descr" />
 
-      <div class="feedbackForm__btn">
+      <div class="feedback-form__btn">
         <router-link to="/" class="btn btn__dark">Cancel</router-link>
         <button class="btn btn__primary">Add Feedback</button>
       </div>

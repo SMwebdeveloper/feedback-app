@@ -25,7 +25,6 @@
           v-for="item in options"
           :key="item.id"
           @click="selecOption(item)"
-          :value="item"
         >
           {{ item.name }}
           <div v-if="item.type">
@@ -43,14 +42,14 @@ export default {
       type: Array,
       required: true,
     },
-    value: {
-      type: String,
-      default: "Feature",
-    },
+    value:{
+      type:String,
+      default:''
+    }
   },
   data() {
     return {
-      selected: "Feature",
+      selected:'Feature',
       areOptionsVisible: false,
     };
   },
@@ -59,17 +58,12 @@ export default {
     selecOption(item) {
       this.options.forEach((select) => {
         return (select.type = true ? false : true);
-      });
-      // this.$emit("selectOn", item);
+    });
       item.type = true;
       this.selected = item.name;
       this.areOptionsVisible = false;
-      this.$emit('input', this.selected)
+      this.$emit("input", this.selected);
     },
-    // onChange(e){
-    //   console.log(e);
-    // }
-
   },
 };
 </script>
