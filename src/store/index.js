@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import getFeedback from '@/modules/getFeedback.js'
+import getFeedback from '@/store/modules/getFeedback.js'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({

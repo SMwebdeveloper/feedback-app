@@ -1,13 +1,16 @@
 <template lang="">
-  <div class="feedback">
+  <div class="feedbacks">
     <FeedbackHeader :feedbacksLength="feedbacks.length" />
-    <FeedbackItem
-      v-if="feedbacks.length"
-      v-for="feedback in feedbacks"
-      :feedback="feedback"
-    />
+    <div
+      class="feedback"
+       v-if="feedbacks.length"
+     >
+      <FeedbackItem
+        v-for="feedback in feedbacks"
+        :feedback="feedback"
+      />
+    </div>
     <NotFeedbacks v-else />
-    {{ loading }}
   </div>
 </template>
 <script>

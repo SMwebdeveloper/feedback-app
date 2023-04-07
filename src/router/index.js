@@ -20,8 +20,9 @@ export default new Router({
       component:NewFeedback
     },
     {
-      path:'/editFeedback',
-      name:'eidtFeedback',
+      path:'/editFeedback/:id',
+      name:'editFeedback',
+      props:true,
       component:EditFeedback
     },
   ]
