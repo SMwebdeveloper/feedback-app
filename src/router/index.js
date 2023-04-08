@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/home'
 import NewFeedback from '@/views/newFeedback'
 import EditFeedback from '@/views/editFeedback'
+import Feedback from '@/views/feedback'
 
 Vue.use(Router)
 
@@ -22,8 +23,12 @@ export default new Router({
     {
       path:'/editFeedback/:id',
       name:'editFeedback',
-      props:true,
       component:EditFeedback
     },
+    {
+      path:'/feedback',
+      name:'feedback',
+      component:Feedback
+    }
   ]
 })

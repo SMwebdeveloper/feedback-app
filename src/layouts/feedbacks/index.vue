@@ -15,8 +15,8 @@
 </template>
 <script>
 import FeedbackHeader from "@/layouts/feedbacks/Header";
-import FeedbackItem from "@/layouts/feedbacks/FeedbackItems";
-import NotFeedbacks from "@/layouts/notFeedbacks/index.vue";
+import FeedbackItem from "@/components/feedback/FeedbackItems";
+import NotFeedbacks from "@/layouts/feedbacks/NotFeedbacks";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

@@ -10,10 +10,10 @@
         </button>
 
         <div class="feedback__content--info">
-          <router-link :to="{name:'editFeedback', params:{ id: feedback.id }}" class="title">{{ feedback.title }}</router-link>
+          <router-link :to="{name:'feedback', params:{ id: feedback.id }}" class="title">{{ feedback.title }}</router-link>
           <p class="descr">{{ feedback.descr }}</p>
 
-          <button class="filter__btn">{{ feedback.type }}</button>
+          <div class="filter__btn">{{ feedback.type }}</div>
         </div>
       </div>
 
@@ -25,6 +25,7 @@
 </template>
 <script>
 export default {
+    name:'feedbackItems',
     props: ['feedback'],
 };
 </script>
