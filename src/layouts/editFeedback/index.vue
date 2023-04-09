@@ -28,9 +28,9 @@
       <AppTextarea v-model="feedback.descr" />
 
       <div class="feedback-form__btn">
-        <!-- <button  class="btn btn__danger">Delete</button>
-        <router-link to="/" class="btn btn__dark">Cancel</router-link> -->
-        <button type="submit" class="btn btn__primary">Add Feedback</button>
+        <button  class="btn btn__danger">Delete</button>
+        <router-link to="/" class="btn btn__dark">Cancel</router-link>
+        <button type="submit" class="btn btn__primary">Edit Feedback</button>
       </div>
     </form>
   </div>
@@ -39,7 +39,8 @@
 import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
-import axios from "axios";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   components: {
     AppInput,
@@ -98,32 +99,39 @@ export default {
         },
       ],
       feedback: {
-        title:'',
-        type:'',
-        descr:'',
+        title: "",
+        type: "",
+        descr: "",
         status: "Suggestion",
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      getFeedback: "getFeedback",
+    }),
+  },
   methods: {
+    editFeedback() {
+      this.$store
+        .dispatch("editFeedback", this.feedback)
+        .then(() => this.$router.push("/"));
+    },
+    ...mapActions({
+      getFeedbacks: "fetchFeedback",
+    }),
     async fetchFeedback() {
       try {
-        let key = this.$route.params.id;
-        const res = await axios.get(
-          `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${key}.json`
-        );
+        await this.getFeedbacks(this.$route.params.id);
         this.feedback = {
-          title:res.data.title,
-          type:res.data.type,
-          id:key,
-          descr:res.data.descr,
-        }
+          title: this.getFeedback.title,
+          type: this.getFeedback.type,
+          id: this.getFeedback.id,
+          descr: this.getFeedback.descr,
+        };
       } catch (error) {
         console.log(error);
       }
-    },
-    editFeedback() {
-      this.$store.dispatch('editFeedback', this.feedback).then(() => this.$router.push('/'))
     },
   },
   mounted() {

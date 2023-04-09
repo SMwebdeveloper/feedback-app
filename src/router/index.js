@@ -26,7 +26,7 @@ export default new Router({
       component:EditFeedback
     },
     {
-      path:'/feedback',
+      path:'/feedback/:id',
       name:'feedback',
       component:Feedback
     }

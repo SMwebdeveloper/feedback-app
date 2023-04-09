@@ -10,10 +10,19 @@
         </button>
 
         <div class="feedback__content--info">
-          <router-link :to="{name:'feedback', params:{ id: feedback.id }}" class="title">{{ feedback.title }}</router-link>
+          <router-link 
+            v-if="!feedbackLink" 
+            class="title"
+            :to="{name:'feedback', params:{ id: feedback.id }}"
+            >
+            {{ feedback.title }}
+          </router-link>
+          <h4 v-else class="title">
+            {{ feedback.title }}
+          </h4>
           <p class="descr">{{ feedback.descr }}</p>
 
-          <div class="filter__btn">{{ feedback.type }}</div>
+          <span class="feedback__item--type">{{ feedback.type }}</span>
         </div>
       </div>
 
@@ -26,7 +35,16 @@
 <script>
 export default {
     name:'feedbackItems',
-    props: ['feedback'],
+    props:{
+      feedback:{
+        type:Object,
+        required:true
+      },
+      feedbackLink:{
+        type:Boolean,
+        default:false
+      }
+    },
 };
 </script>
 <style lang=""></style>
