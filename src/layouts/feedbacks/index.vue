@@ -2,21 +2,24 @@
   <div class="feedbacks">
     <FeedbackHeader :feedbacksLength="feedbacks.length" />
     <div
-      class="feedback"
-       v-if="feedbacks.length"
-     >
-      <FeedbackItem
+    class="feedback"
+    v-if="feedbacks.length"
+    >
+    <Loader v-if="loading"/>
+    <FeedbackItem v-else
         v-for="feedback in feedbacks"
         :feedback="feedback"
       />
+      {{loading}}
     </div>
-    <NotFeedbacks v-else />
+    <NotFeedbacks v-if="feedbacks.length === 0" />
   </div>
 </template>
 <script>
 import FeedbackHeader from "@/layouts/feedbacks/Header";
-import FeedbackItem from "@/components/feedback/FeedbackItems";
+import FeedbackItem from "@/components/feedback/Item";
 import NotFeedbacks from "@/layouts/feedbacks/NotFeedbacks";
+import Loader from "@/components/UI/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -24,6 +27,7 @@ export default {
     FeedbackHeader,
     FeedbackItem,
     NotFeedbacks,
+    Loader
   },
   data() {
     return {

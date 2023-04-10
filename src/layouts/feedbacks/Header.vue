@@ -9,7 +9,7 @@
         </h4>
       </div>
 
-      <FeedbackSelect
+      <Select
         :options="selectOptions"
         @selectOption="selectOption"
       />
@@ -21,12 +21,12 @@
   </div>
 </template>
 <script>
-import FeedbackSelect from "@/components/feedback/feedbackSelect";
+import Select from "@/components/feedback/Select";
 import { mapGetters } from "vuex";
 export default {
   name: "Feedback-header",
   components: {
-    FeedbackSelect,
+    Select,
   },
   props:{
    fedbacksLength:{

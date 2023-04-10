@@ -28,7 +28,7 @@
       <AppTextarea v-model="feedback.descr" />
 
       <div class="feedback-form__btn">
-        <button type="button" @click="deleteFeedback(feedback.id)"  class="btn btn__danger">Delete</button>
+        <button type="button" @click="deleteFeedback($route.params.id)"  class="btn btn__danger">Delete</button>
         <router-link :to="{ name: 'feedback', params: { id: feedback.id } }" class="btn btn__dark">Cancel</router-link>
         <button type="submit" class="btn btn__primary">Edit Feedback</button>
       </div>
@@ -104,6 +104,7 @@ export default {
         type: "",
         descr: "",
         status: "Suggestion",
+        feedbackId:''
       },
     };
   },
@@ -132,7 +133,7 @@ export default {
     },
 
     async deleteFeedback(id){
-      await axios.delete(`http://localhost:3000/feedbacks/${id}`)
+      await axios.delete(`https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${id}.json`)
       .then(() => this.$router.push('/'))
     }
   },
@@ -143,7 +144,9 @@ export default {
           type: this.getFeedback.type,
           id: this.getFeedback.id,
           descr: this.getFeedback.descr,
+          feedbackId:this.getFeedback.feedbackId
         };
+        
   },
 };
 </script>

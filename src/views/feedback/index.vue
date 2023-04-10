@@ -9,7 +9,7 @@
           Go back
         </router-link>
         <router-link
-          :to="{ name: 'edit', params: { id: feedback.id } }"
+          :to="{ name: 'edit', params: { id: feedback.feedbackId } }"
           class="btn btn__secondary"
         >
           Edit Feedback
@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import Card from "@/components/feedback/FeedbackItems.vue";
+import Card from "@/components/feedback/Item";
 import Select from "@/components/UI/Controls/Select.vue";
 import FeedbackComment from "@/layouts/feedbackComment/index.vue";
 import { mapActions, mapGetters } from "vuex";
@@ -40,6 +40,7 @@ export default {
         id: "",
         type: "",
         descr: "",
+        feedbackId:''
       },
       feedbackLink:true,
     };
@@ -56,12 +57,14 @@ export default {
     }),
     async fetchFeedback() {
       try {
+        console.log(this.$route.params.id)
         await this.getFeedbacks(this.$route.params.id);
         this.feedback = {
           title: this.getFeedback.title,
           type: this.getFeedback.type,
           id: this.getFeedback.id,
           descr: this.getFeedback.descr,
+          feedbackId:this.getFeedback.feedbackId
         };
       } catch (error) {
         console.log(error);
@@ -69,6 +72,7 @@ export default {
     },
   },
   mounted() {
+    console.log('fetchime')
     this.fetchFeedback();
   },
 };
