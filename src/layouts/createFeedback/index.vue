@@ -27,6 +27,7 @@
 import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
+import { v4 as uuidv4 } from 'uuid'
 import { mapActions } from "vuex";
 
 export default {
@@ -68,6 +69,7 @@ export default {
         title: "",
         type: "",
         descr: "",
+        id:uuidv4()
       },
     };
   },
@@ -76,10 +78,7 @@ export default {
       'addFeedback': 'addFeedback'
     }),
     onSubmit() {
-      const feedback = this.feedback;
-      this.addFeedback(feedback).then(() =>{
-        this.$router.push('/')
-      })
+     this.addFeedback(this.feedback).then((res) =>  this.$router.push('/'))
       
     },
   },

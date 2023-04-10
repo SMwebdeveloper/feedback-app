@@ -1,6 +1,6 @@
 .control {
   width: 100%;
-
+  margin-bottom: 2.4rem;
   &__title {
     font-size: 1.4rem;
     line-height: 2rem;
@@ -17,14 +17,19 @@
     outline: none;
     border: none;
     border-radius: 0.5rem;
-    margin-bottom: 2.4rem;
+    margin-bottom: .4rem;
     border: 1px solid $color-secondary;
 
     &:focus {
       border-color: #4661e6;
     }
   }
-
+ &__error{
+  border-color: red;
+ }
+ .error{
+  color: red;
+ }
   &__select {
     position: relative;
   }

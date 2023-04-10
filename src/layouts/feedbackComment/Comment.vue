@@ -17,7 +17,7 @@
         has.
       </p>
       <form @submit.prevent v-if="replyForm">
-        <input v-model="replyComment" class="comment__form--input"/>
+        <textarea class="comment__form--textarea"></textarea>
         <button class="btn btn__primary">Post reply</button>
       </form>
     </div>
