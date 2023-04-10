@@ -13,7 +13,7 @@
           <router-link 
             v-if="!feedbackLink" 
             class="title"
-            :to="{name:'feedback', params:{ id: feedback.id }}"
+            :to="{name:'feedback', params:{ id: feedback.feedbackId }}"
             >
             {{ feedback.title }}
           </router-link>
@@ -34,7 +34,7 @@
 </template>
 <script>
 export default {
-    name:'feedbackItems',
+    name:'FeedbackItem',
     props:{
       feedback:{
         type:Object,
