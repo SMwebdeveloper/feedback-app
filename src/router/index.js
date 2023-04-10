@@ -16,13 +16,13 @@ export default new Router({
       component:Home
     },
     {
-      path:'/addFeedback',
-      name:'addFeedback',
+      path:'/create',
+      name:'create',
       component:NewFeedback
     },
     {
-      path:'/editFeedback/:id',
-      name:'editFeedback',
+      path:'/edit/:id',
+      name:'edit',
       component:EditFeedback
     },
     {

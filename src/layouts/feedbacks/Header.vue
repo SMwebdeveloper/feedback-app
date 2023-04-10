@@ -15,7 +15,7 @@
       />
     </div>
 
-    <router-link to="/addFeedback" class="btn btn__primary"
+    <router-link to="/create" class="btn btn__primary"
       >+Add Feedback</router-link
     >
   </div>

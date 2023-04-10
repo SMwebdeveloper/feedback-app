@@ -44,6 +44,7 @@ export default {
         this.loading = false;
       }
     },
+
   },
   computed: {
     ...mapGetters({

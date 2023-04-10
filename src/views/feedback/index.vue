@@ -9,7 +9,7 @@
           Go back
         </router-link>
         <router-link
-          :to="{ name: 'editFeedback', params: { id: feedback.id } }"
+          :to="{ name: 'edit', params: { id: feedback.id } }"
           class="btn btn__secondary"
         >
           Edit Feedback

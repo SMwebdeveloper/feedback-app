@@ -7,10 +7,11 @@ const state = {
 
 const mutations = {
   setFeedbacks(state, feedbacks) {
+    console.log(feedbacks);
     state.feedbacks = feedbacks;
   },
   addFeedback(state, feedback) {
-    state.feedbacks.push(feedback);
+    state.feedbacks.unshift(feedback);
   },
   editFeedback(state, feedbackEdit) {
     const feedbackIndex = state.feedbacks.findIndex((feedback) => {
@@ -22,7 +23,6 @@ const mutations = {
     state.feedback = payload
   }
 };
-
 const actions = {
   async fetchFeedbacks({ commit }, contex) {
     const { data } = await axios.get(
@@ -30,7 +30,7 @@ const actions = {
     );
     let feedbacks = [];
     for (let key in data) {
-      feedbacks.unshift({ ...data[key], id: key });
+      feedbacks.unshift({ ...data[key]});
     }
     commit("setFeedbacks", feedbacks);
   },
@@ -39,21 +39,21 @@ const actions = {
       "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json",
       feedback
     );
-    commit("addFeedback", { ...feedback, id: res.data.name });
+    commit("addFeedback", feedback );
   },
   async editFeedback({ commit }, feedback) {
     const res = await axios.put(
-      `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback.id}.json`,
+      `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback.id}.json`, 
       feedback
     );
     commit("editFeedback", res);
   },
-  async fetchFeedback({ commit }, feedback) {
-    const res = await axios.get(
-      `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback}.json`
-    );
-    console.log(res.data);
-    commit('setFeedback', res.data);
+  async fetchFeedback({ commit, state },id) {
+    state.feedbacks.forEach(item => {
+      if( item.id === id) {
+        commit('setFeedback', item);
+      }
+    })
   },
 };
 

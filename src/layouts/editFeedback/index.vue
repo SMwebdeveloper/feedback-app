@@ -28,8 +28,8 @@
       <AppTextarea v-model="feedback.descr" />
 
       <div class="feedback-form__btn">
-        <button  class="btn btn__danger">Delete</button>
-        <router-link to="/" class="btn btn__dark">Cancel</router-link>
+        <button type="button" @click="deleteFeedback(feedback.id)"  class="btn btn__danger">Delete</button>
+        <router-link :to="{ name: 'feedback', params: { id: feedback.id } }" class="btn btn__dark">Cancel</router-link>
         <button type="submit" class="btn btn__primary">Edit Feedback</button>
       </div>
     </form>
@@ -40,6 +40,7 @@ import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
 import { mapActions, mapGetters } from "vuex";
+import axios from 'axios';
 
 export default {
   components: {
@@ -112,30 +113,37 @@ export default {
     }),
   },
   methods: {
-    editFeedback() {
-      this.$store
-        .dispatch("editFeedback", this.feedback)
-        .then(() => this.$router.push("/"));
-    },
     ...mapActions({
       getFeedbacks: "fetchFeedback",
     }),
+
     async fetchFeedback() {
       try {
         await this.getFeedbacks(this.$route.params.id);
-        this.feedback = {
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    editFeedback() {
+      this.$store
+        .dispatch("editFeedback", this.feedback)
+        .then(() => this.$router.push(`/feedback/${this.feedback.id}`));
+    },
+
+    async deleteFeedback(id){
+      await axios.delete(`http://localhost:3000/feedbacks/${id}`)
+      .then(() => this.$router.push('/'))
+    }
+  },
+  mounted() {
+    this.fetchFeedback();
+    this.feedback = {
           title: this.getFeedback.title,
           type: this.getFeedback.type,
           id: this.getFeedback.id,
           descr: this.getFeedback.descr,
         };
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
-  mounted() {
-    this.fetchFeedback();
   },
 };
 </script>
