@@ -9,6 +9,7 @@
       :value="value"
       required
       @input="$emit('input', $event.target.value)"
+      row="10"
     ></textarea>
   </div>
 </template>

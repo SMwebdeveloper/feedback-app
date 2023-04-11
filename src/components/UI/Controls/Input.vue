@@ -6,14 +6,13 @@
       class="control__item"
       v-bind="$attrs"
       :type="type"
+      :required="required"
       :value="value"
-      requireed
       @input="$emit('input', $event.target.value)"
     />
   </div>
 </template>
 <script>
-
 export default {
   props: {
     value: {
