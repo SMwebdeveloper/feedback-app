@@ -57,16 +57,16 @@
     align-items: flex-start;
     // justify-content: center;
 
-    textarea {
-      width: 46.1rem;
+    .reply__textarea {
+      width: 48rem !important;
       margin-right: 4rem;
     }
   }
 
   &__form {
-    width: 100%;
+    width: 100% ;
     textarea {
-      width: 100%;
+      width: 100% !important;
       margin-bottom: 1.6rem;
     }
   }

@@ -27,14 +27,15 @@ const actions = {
     const { data } = await axios.get(
       "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json"
     );
-    let feedback = [];
-    for (let key in data) {
-      feedback.unshift({
-        ...data[key],
-        feedbackId: key,
-      });
-    }
-    commit("setFeedbacks", feedback);
+    const feedbacks = Object.entries(data).map((item) => {
+      const [key, value] = item
+      return {
+        ...value,
+        feedbackId: key
+      }
+    })
+
+    commit("setFeedbacks", feedbacks);
   },
   async addFeedback({ commit }, feedback) {
     const res = await axios.post(

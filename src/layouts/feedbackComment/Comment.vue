@@ -19,7 +19,7 @@
         has.
       </p>
       <form @submit.prevent v-if="replyForm">
-        <textarea class="comment__form--textarea"></textarea>
+        <textarea class="comment__form--textarea reply__textarea"></textarea>
         <button class="btn btn__primary">Post reply</button>
       </form>
     </div>

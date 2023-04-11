@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      selected: "Feature",
+      selected: "",
       areOptionsVisible: false,
     };
   },
@@ -65,6 +65,11 @@ export default {
       this.$emit("input", this.selected);
     },
   },
+  mounted(){
+    if(this.value = ''){
+    }
+    }
+  
 };
 </script>
 <style lang=""></style>
