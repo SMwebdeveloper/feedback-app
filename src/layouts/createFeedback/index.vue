@@ -69,7 +69,6 @@ export default {
         title: "",
         type: "",
         descr: "",
-        id:uuidv4()
       },
     };
   },

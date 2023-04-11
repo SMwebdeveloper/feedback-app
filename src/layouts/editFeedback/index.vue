@@ -120,16 +120,15 @@ export default {
 
     async fetchFeedback() {
       try {
-        await this.getFeedbacks(this.$route.params.id);
+        await this.getFeedbacks(this.$route.params.feedbackId);
       } catch (error) {
         console.log(error);
       }
     },
 
     editFeedback() {
-      this.$store
-        .dispatch("editFeedback", this.feedback)
-        .then(() => this.$router.push(`/feedback/${this.feedback.id}`));
+      this.$store.dispatch("editFeedback", this.feedback)
+        .then(() => this.$router.push(`/feedback/${this.feedback.feedbackId}`));
     },
 
     async deleteFeedback(id){

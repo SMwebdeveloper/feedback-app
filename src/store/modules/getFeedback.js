@@ -34,7 +34,6 @@ const actions = {
         ...data[key], feedbackId: key
       })
     }
-    // console.log(feedback);
     commit('setFeedbacks', feedback)
   },
   async addFeedback({ commit }, feedback) {
@@ -45,16 +44,12 @@ const actions = {
     commit("addFeedback", feedback );
   },
   async editFeedback({ commit }, feedback) {
-    const res = await axios.put(
-      `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback.id}.json`,
-      feedback
-    );
-    console.log(res);
-    commit("editFeedback", res.data);
+    console.log(feedback);
+      const res = await axios.put(`https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback.feedbackId}.json`, feedback)
+      commit('setFeedback', res.data)
   },
   async fetchFeedback({ commit },feedback) {
     const res = await axios.get(`https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback}.json`)
-    // console.log(res);
     commit('setFeedback', {
       ...res.data, feedbackId:feedback
     })
