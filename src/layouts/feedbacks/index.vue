@@ -5,13 +5,12 @@
     class="feedback"
     v-if="feedbacks.length"
     >
-    <!-- <Loader v-if="loading"/> -->
     <FeedbackItem 
-        v-for="feedback in feedbacks"
-        :feedback="feedback"
-      />
-      <!-- {{loading}} -->
-    </div>
+    v-for="feedback in feedbacks"
+    :feedback="feedback"
+    />
+  </div>
+  <Loader v-if="loading"/>
     <NotFeedbacks v-if="feedbacks.length === 0" />
   </div>
 </template>
