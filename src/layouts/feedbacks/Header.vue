@@ -2,17 +2,14 @@
   <div class="feedback-header">
     <div class="feedback-header__content">
       <div class="feedback-header__content--suggetions">
-        <img src="@/assets/img/suggetion.svg" alt="suggetion image">
+        <img src="@/assets/img/suggetion.svg" alt="suggetion image" />
         <h4 class="feedback-header__content--suggetions__title">
-          <span>{{feedbacksLength}}</span>
+          <span>{{ feedbacksLength }}</span>
           Suggetions
         </h4>
       </div>
 
-      <Select
-        :options="selectOptions"
-        @selectOption="selectOption"
-      />
+      <Select :options="selectOptions" @selectOption="selectOption" />
     </div>
 
     <router-link to="/create" class="btn btn__primary"
@@ -28,11 +25,11 @@ export default {
   components: {
     Select,
   },
-  props:{
-   fedbacksLength:{
-    typeof:Number,
-    default:0
-   }
+  props: {
+    fedbacksLength: {
+      typeof: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -49,13 +46,12 @@ export default {
       this.selected = item.name;
       this.areOptionsVisible = false;
     },
-
   },
-  computed:{
+  computed: {
     ...mapGetters({
-       feedbacksLength:'getFeedbacksLength'
-    })
-  }
+      feedbacksLength: "getFeedbacksLength",
+    }),
+  },
 };
 </script>
 <style lang=""></style>

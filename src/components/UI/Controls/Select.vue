@@ -42,14 +42,14 @@ export default {
       type: Array,
       required: true,
     },
-    value:{
-      type:String,
-      default:''
-    }
+    value: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      selected:'Feature',
+      selected: "Feature",
       areOptionsVisible: false,
     };
   },
@@ -58,7 +58,7 @@ export default {
     selecOption(item) {
       this.options.forEach((select) => {
         return (select.type = true ? false : true);
-    });
+      });
       item.type = true;
       this.selected = item.name;
       this.areOptionsVisible = false;

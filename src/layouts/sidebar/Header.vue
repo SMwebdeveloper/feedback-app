@@ -5,10 +5,14 @@
       <h5 class="sidebar__subtitle">FeedBack Board</h5>
     </div>
 
-    <button class="hamburger" @click="$emit('toggle')" :class="`${sidebar && 'is-active'}`">
-        <div class="bar"></div>
+    <button
+      class="hamburger"
+      @click="$emit('toggle')"
+      :class="`${sidebar && 'is-active'}`"
+    >
+      <div class="bar"></div>
     </button>
- </div>
+  </div>
 </template>
 <script>
 export default {

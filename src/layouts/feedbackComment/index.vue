@@ -11,15 +11,14 @@
   </div>
 </template>
 <script>
-import Comment from '@/layouts/feedbackComment/Comment.vue';
-import CommentForm from '@/layouts/feedbackComment/CommentForm.vue'
+import Comment from "@/layouts/feedbackComment/Comment.vue";
+import CommentForm from "@/layouts/feedbackComment/CommentForm.vue";
 
 export default {
-    components:{
-        Comment,
-        CommentForm
-    },
-    
-}
+  components: {
+    Comment,
+    CommentForm,
+  },
+};
 </script>
 <style lang=""></style>

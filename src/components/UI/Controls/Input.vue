@@ -10,11 +10,9 @@
       requireed
       @input="$emit('input', $event.target.value)"
     />
-    <!-- <p class="error" v-if="!$v.required">Can’t be empty</p> -->
   </div>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
 
 export default {
   props: {
@@ -29,11 +27,6 @@ export default {
     required: {
       type: Boolean,
       default: true,
-    },
-  },
-  validations: {
-    value: {
-      required,
     },
   },
 };

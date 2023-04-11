@@ -21,21 +21,21 @@
     border-radius: 50%;
   }
 
-  &__icon--second{
+  &__icon--second {
     padding: 1.6rem;
   }
-  &__title{
+  &__title {
     font-size: 3.4rem;
   }
 
-  &__btn{
+  &__btn {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     column-gap: 1.6rem;
 
-    .btn__danger{
+    .btn__danger {
       margin-right: auto;
     }
   }

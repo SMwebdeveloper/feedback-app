@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -27,15 +27,15 @@ export default {
     };
   },
   computed: {
-   ...mapGetters({
-    feedback:'getFeedbacks'
-   })
+    ...mapGetters({
+      feedback: "getFeedbacks",
+    }),
   },
   methods: {
     btnClick(e) {
-     this.feedback.filter(item => item.type = item.name ? item : '')
+      this.feedback.filter((item) => (item.type = item.name ? item : ""));
     },
-  }
+  },
 };
 </script>
 <style lang=""></style>

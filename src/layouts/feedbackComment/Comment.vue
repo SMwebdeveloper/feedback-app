@@ -8,7 +8,9 @@
           <h5 class="commnet__title">Elijah Moss</h5>
           <p class="descr__small">@hexagon.bestagon</p>
         </div>
-        <button @click="replyForm = !replyForm" class="comment__btn">Reply</button>
+        <button @click="replyForm = !replyForm" class="comment__btn">
+          Reply
+        </button>
       </div>
       <p class="descr">
         Also, please allow styles to be applied based on system preferences. I
@@ -25,12 +27,12 @@
 </template>
 <script>
 export default {
-    data(){
-        return{
-            replyComment:'',
-            replyForm:false
-        }
-    }
+  data() {
+    return {
+      replyComment: "",
+      replyForm: false,
+    };
+  },
 };
 </script>
 <style lang=""></style>

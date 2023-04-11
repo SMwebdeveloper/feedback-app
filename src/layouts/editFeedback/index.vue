@@ -28,8 +28,18 @@
       <AppTextarea v-model="feedback.descr" />
 
       <div class="feedback-form__btn">
-        <button type="button" @click="deleteFeedback($route.params.id)"  class="btn btn__danger">Delete</button>
-        <router-link :to="{ name: 'feedback', params: { id: feedback.id } }" class="btn btn__dark">Cancel</router-link>
+        <button
+          type="button"
+          @click="deleteFeedback($route.params.id)"
+          class="btn btn__danger"
+        >
+          Delete
+        </button>
+        <router-link
+          :to="{ name: 'feedback', params: { id: feedback.feedbackId } }"
+          class="btn btn__dark"
+          >Cancel</router-link
+        >
         <button type="submit" class="btn btn__primary">Edit Feedback</button>
       </div>
     </form>
@@ -40,7 +50,7 @@ import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
 import { mapActions, mapGetters } from "vuex";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   components: {
@@ -104,7 +114,7 @@ export default {
         type: "",
         descr: "",
         status: "Suggestion",
-        feedbackId:''
+        feedbackId: "",
       },
     };
   },
@@ -127,25 +137,28 @@ export default {
     },
 
     editFeedback() {
-      this.$store.dispatch("editFeedback", this.feedback)
+      this.$store
+        .dispatch("editFeedback", this.feedback)
         .then(() => this.$router.push(`/feedback/${this.feedback.feedbackId}`));
     },
 
-    async deleteFeedback(id){
-      await axios.delete(`https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${id}.json`)
-      .then(() => this.$router.push('/'))
-    }
+    async deleteFeedback(id) {
+      await axios
+        .delete(
+          `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${id}.json`
+        )
+        .then(() => this.$router.push("/"));
+    },
   },
   mounted() {
     this.fetchFeedback();
     this.feedback = {
-          title: this.getFeedback.title,
-          type: this.getFeedback.type,
-          id: this.getFeedback.id,
-          descr: this.getFeedback.descr,
-          feedbackId:this.getFeedback.feedbackId
-        };
-        
+      title: this.getFeedback.title,
+      type: this.getFeedback.type,
+      id: this.getFeedback.id,
+      descr: this.getFeedback.descr,
+      feedbackId: this.getFeedback.feedbackId,
+    };
   },
 };
 </script>

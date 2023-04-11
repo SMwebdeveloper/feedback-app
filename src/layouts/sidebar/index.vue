@@ -1,6 +1,6 @@
 <template lang="">
   <div class="sidebar">
-    <Header :sidebar="sidebar" @toggle="sidebar = !sidebar"/>
+    <Header :sidebar="sidebar" @toggle="sidebar = !sidebar" />
     <div class="sidebar__components" :class="`${sidebar && 'sidebar__mobile'}`">
       <Navigation />
       <Roadmap />
@@ -17,11 +17,11 @@ export default {
     Navigation,
     Roadmap,
   },
-  data(){
-    return{
-        sidebar:false,
-    }
-  }
+  data() {
+    return {
+      sidebar: false,
+    };
+  },
 };
 </script>
 <style lang=""></style>

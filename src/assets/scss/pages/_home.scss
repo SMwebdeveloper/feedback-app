@@ -1,13 +1,12 @@
-.home{
-    display: flex;
-    align-items: flex-start;
+.home {
+  display: flex;
+  align-items: flex-start;
 
-    @include responsive(table){
-        flex-direction: column;
-    }
+  @include responsive(table) {
+    flex-direction: column;
+  }
 
-    @include responsive(phone){
-        display: block;
-    }
-
+  @include responsive(phone) {
+    display: block;
+  }
 }

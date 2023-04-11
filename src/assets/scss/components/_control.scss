@@ -17,19 +17,19 @@
     outline: none;
     border: none;
     border-radius: 0.5rem;
-    margin-bottom: .4rem;
+    margin-bottom: 0.4rem;
     border: 1px solid $color-secondary;
 
     &:focus {
       border-color: #4661e6;
     }
   }
- &__error{
-  border-color: red;
- }
- .error{
-  color: red;
- }
+  &__error {
+    border-color: red;
+  }
+  .error {
+    color: red;
+  }
   &__select {
     position: relative;
   }
@@ -46,10 +46,10 @@
     }
   }
 
-  &__btn--icon{
+  &__btn--icon {
     transition: transform 0.3s ease;
 
-    &.active{
+    &.active {
       transform: rotateX(180deg);
     }
   }
@@ -76,8 +76,8 @@
     align-items: center;
     justify-content: space-between;
     color: black;
-    
-    &:not(:last-child){
+
+    &:not(:last-child) {
       border-bottom: 1px solid $color-gray-secondary;
     }
   }

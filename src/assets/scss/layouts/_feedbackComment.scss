@@ -63,11 +63,11 @@
     }
   }
 
-  &__form{
+  &__form {
     width: 100%;
-    textarea{
-        width: 100%;
-        margin-bottom: 1.6rem;
+    textarea {
+      width: 100%;
+      margin-bottom: 1.6rem;
     }
   }
 
@@ -87,20 +87,20 @@
     }
   }
 
-  &__form{
-    input{
-        margin-bottom: 1.6rem;
+  &__form {
+    input {
+      margin-bottom: 1.6rem;
     }
-    
-    &--footer{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+
+    &--footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    p{
-        font-size: 1.5rem;
-        line-height: 2.1rem;
-        color: $color-gray-secondary;
+    p {
+      font-size: 1.5rem;
+      line-height: 2.1rem;
+      color: $color-gray-secondary;
     }
   }
 }

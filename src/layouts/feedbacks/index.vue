@@ -1,16 +1,10 @@
 <template lang="">
   <div class="feedbacks">
     <FeedbackHeader :feedbacksLength="feedbacks.length" />
-    <div
-    class="feedback"
-    v-if="feedbacks.length"
-    >
-    <FeedbackItem 
-    v-for="feedback in feedbacks"
-    :feedback="feedback"
-    />
-  </div>
-  <Loader v-if="loading"/>
+    <div class="feedback" v-if="feedbacks.length">
+      <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" />
+    </div>
+    <Loader v-if="loading" />
     <NotFeedbacks v-if="feedbacks.length === 0" />
   </div>
 </template>
@@ -26,7 +20,7 @@ export default {
     FeedbackHeader,
     FeedbackItem,
     NotFeedbacks,
-    Loader
+    Loader,
   },
   data() {
     return {
@@ -47,7 +41,6 @@ export default {
         this.loading = false;
       }
     },
-
   },
   computed: {
     ...mapGetters({

@@ -11,22 +11,19 @@
       class="feedback-header__dropdown--btn"
       @click="areOptionsVisible = !areOptionsVisible"
     >
-      <span
-       :class="`${areOptionsVisible && 'opacity'}`">
+      <span :class="`${areOptionsVisible && 'opacity'}`">
         {{ selected }}
       </span>
 
-        <img
-          class="feedback-header__dropdown--icon"
-          :class="`${areOptionsVisible && 'active'}`"
-          src="@/assets/img/arrow-down.svg"
-          alt="arrow down"
-        />
+      <img
+        class="feedback-header__dropdown--icon"
+        :class="`${areOptionsVisible && 'active'}`"
+        src="@/assets/img/arrow-down.svg"
+        alt="arrow down"
+      />
     </button>
 
-    <div
-      class="feedback-header__select--list"
-      v-if="areOptionsVisible">
+    <div class="feedback-header__select--list" v-if="areOptionsVisible">
       <button
         type="button"
         class="feedback-header__select--list__item"
@@ -36,10 +33,7 @@
       >
         {{ item.name }}
 
-          <img v-if="item.check"
-            src="@/assets/img/check.svg"
-            alt="check icon" />
-
+        <img v-if="item.check" src="@/assets/img/check.svg" alt="check icon" />
       </button>
     </div>
   </div>
@@ -52,23 +46,23 @@ export default {
       required: true,
     },
   },
-  data (){
+  data() {
     return {
-      selected:'Most Upvotes',
-      areOptionsVisible:false
-    }
+      selected: "Most Upvotes",
+      areOptionsVisible: false,
+    };
   },
-  methods:{
-    selectOptions(item){
-      this.options.forEach(item => {
-        return item.check = true ? false : true
-      })
-      this.$emit('selectOption', item)
-      this.selected = item.name
-      item.check = true
-      this.areOptionsVisible = false
-    }
-  }
+  methods: {
+    selectOptions(item) {
+      this.options.forEach((item) => {
+        return (item.check = true ? false : true);
+      });
+      this.$emit("selectOption", item);
+      this.selected = item.name;
+      item.check = true;
+      this.areOptionsVisible = false;
+    },
+  },
 };
 </script>
 <style lang=""></style>

@@ -15,7 +15,7 @@
           Edit Feedback
         </router-link>
       </div>
-      <Card :feedback="feedback" :feedbackLink="feedbackLink"/>
+      <Card :feedback="feedback" :feedbackLink="feedbackLink" />
       <FeedbackComment />
     </div>
   </div>
@@ -40,9 +40,9 @@ export default {
         id: "",
         type: "",
         descr: "",
-        feedbackId:''
+        feedbackId: "",
       },
-      feedbackLink:true,
+      feedbackLink: true,
     };
   },
   computed: {
@@ -57,14 +57,13 @@ export default {
     }),
     async fetchFeedback() {
       try {
-        console.log(this.$route.params.id)
         await this.getFeedbacks(this.$route.params.id);
         this.feedback = {
           title: this.getFeedback.title,
           type: this.getFeedback.type,
           id: this.getFeedback.id,
           descr: this.getFeedback.descr,
-          feedbackId:this.getFeedback.feedbackId
+          feedbackId: this.getFeedback.feedbackId,
         };
       } catch (error) {
         console.log(error);
@@ -72,7 +71,6 @@ export default {
     },
   },
   mounted() {
-    console.log('fetchime')
     this.fetchFeedback();
   },
 };
