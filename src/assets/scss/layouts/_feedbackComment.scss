@@ -55,11 +55,11 @@
   form {
     display: flex;
     align-items: flex-start;
-    // justify-content: center;
 
     .reply__textarea {
       width: 48rem !important;
       margin-right: 4rem;
+      min-height: 8rem !important;
     }
   }
 
@@ -68,6 +68,7 @@
     textarea {
       width: 100% !important;
       margin-bottom: 1.6rem;
+      min-height: 8rem !important;
     }
   }
 
