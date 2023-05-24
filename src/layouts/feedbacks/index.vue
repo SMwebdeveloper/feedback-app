@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      feedbacks: "getFeedbacks",
+      feedbacks: "getFeedbacksFilter",
     }),
   },
   mounted() {

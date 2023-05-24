@@ -12,6 +12,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -28,11 +30,23 @@ export default {
   methods:{
     btnClick(item){
       this.btn.forEach(e => {
-        return e.type = true ? false : ''
+        e.type = true ? false : ''
+      })
+
+      this.feedbacks.filter(feedback => {
+        if (feedback.type === item.name) {
+          this.feedbacksFilter.push(feedback)
+        }
       })
       item.type = true
     }
-  }
+  },
+  computed: {
+    ...mapGetters({
+      feedbacks: "getFeedbacks",
+      feedbacksFilter: "getFeedbacksFilter"
+    }),
+  },
 };
 </script>
 <style lang=""></style>

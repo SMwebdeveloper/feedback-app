@@ -3,6 +3,7 @@ import axios from "axios";
 const state = {
   feedbacks: [],
   feedback: {},
+  feedbacksFilter: []
 };
 
 const mutations = {
@@ -73,6 +74,9 @@ const getters = {
   getFeedback(state) {
     return state.feedback;
   },
+  getFeedbacksFilter(state) {
+    return state.feedbacksFilter
+  }
 };
 
 export default {
