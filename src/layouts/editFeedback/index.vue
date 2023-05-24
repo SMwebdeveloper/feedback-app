@@ -7,23 +7,43 @@
     <form @submit.prevent="editFeedback">
       <AppInput v-model="feedback.title" />
 
-      <AppSelect :options="selectList" v-model="feedback.type">
-        <template #label>
-          <div>
-            <h2 class="control__title">Category</h2>
-            <p class="descr">Choose a category for your feedback</p>
-          </div>
-        </template>
-      </AppSelect>
+      <div>
+        <h2 class="control__title">Category</h2>
+        <p class="descr">Choose a category for your feedback</p>
+        <select
+          name=""
+          id=""
+          v-model="feedback.type"
+          class="control__item control__select"
+        >
+          <option
+            v-for="item in selectList"
+            :key="item.name"
+            :value="item.name"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
 
-      <AppSelect :options="selectSecondList" v-model="feedback.status">
-        <template #label>
-          <div>
-            <h2 class="control__title">Update Status</h2>
-            <p class="descr">Change feature state</p>
-          </div>
-        </template>
-      </AppSelect>
+      <div>
+        <h2 class="control__title">Update Status</h2>
+        <p class="descr">Change feature state</p>
+        <select
+          name=""
+          id=""
+          v-model="feedback.status"
+          class="control__item control__select"
+        >
+          <option
+            v-for="item in selectSecondList"
+            :key="item.name"
+            :value="item.name"
+          >
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
 
       <AppTextarea v-model="feedback.descr" />
 
@@ -113,7 +133,7 @@ export default {
         title: "",
         type: "",
         descr: "",
-        status: "Suggestion",
+        status: "",
         feedbackId: "",
       },
     };
