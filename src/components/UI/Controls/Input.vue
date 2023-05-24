@@ -6,7 +6,6 @@
       class="control__item"
       v-bind="$attrs"
       :type="type"
-      :required="required"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />

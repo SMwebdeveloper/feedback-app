@@ -1,7 +1,7 @@
 <template lang="">
   <div class="control">
     <slot name="label"></slot>
-    <select name="" id="" class="control__item control__select">
+    <select name="" id="" class="control__item control__select" v-model="value">
       <option v-for="item in options"  :key="item.name" :value="item.name"  >{{item.name}}</option>
     </select>
   </div>
@@ -13,7 +13,7 @@ export default {
       type: Array,
       required: true,
     },
-    value: {
+    prop: {
       type: String,
       default: "",
     },
@@ -37,7 +37,7 @@ export default {
     },
   },
   mounted () {
-    console.log(this.value)
+    console.log(this.prop)
   }
 };
 </script>
