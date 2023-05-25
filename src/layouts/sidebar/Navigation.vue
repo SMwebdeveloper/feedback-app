@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -24,29 +24,27 @@ export default {
         { name: "Enhancement", type: false },
         { name: "Bug", type: false },
         { name: "Feature", type: false },
-      ],
+      ]
     };
   },
-  methods:{
-    btnClick(item){
-      this.btn.forEach(e => {
-        e.type = true ? false : ''
-      })
-
-      this.feedbacks.filter(feedback => {
-        if (feedback.type === item.name) {
-          this.feedbacksFilter.push(feedback)
-        }
-      })
-      item.type = true
-    }
+  methods: {
+    ...mapActions({
+      getFeedbacks: "fetchFeedbacks",
+    }),
+    btnClick(item) {
+      this.btn.forEach((e) => {
+        return (e.type = true ? false : "");
+      });
+      item.type = true;
+    },
   },
   computed: {
     ...mapGetters({
       feedbacks: "getFeedbacks",
-      feedbacksFilter: "getFeedbacksFilter"
+      feedbacksFilter: "getFeedbacksFilter",
     }),
-  },
+  }
 };
 </script>
-<style lang=""></style>
+<style lang="">
+</style>

@@ -1,0 +1,22 @@
+{
+  "feedback": [
+    {
+      "descr": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.",
+      "feedbackId": "25555",
+      "title": "This Feedback",
+      "type": "UI"
+    },
+    {
+      "descr": "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.",
+      "feedbackId": "25555",
+      "title": "This Binasa",
+      "type": "UI"
+    },
+    {
+      "title": "Osha feedback",
+      "type": "Enhancement",
+      "descr": "Nimandfasd sdfksdj jhfds haligi jgja oafa",
+      "id": "3ae7fe12-a22d-41c4-9143-fbbbc32c3a20"
+    }
+  ]
+}
