@@ -3,7 +3,7 @@ import axios from "axios";
 const state = {
   feedbacks: [],
   feedback: {},
-  feedbacksFilter: []
+  filteredFeedbacks: []
 };
 
 const mutations = {
@@ -22,6 +22,9 @@ const mutations = {
   setFeedback(state, payload) {
     state.feedback = payload;
   },
+  setFilteredFeedbacks (state, payload) {
+    state.filteredFeedbacks = payload
+  }
 };
 const actions = {
   async fetchFeedbacks({ commit }, contex) {
@@ -62,11 +65,16 @@ const actions = {
       feedbackId: feedback,
     });
   },
+  filterFeedbacks({ commit, state }, payload) {
+    const feedbacks = payload === 'All' ? state.feedbacks : state.feedbacks.filter(item => item.type === payload)
+    console.log(feedbacks)
+    commit('setFilteredFeedbacks', feedbacks)
+  }
 };
 
 const getters = {
   getFeedbacks(state) {
-    return state.feedbacks;
+    return state.filteredFeedbacks;
   },
   getFeedbacksLength(state) {
     return state.feedbacks.length;

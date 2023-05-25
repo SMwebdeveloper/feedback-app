@@ -2,47 +2,38 @@
   <div class="sidebar__item sidebar__item--filter">
     <button
       class="sidebar__btn"
-      v-for="item in btn"
-      :key="item.name"
-      :class="{ active: item.type }"
-      @click="btnClick(item)"
+      v-for="tab in tabs"
+      :key="tab"
+      :class="{'active': tab === active }"
+      @click="active = tab"
     >
-      {{ item.name }}
+      {{ tab }}
     </button>
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      btn: [
-        { name: "All", type: true },
-        { name: "UI", type: false },
-        { name: "UX", type: false },
-        { name: "Enhancement", type: false },
-        { name: "Bug", type: false },
-        { name: "Feature", type: false },
-      ]
+      active: 'All',
+      tabs: ['All', 'UI', 'UX', 'Enhancement', 'Bug', 'Feature' ]
     };
+  },
+  watch: {
+    active: {
+      handler (value) {
+        this.filterFeedbacks(value)
+      },
+      immediate: true
+    }
   },
   methods: {
     ...mapActions({
-      getFeedbacks: "fetchFeedbacks",
-    }),
-    btnClick(item) {
-      this.btn.forEach((e) => {
-        return (e.type = true ? false : "");
-      });
-      item.type = true;
-    },
-  },
-  computed: {
-    ...mapGetters({
-      feedbacks: "getFeedbacks",
-      feedbacksFilter: "getFeedbacksFilter",
-    }),
+      setSidebarTab: "setSidebarTab",
+      filterFeedbacks: 'filterFeedbacks'
+    })
   }
 };
 </script>
