@@ -1,8 +1,18 @@
 <template lang="">
   <div class="control">
     <slot name="label"></slot>
-    <select name="" id="" class="control__item control__select" v-model="value">
-      <option v-for="item in options"  :key="item.name" :value="item.name"  >{{item.name}}</option>
+    <select
+      v-model="selected"
+      @input="
+        (event) => {
+          $emit('input', event.target.value);
+        }
+      "
+      class="control__item control__select"
+    >
+      <option v-for="item in options" :key="item" :value="item">
+        {{ item }}
+      </option>
     </select>
   </div>
 </template>
@@ -13,7 +23,7 @@ export default {
       type: Array,
       required: true,
     },
-    prop: {
+    value: {
       type: String,
       default: "",
     },
@@ -21,24 +31,16 @@ export default {
   data() {
     return {
       selected: "",
-      areOptionsVisible: false,
     };
   },
-
-  methods: {
-    selecOption(item) {
-      this.options.forEach((select) => {
-        return (select.type = true ? false : true);
-      });
-      item.type = true;
-      this.selected = item.name;
-      this.areOptionsVisible = false;
-      this.$emit("input", this.selected);
+  mounted() {
+    this.selected = this.value;
+  },
+  watch: {
+    value: function (newValue) {
+      this.selected = newValue;
     },
   },
-  mounted () {
-    console.log(this.prop)
-  }
 };
 </script>
 <style lang=""></style>
