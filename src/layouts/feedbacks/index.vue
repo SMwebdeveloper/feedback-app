@@ -4,8 +4,8 @@
     <div class="feedback" v-if="feedbacks.length">
       <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" />
     </div>
+    <NotFeedbacks v-else />
     <Loader v-if="loading" />
-    <NotFeedbacks v-if="feedbacks.length === 0" />
   </div>
 </template>
 <script>
@@ -30,6 +30,7 @@ export default {
   methods: {
     ...mapActions({
       getFeedbacks: "fetchFeedbacks",
+      filterFeedbacks: "filterFeedbacks",
     }),
     async fetchFeedbacks() {
       try {
@@ -44,11 +45,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      feedbacks: "getFeedbacks",
+      feedbacks: "getFeedbacks"
     }),
   },
-  mounted() {
-    this.fetchFeedbacks();
+  async mounted() {
+    await this.fetchFeedbacks();
+    this.filterFeedbacks('All')
   },
 };
 </script>

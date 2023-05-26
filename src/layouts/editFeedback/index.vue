@@ -16,12 +16,8 @@
           v-model="feedback.type"
           class="control__item control__select"
         >
-          <option
-            v-for="item in selectList"
-            :key="item.name"
-            :value="item.name"
-          >
-            {{ item.name }}
+          <option v-for="item in selectList" :key="item" :value="item">
+            {{ item }}
           </option>
         </select>
       </div>
@@ -37,7 +33,7 @@
         >
           <option
             v-for="item in selectSecondList"
-            :key="item.name"
+            :key="item"
             :value="item.name"
           >
             {{ item.name }}
@@ -80,55 +76,8 @@ export default {
   },
   data() {
     return {
-      selectList: [
-        {
-          name: "Feature",
-          type: true,
-          id: "1",
-        },
-        {
-          name: "UI",
-          type: false,
-          id: "2",
-        },
-        {
-          name: "UX",
-          type: false,
-          id: "3",
-        },
-        {
-          name: "Enhancement",
-          type: false,
-          id: "4",
-        },
-        {
-          name: "Bug",
-          type: false,
-          id: "5",
-        },
-      ],
-      selectSecondList: [
-        {
-          name: "Suggestion",
-          type: true,
-          id: 1,
-        },
-        {
-          name: "Planned",
-          type: false,
-          id: 2,
-        },
-        {
-          name: "In-Progress",
-          type: false,
-          id: 3,
-        },
-        {
-          name: "Live",
-          type: false,
-          id: 4,
-        },
-      ],
+      selectList: ["Feature", "UI", "UX", "Enhancement", "Bug"],
+      selectSecondList: ["Suggestion", "Planned", "In-Progress", "Live"],
       feedback: {
         title: "",
         type: "",

@@ -67,7 +67,7 @@ const actions = {
   },
   filterFeedbacks({ commit, state }, payload) {
     const feedbacks = payload === 'All' ? state.feedbacks : state.feedbacks.filter(item => item.type === payload)
-    console.log(feedbacks)
+    console.log(state.feedbacks)
     commit('setFilteredFeedbacks', feedbacks)
   }
 };
