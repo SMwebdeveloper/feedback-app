@@ -1,7 +1,7 @@
 <template lang="">
   <div class="control">
     <slot name="label"></slot>
-    <select
+    <!-- <select
       v-model="selected"
       @input="
         (event) => {
@@ -13,7 +13,24 @@
       <option v-for="item in options" :key="item" :value="item">
         {{ item }}
       </option>
-    </select>
+    </select> -->
+    <div class="control__item control__select">
+      <div
+        @click="isOpen = !isOpen"
+        class="control__select--btn"
+      >
+        {{ selected }}
+      </div>
+      <div v-if="isOpen" class="control__select--list">
+        <div
+          v-for="option in options"
+          :key="option"
+          @click="handleSelect(option)"
+        >
+          {{ option }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -23,23 +40,28 @@ export default {
       type: Array,
       required: true,
     },
-    value: {
+    active: {
       type: String,
-      default: "",
+      required: true
     },
   },
   data() {
     return {
       selected: "",
+      isOpen: false,
     };
   },
-  mounted() {
-    this.selected = this.value;
-  },
-  watch: {
-    value: function (newValue) {
-      this.selected = newValue;
+  methods: {
+    handleSelect(value) {
+      this.selected = value;
+      this.isOpen = false;
     },
+  },
+  mounted() {
+    console.log(this.options)
+    console.log(this.active)
+    this.selected = this.active
+
   },
 };
 </script>

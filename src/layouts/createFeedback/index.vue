@@ -6,24 +6,15 @@
     <h2 class="subtitle">Create new Feedback</h2>
     <form @submit.prevent="onSubmit">
       <AppInput v-model="feedback.title" />
-      <div>
-        <h2 class="control__title">Category</h2>
-        <p class="descr">Choose a category for your feedback</p>
-        <select
-          name=""
-          id=""
-          v-model="feedback.type"
-          class="control__item control__select"
-        >
-          <option
-            v-for="item in selectList"
-            :key="item.name"
-            :value="item.name"
-          >
-            {{ item.name }}
-          </option>
-        </select>
-      </div>
+
+      <AppSelect :options="selectList" :active="feedback.type">
+        <template #label>
+          <div>
+            <h2 class="control__title">Category</h2>
+            <p class="descr">Choose a category for your feedback</p>
+          </div>
+        </template>
+      </AppSelect>
       <AppTextarea v-model="feedback.descr" />
 
       <div class="feedback-form__btn">
@@ -48,33 +39,7 @@ export default {
   },
   data() {
     return {
-      selectList: [
-        {
-          name: "Feature",
-          type: true,
-          id: "1",
-        },
-        {
-          name: "UI",
-          type: false,
-          id: "2",
-        },
-        {
-          name: "UX",
-          type: false,
-          id: "3",
-        },
-        {
-          name: "Enhancement",
-          type: false,
-          id: "4",
-        },
-        {
-          name: "Bug",
-          type: false,
-          id: "5",
-        },
-      ],
+      selectList: ["Feature", "UI", "UX", "Enhancement", "Bug"],
       feedback: {
         title: "",
         type: "",

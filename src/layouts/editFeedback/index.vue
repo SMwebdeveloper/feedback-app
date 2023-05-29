@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="feedback-form">
+  <div v-if="feedback" class="feedback-form">
     <span class="feedback-form__icon feedback-form__icon--second">
       <img src="@/assets/img/combined.png" alt="combined image" />
     </span>
@@ -7,7 +7,7 @@
     <form @submit.prevent="editFeedback">
       <AppInput v-model="feedback.title" />
 
-      <AppSelect :options="selectList" v-model="feedback.type">
+      <AppSelect :options="selectList" :active="feedback.type">
         <template #label>
           <div>
             <h2 class="control__title">Category</h2>
@@ -113,7 +113,7 @@ export default {
       descr: this.getFeedback.descr,
       feedbackId: this.getFeedback.feedbackId,
     };
-  },
+  }
 };
 </script>
 <style lang=""></style>
