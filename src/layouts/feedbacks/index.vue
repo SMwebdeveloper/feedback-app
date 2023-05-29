@@ -2,10 +2,10 @@
   <div class="feedbacks">
     <FeedbackHeader :feedbacksLength="feedbacks.length" />
     <div class="feedback" v-if="feedbacks.length">
-      <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" />
+      <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" :key="feedback.id"/>
     </div>
     <Loader v-if="loading" />
-    <NotFeedbacks v-if="!feedbacks.length" />
+    <NotFeedbacks  v-if="!feedbacks.length"/>
   </div>
 </template>
 <script>
