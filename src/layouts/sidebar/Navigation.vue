@@ -25,7 +25,6 @@ export default {
     active: {
       handler (value) {
         this.filterFeedbacks(value)
-        console.log(333)
       },
       immediate: true
     }

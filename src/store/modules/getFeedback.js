@@ -49,7 +49,6 @@ const actions = {
     commit("addFeedback", feedback);
   },
   async editFeedback({ commit }, feedback) {
-    console.log(feedback);
     const res = await axios.put(
       `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback.feedbackId}.json`,
       feedback
@@ -67,7 +66,6 @@ const actions = {
   },
   filterFeedbacks({ commit, state }, payload) {
     const feedbacks = payload === 'All' ? state.feedbacks : state.feedbacks.filter(item => item.type === payload)
-    console.log(state.feedbacks)
     commit('setFilteredFeedbacks', feedbacks)
   }
 };

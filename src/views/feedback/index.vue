@@ -50,20 +50,13 @@ export default {
 
   methods: {
     ...mapActions({
-      getFeedbacks: "fetchFeedback",
-    }),
-    async fetchFeedback() {
-      try {
-        await this.getFeedbacks(this.$route.params.id);
-        this.feedback = this.getFeedback
-      } catch (error) {
-        console.log(error);
-      }
-    },
+      fetchFeedbacks: "fetchFeedback",
+    })
   },
-  mounted() {
-    this.fetchFeedback();
-  },
+  async mounted() {
+   await this.fetchFeedbacks(this.$route.params.id);
+    this.feedback = this.getFeedback
+  }
 };
 </script>
 <style lang=""></style>
