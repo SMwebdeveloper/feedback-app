@@ -1,10 +1,10 @@
 <template lang="">
-  <div v-if="feedback" class="feedback-form">
+  <div  class="feedback-form">
     <span class="feedback-form__icon feedback-form__icon--second">
       <img src="@/assets/img/combined.png" alt="combined image" />
     </span>
     <h2 class="subtitle">Editing ‘Add a dark theme option’</h2>
-    <form @submit.prevent="editFeedback">
+    <form @submit.prevent="editFeedback" v-if="feedback">
       <AppInput v-model="feedback.title" />
 
       <AppSelect :options="typeList" :active="feedback.type" @selected="$event => feedback.type = $event">
@@ -43,12 +43,14 @@
         <button type="submit" class="btn btn__primary">Edit Feedback</button>
       </div>
     </form>
+    <Loader v-else/>
   </div>
 </template>
 <script>
 import AppInput from "@/components/UI/Controls/Input";
 import AppSelect from "@/components/UI/Controls/Select";
 import AppTextarea from "@/components/UI/Controls/Textarea";
+import Loader from "@/components/UI/Controls/Loader"
 import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
@@ -57,6 +59,7 @@ export default {
     AppInput,
     AppSelect,
     AppTextarea,
+    Loader
   },
   data() {
     return {

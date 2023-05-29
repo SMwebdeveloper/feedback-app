@@ -1,6 +1,6 @@
 <template lang="">
   <div class="container">
-    <div class="feedback__about">
+    <div v-if="feedback" class="feedback__about">
       <div class="feedback__about--link">
         <router-link to="/" class="link">
           <span>
@@ -15,15 +15,17 @@
           Edit Feedback
         </router-link>
       </div>
-      <Card :feedback="feedback" :feedbackLink="feedbackLink" />
-      <FeedbackComment />
+        <Card :feedback="feedback" :feedbackLink="feedbackLink" />
+        <FeedbackComment />
     </div>
+    <Loader v-else/>
   </div>
 </template>
 <script>
 import Card from "@/components/feedback/Item";
 import Select from "@/components/UI/Controls/Select.vue";
 import FeedbackComment from "@/layouts/feedbackComment/index.vue";
+import Loader from "@/components/UI/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -32,16 +34,11 @@ export default {
     Card,
     Select,
     FeedbackComment,
+    Loader
   },
   data() {
     return {
-      feedback: {
-        title: "",
-        id: "",
-        type: "",
-        descr: "",
-        feedbackId: "",
-      },
+      feedback:null,
       feedbackLink: true,
     };
   },
@@ -58,13 +55,7 @@ export default {
     async fetchFeedback() {
       try {
         await this.getFeedbacks(this.$route.params.id);
-        this.feedback = {
-          title: this.getFeedback.title,
-          type: this.getFeedback.type,
-          id: this.getFeedback.id,
-          descr: this.getFeedback.descr,
-          feedbackId: this.getFeedback.feedbackId,
-        };
+        this.feedback = this.getFeedback
       } catch (error) {
         console.log(error);
       }
