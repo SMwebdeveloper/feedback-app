@@ -5,7 +5,7 @@
       <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" />
     </div>
     <Loader v-if="loading" />
-    <NotFeedbacks v-if="!feedbacks.length" />
+    <NotFeedbacks v-if="feedbacks.length = 0" />
   </div>
 </template>
 <script>
