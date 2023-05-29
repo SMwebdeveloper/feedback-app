@@ -1,8 +1,6 @@
 <template lang="">
   <div class="loader">
-    <svg>
-      <circle cx="70" cy="70" r="70"></circle>
-    </svg>
+    <div class="loader__item"></div>
   </div>
 </template>
 <script>
