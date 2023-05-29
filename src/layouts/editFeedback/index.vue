@@ -7,7 +7,7 @@
     <form @submit.prevent="editFeedback">
       <AppInput v-model="feedback.title" />
 
-      <AppSelect :options="selectList" :active="feedback.type">
+      <AppSelect :options="typeList" :active="feedback.type" @selected="$event => feedback.type = $event">
         <template #label>
           <div>
             <h2 class="control__title">Category</h2>
@@ -16,7 +16,7 @@
         </template>
       </AppSelect>
 
-      <AppSelect :options="selectSecondList" v-model="feedback.status">
+      <AppSelect :options="statusList" :active="feedback.status" @selected="$event => feedback.status = $event">
         <template #label>
           <div>
             <h2 class="control__title">Update Status</h2>
@@ -60,15 +60,9 @@ export default {
   },
   data() {
     return {
-      selectList: ["Feature", "UI", "UX", "Enhancement", "Bug"],
-      selectSecondList: ["Suggestion", "Planned", "In-Progress", "Live"],
-      feedback: {
-        title: "",
-        type: "",
-        descr: "",
-        status: "",
-        feedbackId: "",
-      },
+      typeList: ["Feature", "UI", "UX", "Enhancement", "Bug"],
+      statusList: ["Suggestion", "Planned", "In-Progress", "Live"],
+      feedback: null
     };
   },
   computed: {
@@ -78,17 +72,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getFeedbacks: "fetchFeedback",
+      fetchFeedback: "fetchFeedback",
     }),
-
-    async fetchFeedback() {
-      try {
-        await this.getFeedbacks(this.$route.params.feedbackId);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     editFeedback() {
       console.log(this.feedback.type)
       this.$store
@@ -104,15 +89,9 @@ export default {
         .then(() => this.$router.push("/"));
     },
   },
-  mounted() {
-    this.fetchFeedback();
-    this.feedback = {
-      title: this.getFeedback.title,
-      type: this.getFeedback.type,
-      id: this.getFeedback.id,
-      descr: this.getFeedback.descr,
-      feedbackId: this.getFeedback.feedbackId,
-    };
+  async mounted() {
+   await this.fetchFeedback(this.$route.params.id);
+    this.feedback = this.getFeedback
   }
 };
 </script>

@@ -1,19 +1,6 @@
 <template lang="">
   <div class="control">
     <slot name="label"></slot>
-    <!-- <select
-      v-model="selected"
-      @input="
-        (event) => {
-          $emit('input', event.target.value);
-        }
-      "
-      class="control__item control__select"
-    >
-      <option v-for="item in options" :key="item" :value="item">
-        {{ item }}
-      </option>
-    </select> -->
     <div class="control__item control__select">
       <div
         @click="isOpen = !isOpen"
@@ -41,8 +28,7 @@ export default {
       required: true,
     },
     active: {
-      type: String,
-      required: true
+      type: String
     },
   },
   data() {
@@ -54,13 +40,14 @@ export default {
   methods: {
     handleSelect(value) {
       this.selected = value;
+      this.$emit('selected', value)
       this.isOpen = false;
     },
   },
   mounted() {
     console.log(this.options)
     console.log(this.active)
-    this.selected = this.active
+    this.selected = this.active ? this.active : this.options[0]
 
   },
 };

@@ -4,8 +4,8 @@
     <div class="feedback" v-if="feedbacks.length">
       <FeedbackItem v-for="feedback in feedbacks" :feedback="feedback" />
     </div>
-    <NotFeedbacks v-else />
     <Loader v-if="loading" />
+    <NotFeedbacks v-if="!feedbacks.length" />
   </div>
 </template>
 <script>
