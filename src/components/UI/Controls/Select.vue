@@ -1,10 +1,10 @@
 <template lang="">
   <div class="control">
     <slot name="label"></slot>
-    <div class="control__item control__select">
+    <div class=" control__select">
       <div
         @click="isOpen = !isOpen"
-        class="control__select--btn"
+        class="control__select--btn control__item"
       >
         {{ selected }}
       </div>
@@ -45,10 +45,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.options)
-    console.log(this.active)
     this.selected = this.active ? this.active : this.options[0]
-
   },
 };
 </script>

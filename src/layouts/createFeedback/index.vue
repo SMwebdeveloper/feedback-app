@@ -7,7 +7,7 @@
     <form @submit.prevent="onSubmit">
       <AppInput v-model="feedback.title" />
 
-      <AppSelect :options="selectList" :active="feedback.type">
+      <AppSelect :options="selectList" @selected="$event => feedback.type = $event">
         <template #label>
           <div>
             <h2 class="control__title">Category</h2>
@@ -42,7 +42,7 @@ export default {
       selectList: ["Feature", "UI", "UX", "Enhancement", "Bug"],
       feedback: {
         title: "",
-        type: "",
+        type: "Feature",
         descr: "",
         id: uuidv4(),
       },
