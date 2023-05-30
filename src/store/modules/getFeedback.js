@@ -3,7 +3,8 @@ import axios from "axios";
 const state = {
   feedbacks: [],
   feedback: {},
-  filteredFeedbacks: []
+  filteredFeedbacks: [],
+  comments: []
 };
 
 const mutations = {
@@ -67,6 +68,12 @@ const actions = {
   filterFeedbacks({ commit, state }, payload) {
     const feedbacks = payload === 'All' ? state.feedbacks : state.feedbacks.filter(item => item.type === payload)
     commit('setFilteredFeedbacks', feedbacks)
+  },
+  async addComments({commit}, comment) {
+    const res = await axios.put("https://feedback-8e94b-default-rtdb.firebaseio.com/comments.json",
+    comment)
+    console.log(comment)
+    console.log(res)
   }
 };
 
