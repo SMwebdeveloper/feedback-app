@@ -15,16 +15,26 @@
           Edit Feedback
         </router-link>
       </div>
-        <Card :feedback="feedback" :feedbackLink="feedbackLink" />
-        <FeedbackComment />
+      <Card :feedback="feedback" :feedbackLink="feedbackLink" />
+      <div class="comments">
+        <div class="comments-card comments__header">
+          <h4 class="subtitle">4 Comment</h4>
+          <Comment />
+        </div>
+        <div class="comments-card">
+          <h4 class="subtitle">Add Comment</h4>
+          <CommentForm />
+        </div>
+      </div>
     </div>
-    <Loader v-else/>
+    <Loader v-else />
   </div>
 </template>
 <script>
 import Card from "@/components/feedback/Item";
 import Select from "@/components/UI/Controls/Select.vue";
-import FeedbackComment from "@/layouts/feedbackComment/index.vue";
+import Comment from "@/views/feedback/feedbackComment/Comment.vue";
+import CommentForm from "@/views/feedback/feedbackComment/CommentForm.vue";
 import Loader from "@/components/UI/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
 
@@ -33,12 +43,13 @@ export default {
   components: {
     Card,
     Select,
-    FeedbackComment,
-    Loader
+    Comment,
+    CommentForm,
+    Loader,
   },
   data() {
     return {
-      feedback:null,
+      feedback: null,
       feedbackLink: true,
     };
   },
@@ -51,12 +62,12 @@ export default {
   methods: {
     ...mapActions({
       fetchFeedbacks: "fetchFeedback",
-    })
+    }),
   },
   async mounted() {
-   await this.fetchFeedbacks(this.$route.params.id);
-    this.feedback = this.getFeedback
-  }
+    await this.fetchFeedbacks(this.$route.params.id);
+    this.feedback = this.getFeedback;
+  },
 };
 </script>
 <style lang=""></style>
