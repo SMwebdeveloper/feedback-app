@@ -32,10 +32,10 @@
 </template>
 <script>
 import Card from "@/components/feedback/Item";
-import Select from "@/components/UI/Controls/Select.vue";
+import Select from "@/components/Controls/Select.vue";
 import Comment from "@/views/feedback/feedbackComment/Comment.vue";
 import CommentForm from "@/views/feedback/feedbackComment/CommentForm.vue";
-import Loader from "@/components/UI/Controls/Loader.vue";
+import Loader from "@/components/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

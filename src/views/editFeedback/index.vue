@@ -70,10 +70,10 @@
   </div>
 </template>
 <script>
-import AppInput from "@/components/UI/Controls/Input";
-import AppSelect from "@/components/UI/Controls/Select";
-import AppTextarea from "@/components/UI/Controls/Textarea";
-import Loader from "@/components/UI/Controls/Loader";
+import AppInput from "@/components/Controls/Input";
+import AppSelect from "@/components/Controls/Select";
+import AppTextarea from "@/components/Controls/Textarea";
+import Loader from "@/components/Controls/Loader";
 import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 export default {

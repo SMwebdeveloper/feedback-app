@@ -8,7 +8,7 @@
           <h5 class="commnet__title">Elijah Moss</h5>
           <p class="descr__small">@hexagon.bestagon</p>
         </div>
-        <button @click="replyForm = !replyForm" class="comment__btn">
+      <button @click="replyForm = !replyForm" class="comment__btn">
           Reply
         </button>
       </div>
