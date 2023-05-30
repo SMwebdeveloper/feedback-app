@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import Select from "@/components/feedback/Select";
+import Select from "@/views/home/feedbacks/Select";
 import { mapGetters } from "vuex";
 export default {
   name: "Feedback-header",
