@@ -23,7 +23,7 @@
         </div>
         <div class="comments-card">
           <h4 class="subtitle">Add Comment</h4>
-          <CommentForm />
+          <CommentForm/>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       feedback: null,
-      feedbackLink: true,
+      feedbackLink: true
     };
   },
   computed: {
