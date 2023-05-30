@@ -98,6 +98,7 @@ export default {
   methods: {
     ...mapActions({
       fetchFeedback: "fetchFeedback",
+      deleteFeedbacks: "deleteFeedback"
     }),
     editFeedback() {
       console.log(this.feedback.type);
@@ -106,12 +107,10 @@ export default {
         .then(() => this.$router.push(`/feedback/${this.feedback.feedbackId}`));
     },
 
-    async deleteFeedback(id) {
-      await axios
-        .delete(
-          `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${id}.json`
-        )
-        .then(() => this.$router.push("/"));
+    deleteFeedback(id) {
+      console.log(id)
+      this.deleteFeedbacks(id)
+      .then(() => this.$router.push("/"))
     },
   },
   async mounted() {

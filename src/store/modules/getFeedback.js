@@ -20,6 +20,9 @@ const mutations = {
     });
     state.feedbacks[feedbackIndex] = feedbackEdit;
   },
+  deleteFeedback(state, feedback){
+    state.feedbacks.pop(feedback)
+  },
   setFeedback(state, payload) {
     state.feedback = payload;
   },
@@ -55,6 +58,14 @@ const actions = {
       feedback
     );
     commit("setFeedback", res.data);
+  },
+  async deleteFeedback({commit}, feedback) {
+    const res = await axios
+    .delete(
+      `https://feedback-8e94b-default-rtdb.firebaseio.com/feedback/${feedback}.json`
+    )
+    console.log(res)
+    commit("deleteFeedback", feedback)
   },
   async fetchFeedback({ commit }, feedback) {
     const res = await axios.get(
