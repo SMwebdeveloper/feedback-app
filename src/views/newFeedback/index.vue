@@ -66,7 +66,7 @@ export default {
       addFeedback: "addFeedback",
     }),
     onSubmit() {
-      this.addFeedback(this.feedback).then((res) => this.$router.push("/"));
+      this.addFeedback(this.feedback).then(() => this.$router.push("/"));
     },
   },
 };
