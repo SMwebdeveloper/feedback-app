@@ -75,7 +75,6 @@ import AppSelect from "@/components/Controls/Select";
 import AppTextarea from "@/components/Controls/Textarea";
 import Loader from "@/components/Controls/Loader";
 import { mapActions, mapGetters } from "vuex";
-import axios from "axios";
 export default {
   components: {
     AppInput,
