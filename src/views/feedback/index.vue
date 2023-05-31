@@ -18,12 +18,12 @@
       <Card :feedback="feedback" :feedbackLink="feedbackLink" />
       <div class="comments">
         <div class="comments-card comments__header">
-          <h4 class="subtitle">4 Comment</h4>
-          <Comment />
+          <h4 class="subtitle">{{comments.length}} Comment</h4>
+          <Comment v-for="comment in comments"  :comment="comment"/>
         </div>
         <div class="comments-card">
           <h4 class="subtitle">Add Comment</h4>
-          <CommentForm/>
+          <CommentForm @newComment="($event) => addComment($event)" />
         </div>
       </div>
     </div>
@@ -37,6 +37,7 @@ import Comment from "@/views/feedback/feedbackComment/Comment.vue";
 import CommentForm from "@/views/feedback/feedbackComment/CommentForm.vue";
 import Loader from "@/components/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
   name: "feedback",
@@ -50,7 +51,9 @@ export default {
   data() {
     return {
       feedback: null,
-      feedbackLink: true
+      feedbackLink: true,
+      comments: [],
+      feedbackId: this.$route.params.id
     };
   },
   computed: {
@@ -63,10 +66,30 @@ export default {
     ...mapActions({
       fetchFeedbacks: "fetchFeedback",
     }),
+    async addComment(comment) {
+      await axios.post(
+        "https://feedback-8e94b-default-rtdb.firebaseio.com/comments.json",
+        comment
+      );
+      this.comments.push(comment)
+    },
   },
   async mounted() {
-    await this.fetchFeedbacks(this.$route.params.id);
+    // fetch feedbacks
+    await this.fetchFeedbacks(this.feedbackId);
     this.feedback = this.getFeedback;
+
+    // fetch comments
+    const { data } = await axios.get(
+      "https://feedback-8e94b-default-rtdb.firebaseio.com/comments.json"
+    );
+    const res = Object.values(data)
+    console.log(res)
+    res.forEach(item => {
+      if(item.feedbackId == this.feedbackId ) {
+        this.comments.push(item)
+      }
+    })
   },
 };
 </script>

@@ -13,10 +13,7 @@
         </button>
       </div>
       <p class="descr">
-        Also, please allow styles to be applied based on system preferences. I
-        would love to be able to browse Frontend Mentor in the evening after my
-        device’s dark mode turns on without the bright background it currently
-        has.
+        {{comment.text}}
       </p>
       <form @submit.prevent v-if="replyForm">
         <textarea class="comment__form--textarea reply__textarea"></textarea>
@@ -27,6 +24,11 @@
 </template>
 <script>
 export default {
+  props: {
+    comment: {
+      type: Object,
+    }
+  },
   data() {
     return {
       replyComment: "",

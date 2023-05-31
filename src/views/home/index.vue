@@ -33,7 +33,7 @@ import Roadmap from "@/views/home/sidebar/Roadmap";
 import FeedbackHeader from "@/views/home/feedbacks/Header";
 import FeedbackItem from "@/components/feedback/Item";
 import NotFeedbacks from "@/views/home/feedbacks/NotFeedbacks";
-import Loader from "@/components/UI/Controls/Loader.vue";
+import Loader from "@/components/Controls/Loader.vue";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {

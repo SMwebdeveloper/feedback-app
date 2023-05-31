@@ -28,7 +28,7 @@ const mutations = {
   },
   setFilteredFeedbacks (state, payload) {
     state.filteredFeedbacks = payload
-  }
+  },
 };
 const actions = {
   async fetchFeedbacks({ commit }, contex) {
@@ -79,12 +79,6 @@ const actions = {
   filterFeedbacks({ commit, state }, payload) {
     const feedbacks = payload === 'All' ? state.feedbacks : state.feedbacks.filter(item => item.type === payload)
     commit('setFilteredFeedbacks', feedbacks)
-  },
-  async addComments({commit}, comment) {
-    const res = await axios.put("https://feedback-8e94b-default-rtdb.firebaseio.com/comments.json",
-    comment)
-    console.log(comment)
-    console.log(res)
   }
 };
 
