@@ -49,9 +49,9 @@ export default {
       const auth = getAuth()
       const email = this.user.email
       const password = this.user.password
-      // this.getAuth();
       createUserWithEmailAndPassword(auth,email, password)
       .then(cred => {
+        this.$store.dispatch('addUser', this.user)
         console.log(cred)
       }).catch(err => {
         console.log(err.message)

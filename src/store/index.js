@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     feedback: {},
     filteredFeedbacks: [],
     comments: [],
+    users: []
   },
   mutations: {
     setFeedbacks(state, feedbacks) {
@@ -32,6 +33,9 @@ export const store = new Vuex.Store({
     setFilteredFeedbacks(state, payload) {
       state.filteredFeedbacks = payload;
     },
+    addUser(state, user) {
+    state.users.push(user)
+    }
   },
   actions: {
     async fetchFeedbacks({ commit }, contex) {
@@ -85,6 +89,11 @@ export const store = new Vuex.Store({
           : state.feedbacks.filter((item) => item.type === payload);
       commit("setFilteredFeedbacks", feedbacks);
     },
+    async addUser({commit}, user) {
+      const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', user)
+      console.log(data)
+      commit('addUser', {...user, id:data.name} )
+    }
   },
   getters: {
     getFeedbacks(state) {
