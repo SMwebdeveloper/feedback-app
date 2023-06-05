@@ -4,6 +4,7 @@ import Home from "@/views/home";
 import NewFeedback from "@/views/newFeedback";
 import EditFeedback from "@/views/editFeedback";
 import Register from "@/views/pageRegister"
+import SignIn from "@/views/pageSignIn"
 import Feedback from "@/views/feedback";
 
 Vue.use(Router);
@@ -35,6 +36,11 @@ export default new Router({
       path: "/register",
       name: 'register',
       component: Register
+    },
+    {
+      path: "/signin",
+      name: 'signin',
+      component: SignIn
     }
   ],
 });
