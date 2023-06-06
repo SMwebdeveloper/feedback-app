@@ -1,8 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import {auth} from "@/firebase/config"
-import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
+import { auth } from "@/firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -11,12 +14,12 @@ export const store = new Vuex.Store({
     feedback: {},
     filteredFeedbacks: [],
     comments: [],
-    user:null,
+    user: null,
   },
   mutations: {
     setFeedbacks(state, feedbacks) {
       state.feedbacks = feedbacks;
-      console.log(state.feedbacks)
+      console.log(state.feedbacks);
     },
     // addFeedback(state, feedback) {
     //   state.feedbacks.push(feedback);
@@ -37,8 +40,8 @@ export const store = new Vuex.Store({
       state.filteredFeedbacks = payload;
     },
     setUser(state, user) {
-      state.user = user
-    }
+      state.user = user;
+    },
   },
   actions: {
     async fetchFeedbacks({ commit }) {
@@ -92,21 +95,21 @@ export const store = new Vuex.Store({
           : state.feedbacks.filter((item) => item.type === payload);
       commit("setFilteredFeedbacks", feedbacks);
     },
-    async addUser({commit}, user) {
-
-      const email = user.email
-      const password = user.password
-      const res = await createUserWithEmailAndPassword(auth, email, password)
-        .then(() => this.dispatch("unsub"))
+    async addUser({ commit }, user) {
+      const email = user.email;
+      const password = user.password;
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      ).then(() => this.dispatch("unsebes"));
     },
-    logOut({commit}){
-      commit('setUser', null)
+    logOut({ commit }) {
+      commit("setUser", null);
     },
-    unsub({commit}){
-      onAuthStateChanged(auth, (user) => {
-        commit('setUser', user)
-      })
-    }
+    unsubes() {
+      unsub()
+    },
   },
   getters: {
     getFeedbacks(state) {
@@ -121,17 +124,19 @@ export const store = new Vuex.Store({
     getFeedbacksFilter(state) {
       return state.feedbacksFilter;
     },
-    getUser(state){
-      return state.user
+    getUser(state) {
+      return state.user;
     },
     getAuthIsReady(state) {
-      return state.authIsReady
-    }
+      return state.authIsReady;
+    },
   },
 });
 
-const unsub = onAuthStateChanged(auth, (user) => {
-  store.commit('setAuthIsReady', true)
-  store.commit('setUser', user)
-  unsub()
-})
+function unsub() {
+  onAuthStateChanged(auth, (user) => {
+    store.commit("setAuthIsReady", true);
+    store.commit("setUser", user);
+  });
+}
+unsub();

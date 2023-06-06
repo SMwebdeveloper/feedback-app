@@ -45,7 +45,7 @@ export default {
        .then(cred => {
         this.$router.push('/')
         this.$store.commit("setAuthIsReady", true)
-        this.$store.dispatch("unsub")
+        this.$store.dispatch("unsubes")
         console.log(cred.user)
        })
        .catch(err => console.Console(err.message))
