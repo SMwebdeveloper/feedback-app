@@ -11,10 +11,17 @@
 
       <Select :options="selectOptions" @selectOption="selectOption" />
     </div>
-
-    <router-link to="/create" class="btn btn__primary"
-      >+Add Feedback</router-link
-    >
+     
+    <div v-if="user == null"  style="display:flex">
+      <router-link to="/register" class="btn btn__primary">Register</router-link> |
+      <router-link to="/signin" class="btn btn__secondary">SignIn</router-link>
+    </div>
+    <div v-else style="display:flex; align-items:center">
+      <h4 style="color:white; margin-right:20px; font-size:22px">{{user.email}}</h4>
+      <router-link to="/create" class="btn btn__primary"
+        >+Add Feedback</router-link
+      >
+    </div>
   </div>
 </template>
 <script>
@@ -50,8 +57,12 @@ export default {
   computed: {
     ...mapGetters({
       feedbacksLength: "getFeedbacksLength",
+      user: "getUser",
     }),
   },
+  mounted () {
+    const users = this.$store.state.users
+  }
 };
 </script>
 <style lang=""></style>

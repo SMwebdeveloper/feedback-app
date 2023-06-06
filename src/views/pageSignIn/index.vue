@@ -19,7 +19,6 @@
             <button class="btn btn__primary">Sign in</button>
           </div>
         </form>
-        <!-- <Loader v-else /> -->
       </div>
     </div>
   </div>
@@ -46,6 +45,7 @@ export default {
        .then(cred => {
         console.log(cred.user)
        })
+       .catch(err => console.Console(err.message))
     }
   }
 };

@@ -54,7 +54,7 @@ export default {
   methods: {
     ...mapActions({
       getFeedbacks: "fetchFeedbacks",
-      filterFeedbacks: "filterFeedbacks",
+      filterFeedbacks: "filterFeedbacks"
     }),
     async fetchFeedbacks() {
       try {

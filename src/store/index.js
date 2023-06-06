@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import {auth} from "@/firebase/config"
+import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -9,15 +11,16 @@ export const store = new Vuex.Store({
     feedback: {},
     filteredFeedbacks: [],
     comments: [],
-    users: []
+    user:null
   },
   mutations: {
     setFeedbacks(state, feedbacks) {
       state.feedbacks = feedbacks;
+      console.log(state.feedbacks)
     },
-    addFeedback(state, feedback) {
-      state.feedbacks.unshift(feedback);
-    },
+    // addFeedback(state, feedback) {
+    //   state.feedbacks.push(feedback);
+    // },
     editFeedback(state, feedbackEdit) {
       const feedbackIndex = state.feedbacks.findIndex((feedback) => {
         feedback.id = feedbackEdit.id;
@@ -33,12 +36,12 @@ export const store = new Vuex.Store({
     setFilteredFeedbacks(state, payload) {
       state.filteredFeedbacks = payload;
     },
-    addUser(state, user) {
-    state.users.push(user)
+    setUser(state, user) {
+      state.user = user
     }
   },
   actions: {
-    async fetchFeedbacks({ commit }, contex) {
+    async fetchFeedbacks({ commit }) {
       const { data } = await axios.get(
         "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json"
       );
@@ -57,7 +60,7 @@ export const store = new Vuex.Store({
         "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json",
         feedback
       );
-      commit("addFeedback", feedback);
+      // commit("addFeedback", feedback);
     },
     async editFeedback({ commit }, feedback) {
       const res = await axios.put(
@@ -90,9 +93,20 @@ export const store = new Vuex.Store({
       commit("setFilteredFeedbacks", feedbacks);
     },
     async addUser({commit}, user) {
-      const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', user)
-      console.log(data)
-      commit('addUser', {...user, id:data.name} )
+
+      const email = user.email
+      const password = user.password
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+      console.log(res.user)
+      const newUser = {...user, uid:res.user.uid}
+
+      const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', newUser)
+      commit('addUser',{...data, uid:res.user.uid})
+    },
+
+    async fetchUsers({commit}){
+      const {data} = await axios.get('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json')
+
     }
   },
   getters: {
@@ -108,5 +122,14 @@ export const store = new Vuex.Store({
     getFeedbacksFilter(state) {
       return state.feedbacksFilter;
     },
+    getUser(state){
+      return state.user
+    }
   },
 });
+
+const unsub = onAuthStateChanged(auth, (user) => {
+  console.log("this user",user)
+  store.commit('setUser', user)
+  unsub()
+})

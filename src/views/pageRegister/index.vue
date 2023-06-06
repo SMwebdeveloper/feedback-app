@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 export default {
   data() {
     return {
@@ -45,17 +45,9 @@ export default {
     };
   },
   methods: {
-    handleClick() {
-      const auth = getAuth()
-      const email = this.user.email
-      const password = this.user.password
-      createUserWithEmailAndPassword(auth,email, password)
-      .then(cred => {
-        this.$store.dispatch('addUser', this.user)
-        console.log(cred)
-      }).catch(err => {
-        console.log(err.message)
-      })
+   async handleClick() {
+     await this.$store.dispatch('addUser', this.user)
+        .then(() => this.$router.push('/'))
     },
   },
 };
