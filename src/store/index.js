@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
     feedback: {},
     filteredFeedbacks: [],
     comments: [],
-    user:null
+    user:null,
   },
   mutations: {
     setFeedbacks(state, feedbacks) {
@@ -100,13 +100,11 @@ export const store = new Vuex.Store({
       console.log(res.user)
       const newUser = {...user, uid:res.user.uid}
 
-      const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', newUser)
-      commit('addUser',{...data, uid:res.user.uid})
+      // const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', newUser)
+      // commit('addUser',{...data, uid:res.user.uid})
     },
-
-    async fetchUsers({commit}){
-      const {data} = await axios.get('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json')
-
+    logOut({commit}){
+      commit('setUser', null)
     }
   },
   getters: {
@@ -124,6 +122,9 @@ export const store = new Vuex.Store({
     },
     getUser(state){
       return state.user
+    },
+    getAuthIsReady(state) {
+      return state.authIsReady
     }
   },
 });

@@ -11,13 +11,21 @@
 
       <Select :options="selectOptions" @selectOption="selectOption" />
     </div>
-     
-    <div v-if="user == null"  style="display:flex">
-      <router-link to="/register" class="btn btn__primary">Register</router-link> |
+
+    <div v-if="user == null" style="display: flex">
+      <router-link to="/register" class="btn btn__primary"
+        >Register</router-link
+      >
+      |
       <router-link to="/signin" class="btn btn__secondary">SignIn</router-link>
     </div>
-    <div v-else style="display:flex; align-items:center">
-      <h4 style="color:white; margin-right:20px; font-size:22px">{{user.email}}</h4>
+    <div v-else style="display: flex; align-items: center">
+      <h4 style="color: white; margin-right: 20px; font-size: 22px">
+        {{ user.email }}
+      </h4>
+      <button @click="logOut" style="margin-right:10px" class="btn btn__primary"
+        >LogOut</button 
+      >
       <router-link to="/create" class="btn btn__primary"
         >+Add Feedback</router-link
       >
@@ -53,16 +61,20 @@ export default {
       this.selected = item.name;
       this.areOptionsVisible = false;
     },
+    logOut(){
+      this.$store.dispatch('logOut')
+    }
   },
   computed: {
     ...mapGetters({
       feedbacksLength: "getFeedbacksLength",
       user: "getUser",
+      authIsReady: "getAuthIsReady",
     }),
   },
-  mounted () {
-    const users = this.$store.state.users
-  }
+  mounted() {
+    const users = this.$store.state.users;
+  },
 };
 </script>
 <style lang=""></style>
