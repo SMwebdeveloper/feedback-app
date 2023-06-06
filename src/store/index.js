@@ -97,14 +97,15 @@ export const store = new Vuex.Store({
       const email = user.email
       const password = user.password
       const res = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(res.user)
-      const newUser = {...user, uid:res.user.uid}
-
-      // const {data} = await axios.post('https://feedback-8e94b-default-rtdb.firebaseio.com/users.json', newUser)
-      // commit('addUser',{...data, uid:res.user.uid})
+        .then(() => this.dispatch("unsub"))
     },
     logOut({commit}){
       commit('setUser', null)
+    },
+    unsub({commit}){
+      onAuthStateChanged(auth, (user) => {
+        commit('setUser', user)
+      })
     }
   },
   getters: {
@@ -130,7 +131,7 @@ export const store = new Vuex.Store({
 });
 
 const unsub = onAuthStateChanged(auth, (user) => {
-  console.log("this user",user)
+  store.commit('setAuthIsReady', true)
   store.commit('setUser', user)
   unsub()
 })

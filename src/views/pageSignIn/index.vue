@@ -43,6 +43,9 @@ export default {
 
      signInWithEmailAndPassword(auth, email, password)
        .then(cred => {
+        this.$router.push('/')
+        this.$store.commit("setAuthIsReady", true)
+        this.$store.dispatch("unsub")
         console.log(cred.user)
        })
        .catch(err => console.Console(err.message))
