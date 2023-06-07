@@ -4,7 +4,7 @@ import axios from "axios";
 import { auth } from "@/firebase/config";
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
+  onAuthStateChanged, signOut
 } from "firebase/auth";
 Vue.use(Vuex);
 
@@ -19,7 +19,6 @@ export const store = new Vuex.Store({
   mutations: {
     setFeedbacks(state, feedbacks) {
       state.feedbacks = feedbacks;
-      console.log(state.feedbacks);
     },
     // addFeedback(state, feedback) {
     //   state.feedbacks.push(feedback);
@@ -98,14 +97,19 @@ export const store = new Vuex.Store({
     async addUser({ commit }, user) {
       const email = user.email;
       const password = user.password;
+      const currentUser = auth.currentUser;
       const res = await createUserWithEmailAndPassword(
         auth,
         email,
         password
-      ).then(() => this.dispatch("unsebes"));
+      ).then(() => {
+        this.dispatch("unsebes");
+        console.log(currentUser)
+      });
     },
-    logOut({ commit }) {
-      commit("setUser", null);
+    async logOut({ commit }) {
+      await signOut(auth)
+        .then(() => commit("setUser", null))
     },
     unsubes() {
       unsub()
@@ -135,8 +139,9 @@ export const store = new Vuex.Store({
 
 function unsub() {
   onAuthStateChanged(auth, (user) => {
-    store.commit("setAuthIsReady", true);
-    store.commit("setUser", user);
+    if (user) {
+      store.commit("setUser", user);
+    }
   });
 }
 unsub();

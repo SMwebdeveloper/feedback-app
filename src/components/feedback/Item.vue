@@ -8,7 +8,7 @@
 
       <div class="feedback__content--info">
         <router-link
-          v-if="!feedbackLink"
+          v-if="!feedbackLink && user"
           class="title"
           :to="{ name: 'feedback', params: { id: feedback.feedbackId } }"
         >
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "FeedbackItem",
   props: {
@@ -42,6 +43,11 @@ export default {
       default: false,
     },
   },
+  methods: {
+    ...mapGetters({
+      user:"getUser"
+    })
+  }
 };
 </script>
 <style lang=""></style>
