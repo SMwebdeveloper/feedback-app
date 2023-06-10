@@ -6,6 +6,7 @@ import EditFeedback from "@/views/editFeedback";
 import Register from "@/views/pageRegister"
 import SignIn from "@/views/pageSignIn"
 import Feedback from "@/views/feedback";
+import Pdf from "@/views/Pdf.vue"
 
 Vue.use(Router);
 
@@ -41,6 +42,11 @@ export default new Router({
       path: "/signin",
       name: 'signin',
       component: SignIn
+    },
+    {
+      path: "/pdf",
+      name: 'pdf',
+      component: Pdf
     }
   ],
 });
