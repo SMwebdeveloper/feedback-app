@@ -1,13 +1,9 @@
 <template lang="">
-    <div>
-        <h2>my profile</h2>
-    </div>
+  <div>
+    <h2></h2>
+  </div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>
