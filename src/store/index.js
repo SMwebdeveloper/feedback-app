@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged, signOut
 } from "firebase/auth";
+import {getDatabase, ref, get, child, set, push} from 'firebase/database'
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -18,6 +19,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setFeedbacks(state, feedbacks) {
+      console.log(feedbacks)
       state.feedbacks = feedbacks;
     },
     // addFeedback(state, feedback) {
@@ -44,24 +46,47 @@ export const store = new Vuex.Store({
   },
   actions: {
     async fetchFeedbacks({ commit }) {
-      const { data } = await axios.get(
-        "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json"
-      );
-      const feedbacks = Object.entries(data).map((item) => {
-        const [key, value] = item;
-        return {
-          ...value,
-          feedbackId: key,
-        };
-      });
-
-      commit("setFeedbacks", feedbacks);
+      // const { data } = await axios.get(
+      //   "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json"
+      // );
+      // const feedbacks = Object.entries(data).map((item) => {
+      //   const [key, value] = item;
+      //   return {
+      //     ...value,
+      //     feedbackId: key,
+      //   };
+      // });
+      const db = ref(getDatabase())
+      get(child(db, 'feedbacks')).then((snapshot) => {
+        if(snapshot.exists()) {
+          const feedbacks = Object.entries(snapshot.val()).map(item => {
+            // console.log(item)
+            const [key, value] = item
+            return {
+              ...value, feedbackId: key
+            }
+          })
+          // console.log(feedbacks)
+          commit("setFeedbacks", feedbacks);
+        } else {
+          console.log("No data available")
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     async addFeedback({ commit }, feedback) {
-      const res = await axios.post(
-        "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json",
-        feedback
-      );
+      // const res = await axios.post(
+      //   "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json",
+      //   feedback
+      // );
+      const db = getDatabase()
+
+      const feedbacksList = ref(db, 'feedbacks')
+      const newFeedback = push(feedbacksList)
+
+      set(newFeedback, {...feedback})
+      console.log(feedback)
       // commit("addFeedback", feedback);
     },
     async editFeedback({ commit }, feedback) {
@@ -117,7 +142,7 @@ export const store = new Vuex.Store({
   },
   getters: {
     getFeedbacks(state) {
-      return state.filteredFeedbacks;
+      return state.feedbacks;
     },
     getFeedbacksLength(state) {
       return state.feedbacks.length;

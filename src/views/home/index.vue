@@ -75,6 +75,7 @@ export default {
   async mounted() {
     await this.fetchFeedbacks();
     this.filterFeedbacks("All");
+    console.log(this.feedbacks)
   },
 };
 </script>
