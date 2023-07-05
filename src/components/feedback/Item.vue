@@ -20,6 +20,7 @@
         <p class="descr">{{ feedback.descr }}</p>
 
         <span class="feedback__item--type">{{ feedback.type }}</span>
+        <img :src="feedback.img" alt="" class="feedback-image">
       </div>
     </div>
 
@@ -50,4 +51,12 @@ export default {
   }
 };
 </script>
-<style lang=""></style>
+<style lang="css">
+
+.feedback-image{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+</style>

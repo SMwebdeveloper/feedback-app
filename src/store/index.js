@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     feedback: {},
     filteredFeedbacks: [],
     comments: [],
+    image: null,
     user: null,
   },
   mutations: {
@@ -22,9 +23,6 @@ export const store = new Vuex.Store({
       console.log(feedbacks)
       state.feedbacks = feedbacks;
     },
-    // addFeedback(state, feedback) {
-    //   state.feedbacks.push(feedback);
-    // },
     editFeedback(state, feedbackEdit) {
       const feedbackIndex = state.feedbacks.findIndex((feedback) => {
         feedback.id = feedbackEdit.id;
@@ -46,16 +44,6 @@ export const store = new Vuex.Store({
   },
   actions: {
     async fetchFeedbacks({ commit }) {
-      // const { data } = await axios.get(
-      //   "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json"
-      // );
-      // const feedbacks = Object.entries(data).map((item) => {
-      //   const [key, value] = item;
-      //   return {
-      //     ...value,
-      //     feedbackId: key,
-      //   };
-      // });
       const db = ref(getDatabase())
       get(child(db, 'feedbacks')).then((snapshot) => {
         if(snapshot.exists()) {
@@ -66,7 +54,6 @@ export const store = new Vuex.Store({
               ...value, feedbackId: key
             }
           })
-          // console.log(feedbacks)
           commit("setFeedbacks", feedbacks);
         } else {
           console.log("No data available")
@@ -75,19 +62,15 @@ export const store = new Vuex.Store({
         console.log(error)
       })
     },
-    async addFeedback({ commit }, feedback) {
-      // const res = await axios.post(
-      //   "https://feedback-8e94b-default-rtdb.firebaseio.com/feedback.json",
-      //   feedback
-      // );
+    async addFeedback({ commit, state }, feedback) {
       const db = getDatabase()
 
       const feedbacksList = ref(db, 'feedbacks')
       const newFeedback = push(feedbacksList)
 
-      set(newFeedback, {...feedback})
-      console.log(feedback)
-      // commit("addFeedback", feedback);
+      console.log(state.image)
+
+      set(newFeedback, {...feedback, img:state.image })
     },
     async editFeedback({ commit }, feedback) {
       const res = await axios.put(
@@ -123,14 +106,15 @@ export const store = new Vuex.Store({
       const email = user.email;
       const password = user.password;
       const currentUser = auth.currentUser;
+      console.log(currentUser)
       const res = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       ).then(() => {
         this.dispatch("unsebes");
-        console.log(currentUser)
       });
+      console.log(res)
     },
     async logOut({ commit }) {
       await signOut(auth)
@@ -159,6 +143,9 @@ export const store = new Vuex.Store({
     getAuthIsReady(state) {
       return state.authIsReady;
     },
+    getImage(state) {
+      return state.image
+    }
   },
 });
 
