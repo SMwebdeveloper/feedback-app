@@ -1,6 +1,7 @@
 <template>
   <div>
-    <router-view></router-view>
+    <h2 class="text-red-500">Hello world</h2>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 <script>
