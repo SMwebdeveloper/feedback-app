@@ -4,7 +4,9 @@
     <!-- <router-view></router-view> -->
   </div>
 </template>
-<script>
-export default {};
+<script setup>
+
+import {onMounted} from "vue"
+
 </script>
 <style lang="scss"></style>
