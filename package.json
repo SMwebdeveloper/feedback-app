@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
+    "firebase": "^10.4.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.4",
     "vue": "^3.3.4",
