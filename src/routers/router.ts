@@ -1,39 +1,66 @@
-import {createRouter, createWebHistory} from "vue-router"
+import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/store/auth";
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes:  [
+  history: createWebHistory(),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: () => import("@/pages/home/Home.vue"),
+      meta: {
+        authUser: true,
+      },
+      redirect: { name: "dashboard" },
+      children: [
         {
-          path: '/',
-          name: "home",
-          component: () => import('@/pages/home/index.vue')
+            path: "/",
+            name: "dashboard",
+            component: () => import("@/pages/home/index.vue")
         },
         {
-            path: '/add-publication',
+            path: "/add-publication",
             name: "add-publication",
-            component: () => import('@/pages/create/index.vue')
+            component: () => import("@/pages/create/index.vue"),
+            meta: {
+              authUser: true,
+            },
           },
           {
-            path: '/save',
+            path: "/save",
             name: "save",
-            component: () => import('@/pages/save/index.vue')
+            component: () => import("@/pages/save/index.vue"),
+            meta: {
+              authUser: true,
+            },
           },
           {
-            path: '/profile',
+            path: "/profile",
             name: "profile",
-            component: () => import('@/pages/profile/index.vue')
+            component: () => import("@/pages/profile/index.vue"),
+            meta: {
+              authUser: true,
+            },
           },
-          {
-            path: '/login',
-            name: "login",
-            component: () => import('@/pages/login/index.vue')
-          },
-          {
-            path: '/sign-up',
-            name: "sign-up",
-            component: () => import('@/pages/signup/index.vue')
-          },
-      ]
-})
+      ],
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/pages/login/index.vue"),
+    },
+    {
+      path: "/sign-up",
+      name: "sign-up",
+      component: () => import("@/pages/signup/index.vue"),
+    },
+  ],
+});
 
-export default router
+// router.beforeEach((to, from) => {
+//   const store = useAuthStore();
+//   if (to.meta.authUser && !store.$state.authProfile) {
+//     return { name: "login" };
+//   }
+// });
+export default router;

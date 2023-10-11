@@ -1,10 +1,5 @@
 <template>
-    <div>
-        <sidebar/>
-        <main class="pl-20">
-           <router-view/>
-        </main>
-    </div>
+    <router-view></router-view>
 </template>
 <script setup lang="ts">
 import Sidebar from "@/components/Sidebar.vue"
