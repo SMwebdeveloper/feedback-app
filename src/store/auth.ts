@@ -14,12 +14,19 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async addUser(user: any) {
-    console.log(user)
-      const docRef = await addDoc(collection(db, "users"), {
-        
-      }).then(e => {
-        console.log(e, docRef)
-      }).catch(error => console.log(error.message))
+        try {
+            const docRef = await addDoc(collection(db, "users"), {
+              id:user.id,
+              name: user.name,
+              email: user.email,
+              image: user.image,
+              password: user.password
+            });
+          
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
     },
   },
 });

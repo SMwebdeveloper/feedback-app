@@ -14,6 +14,7 @@
           v-model="user.email"
           class="bg-slate-200 mt-3 text-sm py-2 px-4 outline-none rounded-lg shadow-sm"
         />
+        <span v-if="errMessage.email"></span>
       </label>
       <label class="flex flex-col w-[300px] text-xl text-slate-800 font-bold">
         Name
@@ -40,33 +41,48 @@
   </section>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue'
-import {createUserWithEmailAndPassword} from "firebase/auth"
-import {auth as getAuth} from "@/firebase/config"
-import {v4 as uuid} from 'uuid'
-import {useAuthStore} from '@/store/auth'
+import { ref } from "vue";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth as getAuth } from "@/firebase/config";
+import { v4 as uuid } from "uuid";
+import { useAuthStore } from "@/store/auth";
 
-const store = useAuthStore()
+const store = useAuthStore();
 
 const errMessage = ref({
-    name: false,
-    email:false,
-    password: false
-})
+  name: false,
+  email: false,
+  password: false,
+});
 
 const user = ref({
-    id: uuid(),
-    email: '',
-    name: '',
-    password: '',
-    image: ''
-})
+  id: uuid(),
+  email: "",
+  name: "",
+  password: "",
+  image: "",
+});
 const handleClick = async () => {
-    const { email, name, password} = user.value
-    await createUserWithEmailAndPassword(getAuth, email, password).then(e => {
-        store.addUser(user.value)
-    }).catch(e => {
-        console.log(e.message)
-    })
-}
+  const { email, name, password } = user.value;
+  if (email === "") {
+    return errMessage.value.email = true
+  }
+  if ( name === "") {
+    return errMessage.value.name = false
+  }
+  if (password === "") {
+    return errMessage.value.password = false
+  }
+  if (email && name && password) {
+    await createUserWithEmailAndPassword(getAuth, email, password)
+      .then((e) => {
+        store.addUser(user.value);
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  }
+
+  
+};
 </script>
