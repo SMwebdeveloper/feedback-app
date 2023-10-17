@@ -102,6 +102,7 @@ const handleClick = async () => {
   }
   await createUserWithEmailAndPassword(getAuth, email, password)
     .then((e) => {
+      console.log(e)
       store.addUser(user.value);
       router.push("/");
     })
