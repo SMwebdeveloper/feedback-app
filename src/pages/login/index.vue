@@ -63,7 +63,7 @@
 import { ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth as getAuth } from "@/firebase/config";
-import { v4 as uuid } from "uuid";
+import { uuid } from "uuidv4";
 import { useAuthStore } from "@/store/auth";
 import { authUserValid } from "@/validations/auhtValid";
 import { useRouter } from "vue-router";
