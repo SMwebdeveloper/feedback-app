@@ -33,14 +33,23 @@
       </label>
       <label class="flex flex-col w-[300px] text-xl text-slate-800 font-bold">
         Password
-        <input
-          type="password"
-          v-model="user.password"
-          class="bg-slate-200 mt-3 text-sm py-2 px-4 outline-none rounded-lg shadow-sm border border-solid"
+        <div
+          class="bg-slate-200 mt-3 text-sm py-2 px-4 outline-none rounded-lg shadow-sm border border-solid flex items-center justify-between"
           :class="`${
             errMessage.password ? 'border-red-500' : 'border-slate-200'
           }`"
-        />
+        >
+          <input
+            :type="`${visiblePassword ? 'text' : 'password'}`"
+            v-model="user.password"
+            class="bg-transparent outline-none border-none"
+          />
+
+          <div @click="visiblePassword = !visiblePassword">
+            <eye-icon v-if="visiblePassword" class="text-slate-600 w-6 cursor-pointer"/>
+            <eye-slash-icon v-if="!visiblePassword" class="w-6 text-slate-600 cursor-pointer" />
+          </div>
+        </div>
         <span
           v-if="errMessage.password"
           class="text-sm text-red-500 font-bold"
@@ -55,8 +64,11 @@
         </span>
         <span v-else>Log In</span>
       </button>
-      <router-link to="/sign-up" class="text-base font-bold text-slate-600 mx-auto duration-200 hover:text-slate-900 underline">Sign in</router-link>
-      
+      <router-link
+        to="/sign-up"
+        class="text-base font-bold text-slate-600 mx-auto duration-200 hover:text-slate-900 underline"
+        >Sign in</router-link
+      >
     </form>
   </section>
 </template>
@@ -64,14 +76,15 @@
 import { ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth as getAuth } from "@/firebase/config";
-// import { uuid } from "uuidv4";
 import { useAuthStore } from "@/store/auth";
 import { authUserValid } from "@/validations/auhtValid";
 import { useRouter } from "vue-router";
+import { EyeSlashIcon, EyeIcon } from "@heroicons/vue/24/solid";
 
 const store = useAuthStore();
 const router = useRouter();
 const loading = ref(false);
+const visiblePassword = ref(false);
 const errMessage = ref({
   name: false,
   nameMessage: "",
@@ -100,7 +113,7 @@ const handleClick = async () => {
     })
     .catch((error) => {
       errMessage.value = authUserValid({ error, user: user.value });
-      console.log(error)
+      console.log(error);
       if (name === "") {
         errMessage.value.name = true;
         errMessage.value.nameMessage = "Please enter your name!";

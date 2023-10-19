@@ -38,7 +38,6 @@ import {
   HomeIcon,
   PlusCircleIcon,
   UserIcon,
-  MagnifyingGlassIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 </script>
