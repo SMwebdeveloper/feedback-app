@@ -55,6 +55,7 @@
         </span>
         <span v-else>Log In</span>
       </button>
+      <router-link to="/sign-up" class="text-base font-bold text-slate-600 mx-auto duration-200 hover:text-slate-900 underline">Sign in</router-link>
       
     </form>
   </section>
@@ -63,7 +64,7 @@
 import { ref } from "vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth as getAuth } from "@/firebase/config";
-import { uuid } from "uuidv4";
+// import { uuid } from "uuidv4";
 import { useAuthStore } from "@/store/auth";
 import { authUserValid } from "@/validations/auhtValid";
 import { useRouter } from "vue-router";
@@ -81,7 +82,7 @@ const errMessage = ref({
 });
 
 const user = ref({
-  id: uuid(),
+  id: Math.floor(Math.random() * 1000),
   email: "",
   name: "",
   password: "",

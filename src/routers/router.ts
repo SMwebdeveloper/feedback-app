@@ -57,10 +57,10 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach((to, from) => {
-//   const store = useAuthStore();
-//   if (to.meta.authUser && !store.$state.authProfile) {
-//     return { name: "login" };
-//   }
-// });
+router.beforeEach((to, from) => {
+  const store = useAuthStore();
+  if (to.meta.authUser && store.$state.authToken === '') {
+    return { name: "login" };
+  }
+});
 export default router;
