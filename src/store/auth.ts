@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { User } from "@/types/user";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "@/firebase/config";
+import { db, auth } from "@/firebase/config";
+import {signOut} from 'firebase/auth'
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
@@ -27,8 +28,8 @@ export const useAuthStore = defineStore("auth", {
         console.error("Error adding document: ", e);
       }
     },
-    logOut() {
-      localStorage.removeItem('authToken')
+    async logOut() {
+       await signOut(auth).then(() => console.log('Log Out'))
     },
   },
 });
