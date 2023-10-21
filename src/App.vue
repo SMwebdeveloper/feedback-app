@@ -12,15 +12,14 @@ const router = useRouter()
 const route = useRoute()
 const store = useAuthStore()
 
-onBeforeMount(() => {
-    onAuthStateChanged(auth, (user) => {
-        console.log(user)
+onBeforeMount(async () => {
+   await onAuthStateChanged(auth, (user:any) => {
         if (!user) {
            router.replace('/login') 
         } else if (route.path == "/login" || route.path == 'sign-up') {
             router.replace('/')
-            store.authToken = user.uid
         }
+        store.authToken = user.uid
     })
 })
 </script>
