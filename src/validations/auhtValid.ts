@@ -28,7 +28,7 @@ export function authUserValid({ error, user }: any) {
   }
   authErr.forEach((e: string) => {
     if (e.includes("auth")) {
-      if (e.includes("user")) {
+      if (e.includes("invalid-login-credentials")) {
         errMessage.email = true;
         errMessage.emailMessage = "User not found";
       } else if (e.includes("already")) {
