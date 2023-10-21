@@ -1,5 +1,10 @@
 <template>
-    <div>
-        <h2>Profile page</h2>
+    <div class="container mx-auto">
+        <div>
+            <img src="" alt="">
+
+            <h3>Name</h3>
+        </div>
+        
     </div>
 </template>

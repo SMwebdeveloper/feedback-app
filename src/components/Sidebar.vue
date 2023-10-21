@@ -1,5 +1,5 @@
 <template>
-  <section class="fixed top-0 left-0 h-screen w-[70px] bg-slate-800">
+  <section class="fixed top-0 left-0 h-screen w-[70px] bg-slate-800 shadow-md shadow-white">
     <ul class="flex flex-col items-center justify-center gap-y-5 h-full">
       <li
         class="text-white w-[40px] cursor-pointer duration-200 hover:text-slate-400"
@@ -38,7 +38,6 @@ import {
   HomeIcon,
   PlusCircleIcon,
   UserIcon,
-  MagnifyingGlassIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 </script>
