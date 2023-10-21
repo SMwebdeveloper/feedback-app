@@ -86,9 +86,8 @@ const handleClick = async () => {
   const { email, password } = user.value;
   loading.value = true;
   await signInWithEmailAndPassword(getAuth, email, password)
-    .then((item) => {
+    .then(() => {
       loading.value = true;
-      localStorage.setItem("authToken", item.user.uid);
       router.push("/");
     })
     .catch((error) => {

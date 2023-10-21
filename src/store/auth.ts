@@ -9,7 +9,7 @@ export const useAuthStore = defineStore("auth", {
     return {
       user: <User>{},
       users: <any>[],
-      authToken: localStorage.getItem('authToken'),
+      authToken: '',
     };
   },
   actions: {
@@ -22,7 +22,6 @@ export const useAuthStore = defineStore("auth", {
           image: user.image,
           password: user.password,
         });
-        localStorage.setItem('authToken', docRef.id)
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
