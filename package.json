@@ -16,7 +16,7 @@
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
     "firebase": "^10.4.0",
-    "pinia": "^2.1.6",
+    "pinia": "^2.1.7",
     "pinia-orm": "^1.7.2",
     "typescript": "^5.2.2",
     "vite": "^4.4.4",

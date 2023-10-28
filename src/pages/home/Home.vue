@@ -1,7 +1,7 @@
 <template>
     <div>
         <sidebar/>
-        <main class="bg-slate-600 h-screen pl-24">
+        <main class="bg-slate-600 h-full pl-24">
            <router-view/>
         </main>
     </div>

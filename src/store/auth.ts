@@ -8,7 +8,6 @@ export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
       user: <User>{},
-      users: <any>[],
       authToken: '',
     };
   },
@@ -26,6 +25,10 @@ export const useAuthStore = defineStore("auth", {
       } catch (e) {
         console.error("Error adding document: ", e);
       }
+    },
+    changeToken(item: any) {
+      this.authToken = item
+      console.log(this.authToken)
     },
     async logOut() {
        await signOut(auth).then(() => console.log('Log Out'))
