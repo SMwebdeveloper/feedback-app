@@ -1,14 +1,13 @@
 import { defineStore } from "pinia";
-import { User } from "@/types/user";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "@/firebase/config";
 import {signOut} from 'firebase/auth'
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
-      user: <User>{},
-      authToken: '',
+      users: [],
+      authToken: localStorage.getItem('token'),
     };
   },
   actions: {
@@ -16,6 +15,7 @@ export const useAuthStore = defineStore("auth", {
       try {
         const docRef = await addDoc(collection(db, "users"), {
           id: user.id,
+          userId:user.userId,
           name: user.name,
           email: user.email,
           image: user.image,
@@ -26,11 +26,19 @@ export const useAuthStore = defineStore("auth", {
         console.error("Error adding document: ", e);
       }
     },
-    changeToken(item: any) {
-      this.authToken = item
-      console.log(this.authToken)
+    async getUser() {
+      console.log(2)
+      const colRef = collection(db, "users")
+      const querySnapshot = await getDocs(colRef)
+      const firstArr: any = []
+      querySnapshot.forEach(item => {
+        firstArr.push(item.data())
+      })
+          
+      this.users = firstArr
     },
     async logOut() {
+       localStorage.clear()
        await signOut(auth).then(() => console.log('Log Out'))
     },
   },

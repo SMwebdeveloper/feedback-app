@@ -1,30 +1,30 @@
 <template>
-  <section class="fixed top-0 left-0 h-screen w-[70px] bg-slate-800 shadow-md shadow-white">
-    <ul class="flex flex-col items-center justify-center gap-y-5 h-full">
+  <section class="fixed top-4 left-[35%] mx-auto w-[350px] py-2 rounded-md bg-slate-200 shadow-md shadow-slate-300">
+    <ul class="flex  items-center justify-around gap-y-5 h-full text-sltae-900">
       <li
-        class="text-white w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/"> <HomeIcon /> </router-link>
       </li>
-      <!-- <li class="text-white w-[40px]">
+      <!-- <li class=" w-[40px]">
             <MagnifyingGlassIcon/>
           </li > -->
       <li
-        class="text-white w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/add-publication">
           <PlusCircleIcon />
         </router-link>
       </li>
       <li
-        class="text-white w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/profile">
           <UserIcon />
         </router-link>
       </li>
       <li
-        class="text-white w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/save">
           <BookmarkIcon />

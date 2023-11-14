@@ -106,9 +106,10 @@ const handleClick = async () => {
   const { email, name, password } = user.value;
   loading.value = true;
   await createUserWithEmailAndPassword(getAuth, email, password)
-    .then(() => {
+    .then((item) => {
       loading.value = true;
-      store.addUser(user.value);
+      store.addUser({ ...user.value, userId: item.user.uid });
+      localStorage.setItem('token', item.user.uid)
       router.push("/");
     })
     .catch((error) => {

@@ -1,28 +1,34 @@
 <template>
-    <div class="container mx-auto">
-        <div>
-            <img src="" alt="">
+  <div class="container mx-auto">
+    <div>
+      <img src="" alt="" />
 
-            <h3>Name</h3>
-        </div>
-        
+      <h3>Name</h3>
     </div>
+  </div>
 </template>
 <script setup lang="ts">
-import {useAuthStore} from '@/store/auth'
-import {onMounted } from 'vue';
-import { onSnapshot, doc } from 'firebase/firestore';
-import {db} from '@/firebase/config'
-const store = useAuthStore()
+import { useAuthStore } from "@/store/auth";
+import { onMounted, ref } from "vue";
+const store = useAuthStore();
+const loading = ref(false);
+const userProfile: any = ref({});
 
-const getUser = async () => {
-    const docRef = await doc(db, 'users', store.authToken)
-    await onSnapshot(docRef, (user) => {
-    console.log(user)
-   })
-}
-// const token = store.authToken
-onMounted(async () => {
-  await getUser()
-})
+onMounted( async() => {
+    loading.value = true;
+  await store.getUser()
+  store.users.forEach(item => {
+    // if (item.userId == store.authToken) {
+      //     userProfile.value = item
+      //     console.log(userProfile.value)
+      // } else {
+        //     console.log('Upps')
+        //   }
+        console.log('this token',store.authToken)
+    console.log(item)
+     })
+
+
+    loading.value = true;
+});
 </script>

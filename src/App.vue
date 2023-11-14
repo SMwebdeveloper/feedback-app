@@ -5,17 +5,14 @@
 import { onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { onAuthStateChanged } from "firebase/auth";
-import { useAuthStore } from "@/store/auth";
 import { auth } from "@/firebase/config";
 
 const router = useRouter();
 const route = useRoute();
-const store = useAuthStore();
 onBeforeMount(async () => {
   await onAuthStateChanged(auth, (user: any) => {
-    // console.log(user);
     if (user) {
-      store.changeToken(user.uid);
+      console.log('have user profile')
     }
     if (!user) {
       router.replace("/login");
