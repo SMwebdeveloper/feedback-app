@@ -1,6 +1,6 @@
 import { Model } from "pinia-orm";
 
-export default class Users extends Model {
+export class Users extends Model {
   static entity = "users";
 
   static fields(): any {
@@ -9,7 +9,8 @@ export default class Users extends Model {
       name: this.string(""),
       email: this.string(""),
       password: this.string(""),
-      image: this.string("")
+      image: this.string(""),
+      userId: this.string("")
     };
   }
 }

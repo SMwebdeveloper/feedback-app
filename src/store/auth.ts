@@ -1,12 +1,15 @@
 import { defineStore } from "pinia";
+import {useRepo} from 'pinia-orm'
+import { Users} from '@/models/users'
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "@/firebase/config";
 import {signOut} from 'firebase/auth'
 
+const userRepo = useRepo(Users)
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
-      users: [],
+      users: <any> [],
       authToken: localStorage.getItem('token'),
     };
   },
@@ -30,12 +33,14 @@ export const useAuthStore = defineStore("auth", {
       console.log(2)
       const colRef = collection(db, "users")
       const querySnapshot = await getDocs(colRef)
-      const firstArr: any = []
+      const firstArr: any[] = []
       querySnapshot.forEach(item => {
         firstArr.push(item.data())
       })
-          
-      this.users = firstArr
+      userRepo.save(firstArr)
+      const data = userRepo.query().get()
+      console.log(data)
+      this.users = data
     },
     async logOut() {
        localStorage.clear()
