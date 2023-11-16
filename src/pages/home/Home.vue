@@ -1,7 +1,7 @@
 <template>
     <div>
         <sidebar/>
-        <main class="bg-slate-600 h-full pt-28">
+        <main class="h-full">
            <router-view/>
         </main>
     </div>

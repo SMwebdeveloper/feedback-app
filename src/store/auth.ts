@@ -9,6 +9,7 @@ const userRepo = useRepo(Users)
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
+      user: {},
       users: <any> [],
       authToken: localStorage.getItem('token'),
     };
@@ -30,7 +31,6 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async getUser() {
-      console.log(2)
       const colRef = collection(db, "users")
       const querySnapshot = await getDocs(colRef)
       const firstArr: any[] = []
@@ -39,8 +39,12 @@ export const useAuthStore = defineStore("auth", {
       })
       userRepo.save(firstArr)
       const data = userRepo.query().get()
-      console.log(data)
       this.users = data
+      this.users.forEach((item:any) => {
+        if (item.userId == this.authToken) {
+          this.user = item
+        }
+      });
     },
     async logOut() {
        localStorage.clear()

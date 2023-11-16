@@ -10,4 +10,9 @@
 
 body {
   font-family: "Exo 2", sans-serif;
+  background: #475569;
+}
+
+.project-container {
+  @apply max-w-[390px] mx-auto py-5 px-3
 }

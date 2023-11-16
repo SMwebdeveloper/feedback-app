@@ -1,30 +1,30 @@
 <template>
-  <section class="fixed top-4 left-[35%] mx-auto w-[350px] py-2 rounded-md bg-slate-200 shadow-md shadow-slate-300">
-    <ul class="flex  items-center justify-around gap-y-5 h-full text-sltae-900">
+  <section class="fixed bottom-0 left-0 w-full h-[80px] py-2 bg-slate-300 shadow-sm shadow-slate-400">
+    <ul class="project-container flex items-center justify-around h-full text-sltae-900">
       <li
-        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[35px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/"> <HomeIcon /> </router-link>
       </li>
-      <!-- <li class=" w-[40px]">
+      <li class=" w-[35px] cursor-pointer duration-200 hover:text-slate-400">
             <MagnifyingGlassIcon/>
-          </li > -->
+          </li >
       <li
-        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[35px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/add-publication">
           <PlusCircleIcon />
         </router-link>
       </li>
       <li
-        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[35px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/profile">
           <UserIcon />
         </router-link>
       </li>
       <li
-        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+        class=" w-[35px] cursor-pointer duration-200 hover:text-slate-400"
       >
         <router-link to="/save">
           <BookmarkIcon />
@@ -37,7 +37,14 @@
 import {
   HomeIcon,
   PlusCircleIcon,
+  MagnifyingGlassIcon,
   UserIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 </script>
+<!-- <style>
+
+.router-link-active {
+  color: rgb(73, 132, 180);
+}
+</style> -->
