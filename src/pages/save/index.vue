@@ -1,5 +1,9 @@
 <template>
-    <div>
-        <h2>Save page</h2>
+  <div class="project-container">
+    <input ref="input">
     </div>
 </template>
+<script setup lang="ts">
+
+
+</script>

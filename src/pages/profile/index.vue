@@ -1,10 +1,10 @@
 <template>
   <div class="project-container">
-    <div v-if="loading" class="flex items-center justify-center mt-[50%]">
+    <!-- <div v-if="loading" class="flex items-center justify-center mt-[50%]">
       <img src="@/assets/images/loader.svg" alt="loader" class="w-[150px]">
-    </div>
-    <div v-else >
-      <div class="flex items-center mb-4">
+    </div> -->
+    <!-- <div  v-else>
+      <div  class="flex items-center mb-4">
         <img :src="userProfile.img" alt="user image" class="w-20 h-20 rounded-full mr-6 border border-slate-200 object-cover" />
        <div >
         <h2 class="text-xl text-white capitalize">{{ userProfile.name }}</h2>
@@ -22,17 +22,18 @@
       </div>
 
       <div class="w-full">
-        <div class="bg-slate-200 h-[200px] w-full">
-
+        <div class="bg-slate-200 h-[200px] w-full rounded-md">
+            
         </div>
       </div>
-    </div>
+    </div> -->
+    <loader/>
   </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
 import { onMounted, ref } from "vue";
-import {TableCellsIcon, ChatBubbleLeftEllipsisIcon} from '@heroicons/vue/24/solid'
+import { TableCellsIcon, ChatBubbleLeftEllipsisIcon } from '@heroicons/vue/24/solid'
 const store = useAuthStore();
 const loading = ref(false);
 const userProfile: any = ref({
