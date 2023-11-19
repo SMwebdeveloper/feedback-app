@@ -99,8 +99,7 @@ const user = ref({
   email: "",
   name: "",
   password: "",
-  image:
-    "https://firebasestorage.googleapis.com/v0/b/portfolio-project-dc366.appspot.com/o/user-image.jpg?alt=media&token=1c6f67a4-9413-4ac3-946b-339850184748&_gl=1*lfd522*_ga*NjU3MzU0MjAuMTY5NjE3NDYxNQ..*_ga_CW55HF8NVT*MTY5NzI2Nzc3My4yMy4xLjE2OTcyNjg3MjMuMzEuMC4w",
+  image: "",
 });
 const handleClick = async () => {
   const { email, name, password } = user.value;
