@@ -37,7 +37,7 @@
             </span>
             <img
                v-else
-              :src="feedback.img"
+              :src="img"
               alt=""
               class="w-full object-cover rounded-md"
             />
@@ -51,50 +51,21 @@
   </section>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import {
-  uploadBytes,
-  ref as imgRef,
-  getStorage,
-  getDownloadURL,
-} from "firebase/storage";
+import {  ref } from "vue";
+import { getImage } from "@/usable/uploadImage";
 
-const storage = getStorage();
 const loading = ref(false);
-// const htmlCod = "style='color:red'"
-// const isButtonDisabled = ref(false)
+const img = ref()
 const feedback = ref({
   title: "",
   description: "",
   img: "",
 });
-// const count = ref(0)
-// const state = reactive({
-//   count
-// })
-
-// console.log(state.count) // 0
-
-// state.count = 1
-// console.log(count.value) // 1
-// const books = reactive([ref('Vue 3 Guide')])
-// // need .value here
-// console.log(books[0].value)
-
-// const map = reactive(new Map([['count', ref(0)]]))
-// // need .value here
-// console.log(map.get('count').value)
 const uploadImage = async (item: any) => {
-  const imgEl: any = item.target.files[0];
-  const storageRef = imgRef(storage, `images/${imgEl.name}`);
   loading.value = true;
-  await uploadBytes(storageRef, imgEl);
-  await getDownloadURL(imgRef(storage, `images/${imgEl.name}`))
-    .then((url) => {
-      feedback.value.img = url;
-    })
-    .catch((e) => console.log(e))
-    loading.value = false
+  const imgEl: any = item.target.files[0];
+  img.value = await getImage(imgEl)
+  loading.value = false
 };
 
 const handleClick = ():any => {
