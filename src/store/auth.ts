@@ -18,34 +18,40 @@ export const useAuthStore = defineStore("auth", {
     async addUser(user: any) {
       try {
         const docRef = await addDoc(collection(db, "users"), {
-          id: user.id,
           userId:user.userId,
           name: user.name,
           email: user.email,
-          image: user.image,
-          password: user.password,
+          bio: user.bio,
+          img: user.img
         });
+        console.log(docRef)
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
     },
-    async getUser() {
+     async getUser() {
       const colRef = collection(db, "users")
       const querySnapshot = await getDocs(colRef)
       const firstArr: any[] = []
       querySnapshot.forEach(item => {
-        firstArr.push(item.data())
+        // console.log(item.data())
+        firstArr.push({...item.data(), id:item.id})
       })
-      userRepo.save(firstArr)
-      const data = userRepo.query().get()
-      this.users = data
-      this.users.forEach((item:any) => {
-        if (item.userId == this.authToken) {
-          this.user = item
+      // userRepo.save(firstArr)
+      // const data = userRepo.query().get()
+       firstArr.filter((item) => {
+         if (item.userId === this.authToken) {
+          return    this.user = item
         }
-      });
-    },
+       })
+       console.log(this.user)
+      // this.users.forEach((item: any) => {
+      //   if (item.userId == this.authToken) {
+      //     console.log(item)
+      //   }
+      // });
+     },
     async logOut() {
        localStorage.clear()
        await signOut(auth).then(() => console.log('Log Out'))

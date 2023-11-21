@@ -10,9 +10,9 @@ const app = createApp(App)
 const pinia = createPinia().use(createORM())
 
 
-app.config.errorHandler = (err) => {
-    console.log(err)
-}
+// app.config.errorHandler = (err) => {
+//     console.log(err)
+// }
 app.use(router)
 app.use(pinia)
 app.component('Loader', Loader)

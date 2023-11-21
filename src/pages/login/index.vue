@@ -95,11 +95,11 @@ const errMessage = ref({
 });
 
 const user = ref({
-  id: Math.floor(Math.random() * 1000),
   email: "",
   name: "",
   password: "",
-  image: "",
+  img: "",
+  bio: ""
 });
 const handleClick = async () => {
   const { email, name, password } = user.value;

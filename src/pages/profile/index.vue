@@ -4,13 +4,13 @@
     <div v-else>
       <div class="flex items-start h-[80px] mb-8">
         <img
-          :src="userProfile.img === '' ? UserImg : userProfile.img"
+          :src="user.img !== ''? user.img : UserImg"
           alt="user image"
           class="w-20 h-20 rounded-full mr-6 border border-slate-200 object-cover"
         />
         <div class="flex-1">
-          <h2 class="text-xl text-white capitalize">{{ userProfile.name }}</h2>
-          <!-- <h4 class="text-base text-slate-300 font-semibold w-[100px]">{{ userProfile.email.substirn }}</h4> -->
+          <h2 class="text-xl text-white capitalize">{{ user.name }}</h2>
+           <p class="text-xl text-white">{{ user.bio }}</p>
         </div>
         <div class="flex flex-col items-end">
           <bars-3-center-left-icon
@@ -63,12 +63,9 @@ const store = useAuthStore();
 const loading = ref(false);
 const settingTable = ref(false);
 
-const userProfile: any = ref({
-  img: "",
-  name: "",
-  email: "",
-});
 
+const user = ref({
+})
 const logOut = async () => {
   await store.logOut();
 };
@@ -77,12 +74,8 @@ onMounted(async () => {
   await store
     .getUser()
     .then(() => {
-      const { image, name, email }: any = store.user;
-      userProfile.value = {
-        img: image,
-        name: name,
-        email: email,
-      };
+      user.value = store.user
+      console.log(user.value)
     })
     .catch((error) => {
       console.log(error);
