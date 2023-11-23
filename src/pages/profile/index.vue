@@ -1,25 +1,25 @@
 <template>
   <div class="project-container pb-24">
-    <loader v-if="loading" />
+    <loader v-if="!user.name" />
     <div v-else>
       <div class="flex items-start h-[80px] mb-8">
         <img
-          :src="user.img !== ''? user.img : UserImg"
+          :src="user?.img !== ''? user?.img : UserImg"
           alt="user image"
-          class="w-20 h-20 rounded-full mr-6 border border-slate-200 object-cover"
+          class="w-[80px] h-[80px] rounded-full mr-6 border border-slate-200 object-contain"
         />
         <div class="flex-1">
-          <h2 class="text-xl text-white capitalize">{{ user.name }}</h2>
-           <p class="text-xl text-white">{{ user.bio }}</p>
+          <h2 class="text-xl text-white capitalize">{{ user?.name }}</h2>
+           <p class="text-xl text-white">{{ user?.bio }}</p>
         </div>
-        <div class="flex flex-col items-end">
+        <div class="text-end relative">
           <bars-3-center-left-icon
             class="w-7 text-white cursor-pointer"
             @click="settingTable = !settingTable"
           />
           <div
             v-show="settingTable"
-            class="bg-slate-200 px-3 py-1 rounded-md flex flex-col text-slate-700 font-medium duration-100"
+            class=" absolute top-8 right-0 w-[85px] bg-slate-200 px-3 py-1 rounded-md flex flex-col items-start text-slate-700 font-medium transition-all duration-300"
           >
             <router-link
               to="/edit-profile"
@@ -51,7 +51,7 @@
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
-import { onMounted, ref } from "vue";
+import {  computed, onMounted, ref } from "vue";
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -60,26 +60,16 @@ import {
 import UserImg from "@/assets/images/user-image.jpg";
 
 const store = useAuthStore();
-const loading = ref(false);
 const settingTable = ref(false);
 
 
-const user = ref({
-})
 const logOut = async () => {
   await store.logOut();
 };
-onMounted(async () => {
-  loading.value = true;
-  await store
-    .getUser()
-    .then(() => {
-      user.value = store.user
-      console.log(user.value)
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => (loading.value = false));
+
+const user = computed(() => store.user)
+
+onMounted(() => {
+  store.getUser()
 });
 </script>

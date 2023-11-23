@@ -2,19 +2,19 @@
   <router-view></router-view>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, onMounted } from "vue";
+import { onBeforeMount,} from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/config";
-import { useAuthStore } from "./store/auth";
+// import { useAuthStore } from "./store/auth";
 
 const router = useRouter();
 const route = useRoute();
-const store = useAuthStore()
+// const store = useAuthStore()
 onBeforeMount(async () => {
   await onAuthStateChanged(auth, (user: any) => {
     if (user) {
-      console.log('have user profile')
+      console.log(user)
     }
     if (!user) {
       router.replace("/login");
@@ -23,8 +23,4 @@ onBeforeMount(async () => {
     }
   });
 });
-
-onMounted(() => {
-  store.getUser()
-})
 </script>

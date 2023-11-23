@@ -3,7 +3,7 @@
     <router-link to="/profile">
       <chevron-left-icon class="text-white w-10 font-medium mb-7" />
     </router-link>
-    <loader v-if="loading" />
+    <loader v-if="!editUser.name" />
     <form v-else>
       <label for="uploadImage" class="block mb-4 relative cursor-pointer">
         <div
@@ -113,33 +113,30 @@ const uploadImage = async (e: any) => {
 };
 const userEdit = async () => {
   const { name, bio } = editUser.value;
-  loading.value = true;
   const docRef = doc(db, "users", editUser.value.id);
   await updateDoc(docRef, {
     name: name,
     bio: bio,
     img: image.value,
   })
-    .then((item) => {
-      console.log(item);
+    .then(() => {
       router.push('/profile')
     })
     .catch((error) => {
       console.log(error);
     })
-    .finally(() => {
-      loading.value = false;
-    });
+    
 };
 onMounted(async () => {
   loading.value = true;
   await store.getUser();
-  const { name, id, bio }: any = store.user;
+  const { name, id, bio,img }: any = store.user;
   editUser.value = {
     name: name,
     id: id,
     bio: bio,
   };
+  image.value = img
   loading.value = false;
 });
 </script>
