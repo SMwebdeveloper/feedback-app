@@ -1,42 +1,45 @@
 import { defineStore } from "pinia";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+// import {useRepo} from 'pinia-orm'
+import { collection, onSnapshot, query, where} from "firebase/firestore";
 import { db, auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
-import {User} from '@/types/user'
-import { addStore, getStore } from "@/usable/fireStore";
+import { User } from "@/types/user";
+import { addStore } from "@/usable/fireStore";
+// import { Users } from "@/models/users";
+
+
+// const usersRepo = useRepo(Users)
+const colRef = collection(db, "users");
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
-      user:<User>{},
-      feedbacks: <any>[],
+      user: <User>{},
+      users: <any>[],
       authToken: localStorage.getItem("token"),
     };
   },
   actions: {
     addUser(payload: any) {
-      addStore(payload, "followers");
+      addStore(payload, "users");
     },
-    async getUser() {
-      const colRef = collection(db, "users");
-      // const q = query(colRef, where("userId", "==", this.authToken));
-      await onSnapshot(colRef, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          console.log(doc.data());
-          if (doc.data().userId === this.authToken) {
-            this.user =  { ...doc.data(), id: doc.id }
-          }
-        });
-   
+    async getSingleUser() {
+      const q= query(colRef, where('userId', '==', this.authToken))
+      await onSnapshot(q, (snapshot) => {
+        snapshot.docs.forEach(doc => {
+          this.user = {...doc.data(), id:doc.id}
+        }) 
       })
     },
-    async getFeedbacks() {
-      const colRef = collection(db, "feedbacks");
+    async getUsers() {
+      // const colRef = collection(db, "users");
       await onSnapshot(colRef, (snapshot) => {
         snapshot.docs.forEach((doc) => {
-          this.feedbacks.push({ ...doc.data(), id: doc.id });
+          const user = { ...doc.data(), id: doc.id }
+          this.users.push(user);
         });
       });
+      // usersRepo.save(this.users)
     },
     async logOut() {
       localStorage.removeItem("token");

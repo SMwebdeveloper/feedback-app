@@ -1,16 +1,16 @@
 <template>
   <div class="project-container pb-24">
-    <loader v-if="!store.user.name" />
-    <div v-else>
+    <!-- <loader v-if="!store.user.name" /> -->
+    <div >
       <div  class="flex items-start h-[80px] mb-8">
         <img
-          :src="store.user?.img !== ''? store.user?.img : UserImg"
+          :src="user?.img !== ''? user?.img : UserImg"
           alt="user image"
           class="w-[80px] h-[80px] rounded-full mr-6 border border-slate-200 object-contain"
         />
         <div class="flex-1">
-          <h2 class="text-xl text-white capitalize">{{store.user?.name }}</h2>
-           <p class="text-xl text-white">{{ store.user?.bio }}</p>
+          <h2 class="text-xl text-white capitalize">{{user?.name }}</h2>
+           <p class="text-xl text-white">{{ user?.bio }}</p>
         </div>  
 
         
@@ -60,37 +60,18 @@ import {
   Bars3CenterLeftIcon,
 } from "@heroicons/vue/24/solid";
 import UserImg from "@/assets/images/user-image.jpg";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "@/firebase/config";
 
 const store = useAuthStore();
 const settingTable = ref(false);
 
 
-if (store.authToken) {
-  store.getUser()
-}
-
 const logOut = async () => {
   await store.logOut();
 };
 
-// const user = ref({
-//   img: '',
-// })
+const user = computed(() => store.user)
 
-onMounted(async() => {
-  // const colRef = collection(db, "users");
-  //     // const q = query(colRef, where("userId", "==", store.authToken));
-  // await onSnapshot(colRef, (snapshot) => {
-  //   snapshot.docs.forEach((doc) => {
-  //     console.log(doc.data());
-  //     if (doc.data().userId === store.authToken) {
-  //       user.value = { ...doc.data(), id: doc.id }
-  //     }
-  //   });
-  // })
-
-  // user.value = store.user
-});
+onMounted(() => {
+  store.getSingleUser()
+})
 </script>

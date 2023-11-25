@@ -5,7 +5,7 @@ export class Users extends Model {
 
   static fields(): any {
     return {
-      id: this.uid(),
+      id: this.string(""),
       name: this.string(""),
       email: this.string(""),
       password: this.string(""),
