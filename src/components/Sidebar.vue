@@ -1,24 +1,52 @@
 <template>
-    <section class="fixed top-0 left-0 h-screen w-[70px] bg-slate-800">
-        <ul class="flex flex-col items-center justify-center gap-y-5 h-full ">
-          <li class="text-white w-[40px]">
-            <HomeIcon />
-          </li>
-          <li class="text-white w-[40px]">
+  <section class="fixed bottom-0 left-0 w-full h-[80px] py-2 bg-slate-300 shadow-sm shadow-slate-400">
+    <ul class="project-container flex items-center justify-between h-full text-sltae-900">
+      <li
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+      >
+        <router-link to="/"> <HomeIcon /> </router-link>
+      </li>
+      <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
             <MagnifyingGlassIcon/>
           </li >
-          <li class="text-white w-[40px]">
-            <PlusCircleIcon/>
-          </li>
-          <li class="text-white w-[40px]">
-            <UserIcon/>
-          </li>
-          <li class="text-white w-[40px]">
-            <BookmarkIcon/>
-          </li>
-        </ul>
-    </section>
+      <li
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+      >
+        <router-link to="/add-publication">
+          <PlusCircleIcon />
+        </router-link>
+      </li>
+      <li
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+      >
+        <router-link to="/save">
+          <BookmarkIcon />
+        </router-link>
+      </li>
+      <li
+        class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
+      >
+        <router-link to="/profile">
+          <UserIcon />
+        </router-link>
+      </li>
+    </ul>
+  </section>
 </template>
 <script setup lang="ts">
-import {HomeIcon,  PlusCircleIcon, UserIcon, MagnifyingGlassIcon, BookmarkIcon} from '@heroicons/vue/24/outline'
+import {
+  HomeIcon,
+  PlusCircleIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+  BookmarkIcon,
+} from "@heroicons/vue/24/outline";
+
+
 </script>
+<!-- <style>
+
+.router-link-active {
+  color: rgb(73, 132, 180);
+}
+</style> -->

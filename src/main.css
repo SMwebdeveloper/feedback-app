@@ -1,3 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@200;300;400;500;600;700;800;900&family=Monoton&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Exo 2", sans-serif;
+  background: #475569;
+}
+
+.project-container {
+  @apply max-w-[390px] mx-auto py-5 px-3
+}
