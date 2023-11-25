@@ -13,7 +13,7 @@ import { onMounted } from "vue";
 
 const store = useAuthStore()
 
-onMounted(async () => {
-    await store.getFeedbacks()
+onMounted( () => {
+    store.getFeedbacks()
 })
 </script>
