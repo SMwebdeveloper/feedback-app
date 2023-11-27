@@ -1,7 +1,7 @@
 <template>
   <div class="project-container pb-24">
-    <!-- <loader v-if="!store.user.name" /> -->
-    <div >
+    <loader v-if="!store.user.name" />
+    <div v-else>
       <div  class="flex items-start h-[80px] mb-8">
         <img
           :src="user?.img !== ''? user?.img : UserImg"

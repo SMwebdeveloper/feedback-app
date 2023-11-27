@@ -1,6 +1,6 @@
 <template>
   <section class="fixed bottom-0 left-0 w-full h-[80px] py-2 bg-slate-300 shadow-sm shadow-slate-400">
-    <ul class="project-container flex items-center justify-between h-full text-sltae-900">
+    <ul class="project-container flex items-center justify-between h-full text-sltae-900 z-50">
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
