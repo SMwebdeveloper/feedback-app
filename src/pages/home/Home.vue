@@ -1,22 +1,23 @@
 <template>
-    <div>
-        <sidebar/>
-        <main class="h-full">
-           <router-view/>
-        </main>
-    </div>
+  <div>
+    <suspense>
+      <template #default class="h-full">
+        <router-view />
+      </template>
+    </suspense>
+    <sidebar />
+  </div>
 </template>
 <script setup lang="ts">
-import Sidebar from "@/components/Sidebar.vue"
+import Sidebar from "@/components/Sidebar.vue";
 import { useAuthStore } from "@/store/auth";
-import {useFeedbackStore} from '@/store/feedback'
+// import { useFeedbackStore } from "@/store/feedback";
 import { onMounted } from "vue";
 
-const store = useAuthStore()
-const feedbackStore = useFeedbackStore()
+const store = useAuthStore();
+// const feedbackStore = useFeedbackStore();
 
-onMounted(() => {
-    store.getUsers()
-    feedbackStore.getFeedbacks()
-})
+onMounted(async () => {
+    await store.getUsers();
+});
 </script>

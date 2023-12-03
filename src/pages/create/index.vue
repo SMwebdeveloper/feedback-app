@@ -76,9 +76,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ArrowUpOnSquareIcon } from "@heroicons/vue/24/outline";
-import { getImage } from "@/usable/uploadImage";
+import { getImage } from "@/composable/uploadImage";
 import { useAuthStore } from "@/store/auth";
-import { addStore } from "@/usable/fireStore";
+import { addStore } from "@/composable/fireStore";
 import { useRouter } from "vue-router";
 // import { useFeedbackStore } from "@/store/feedback";
 
@@ -113,7 +113,7 @@ const handleClick = async () => {
       () => {
         router.push("/");
       }
-    ).catch((error) => {
+    ).catch((error: any) => {
       console.log(error)
     }).finally(() => loading.value = false)
   } else {

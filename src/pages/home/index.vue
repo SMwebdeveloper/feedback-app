@@ -56,7 +56,7 @@ import { useFeedbackStore } from "@/store/feedback";
 import { computed, onMounted, ref } from "vue";
 import { BookmarkIcon, HandThumbUpIcon, EllipsisHorizontalCircleIcon, } from "@heroicons/vue/24/solid";
 
-const likes = ref(false)
+// const likes = ref(false)
 const save = ref(false)
 const feedbackStore = useFeedbackStore();
 const feedbacks = computed(() => feedbackStore.feedbacks);
@@ -66,8 +66,12 @@ const contentHidden = (e: string) => {
   const card = document.querySelector(`#${e}`)
   card?.classList.toggle('block')
 }
+
+// if (feedbacks.value) {
+//   await feedbackStore.getFeedbacks()
+// }
 onMounted(async () => {
-  // await feedbackStore.getFeedbacks();
+  await feedbackStore.getFeedbacks()
 });
 </script>
 

@@ -4,7 +4,7 @@ import { collection, onSnapshot, query, where} from "firebase/firestore";
 import { db, auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { User } from "@/types/user";
-import { addStore } from "@/usable/fireStore";
+import { addStore } from "@/composable/fireStore";
 // import { Users } from "@/models/users";
 
 

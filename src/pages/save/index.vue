@@ -1,9 +1,9 @@
 <template>
   <div class="project-container">
-    <input ref="input">
-    </div>
+    <h2>Save page</h2>
+  </div>
 </template>
 <script setup lang="ts">
 
-
 </script>
+<style scoped></style>
