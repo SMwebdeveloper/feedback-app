@@ -1,14 +1,14 @@
 import { defineStore } from "pinia";
-// import {useRepo} from 'pinia-orm'
+import {useRepo} from 'pinia-orm'
 import { collection, onSnapshot, query, where} from "firebase/firestore";
 import { db, auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { User } from "@/types/user";
-import { addStore } from "@/composable/fireStore";
-// import { Users } from "@/models/users";
+import { addStore, getStore } from "@/composable/fireStore";
+import { Users } from "@/models/users";
 
 
-// const usersRepo = useRepo(Users)
+const usersRepo = useRepo(Users)
 const colRef = collection(db, "users");
 
 export const useAuthStore = defineStore("auth", {
@@ -16,33 +16,35 @@ export const useAuthStore = defineStore("auth", {
     return {
       user: <User>{},
       users: <any>[],
-      authToken: localStorage.getItem("token"),
+      authToken: '',
     };
   },
   actions: {
     addUser(payload: any) {
       addStore(payload, "users");
     },
-    async getSingleUser() {
-      const q= query(colRef, where('userId', '==', this.authToken))
-      await onSnapshot(q, (snapshot) => {
-        snapshot.docs.forEach(doc => {
-          this.user = {...doc.data(), id:doc.id}
-        }) 
+    getAuthToken() {
+
+    },
+    getSingleUser() {
+      const data = usersRepo.query().get()
+      data.forEach(item => {
+        if (item.userId === this.authToken) {
+          return this.user = item
+        }
       })
     },
-    async getUsers() {
-      // const colRef = collection(db, "users");
-      await onSnapshot(colRef, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          const user = { ...doc.data(), id: doc.id }
-          this.users.push(user);
-        });
-      });
-      // usersRepo.save(this.users)
+    async getUsers() {;
+      const {newArr} = await getStore("users")
+      usersRepo.save(newArr.value)
+      const data = usersRepo.query().get()      
+      this.users = data
+      
     },
     async logOut() {
       localStorage.removeItem("token");
+      this.authToken = ''
+      this.user = {}
       await signOut(auth).then(() => console.log("Log Out"));
     },
   },

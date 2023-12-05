@@ -108,7 +108,6 @@ const handleClick = async () => {
     .then((item) => {
       loading.value = true;
       store.addUser({ ...user.value, userId: item.user.uid });
-      localStorage.setItem('token', item.user.uid)
       router.push("/");
     })
     .catch((error) => {

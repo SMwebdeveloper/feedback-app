@@ -86,7 +86,7 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import userImage from "@/assets/images/user-image.jpg";
-import { getImage } from "@/usable/uploadImage";
+import { getImage } from "@/composable/uploadImage";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { ChevronLeftIcon, PencilIcon } from "@heroicons/vue/24/solid";
@@ -129,7 +129,7 @@ const userEdit = async () => {
 };
 onMounted(async () => {
   loading.value = true;
-  await store.getUser();
+  // await store.getUser();
   const { name, id, bio,img }: any = store.user;
   editUser.value = {
     name: name,

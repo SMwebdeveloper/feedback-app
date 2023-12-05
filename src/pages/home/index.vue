@@ -71,6 +71,7 @@ const contentHidden = (e: string) => {
 //   await feedbackStore.getFeedbacks()
 // }
 onMounted(async () => {
+  
   await feedbackStore.getFeedbacks()
 });
 </script>

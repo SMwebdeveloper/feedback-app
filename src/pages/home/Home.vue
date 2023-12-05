@@ -18,6 +18,6 @@ const store = useAuthStore();
 // const feedbackStore = useFeedbackStore();
 
 onMounted(async () => {
-    await store.getUsers();
-});
+  await store.getUsers()
+})
 </script>

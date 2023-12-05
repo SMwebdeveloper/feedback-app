@@ -8,8 +8,8 @@ export class Users extends Model {
       id: this.string(""),
       name: this.string(""),
       email: this.string(""),
-      password: this.string(""),
-      image: this.string(""),
+      img: this.string(""),
+      bio: this.string(""),
       userId: this.string("")
     };
   }

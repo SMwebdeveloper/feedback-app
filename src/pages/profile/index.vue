@@ -1,6 +1,6 @@
 <template>
   <div class="project-container pb-24">
-    <loader v-if="!store.user.name" />
+    <loader v-if="!store.user?.name" />
     <div v-else>
       <div  class="flex items-start h-[80px] mb-8">
         <img
@@ -67,11 +67,13 @@ const settingTable = ref(false);
 
 const logOut = async () => {
   await store.logOut();
+  store.$reset()
 };
 
 const user = computed(() => store.user)
 
-onMounted(() => {
-  store.getSingleUser()
+onMounted(async () => {
+  await store.getUsers()
+ await store.getSingleUser()
 })
 </script>

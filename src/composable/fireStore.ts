@@ -18,14 +18,14 @@ export const addStore = async (payload: object, key: string) => {
 
 //  fetch store
 export const getStore = async (payload: string) => {
-  const feedbacks = ref([]);
+  const newArr = ref([]);
   const colRef = collection(db, payload);
   const querySanpshot = await onSnapshot(colRef, (snapshot) => {
     const docs: any = [];
     snapshot.docs.forEach((doc) => {
       docs.push({ ...doc.data(), id: doc.id });
     });
-    feedbacks.value = docs;
+    newArr.value = docs;
   });
   watchEffect((onInvalidate) => {
     onInvalidate(() => querySanpshot());
@@ -39,5 +39,5 @@ export const getStore = async (payload: string) => {
       }
     });
   });
-  return { feedbacks };
+  return { newArr };
 };
