@@ -4,5 +4,6 @@ export type User = {
     name: string,
     bio: string,
     img: string,
+    saved: string[],
     id: number | string
 }

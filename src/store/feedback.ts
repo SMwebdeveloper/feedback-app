@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-// import { collection } from "firebase/firestore";
-// import { db } from "@/firebase/config";
-import {getStore} from '@/composable/fireStore'
-// const colRef = collection(db, "feedbacks");
+import { getStore } from '@/composable/fireStore'
+
+
 export const useFeedbackStore = defineStore("feedback", {
   state: () => {
     return {

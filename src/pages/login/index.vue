@@ -99,7 +99,8 @@ const user = ref({
   name: "",
   password: "",
   img: "",
-  bio: ""
+  bio: "",
+  saved: [],
 });
 const handleClick = async () => {
   const { email, name, password } = user.value;

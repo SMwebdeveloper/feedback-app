@@ -51,28 +51,7 @@
           class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
         ></textarea>
       </label>
-      <!-- <label for="" class="block mb-4">
-        <input
-          type="email"
-          v-model="editUser.email"
-          placeholder="Email"
-          class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
-        />
-      </label>
-      <label for="" class="mb-4 bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full flex items-center justify-between">
-        <input
-          :type="passwordHidden ? 'text' : 'password'"
-          v-model="editUser.password"
-          placeholder="Name"
-          class="bg-transparent outline-none border-none"
-        />
-        <button @click.prevent="passwordHidden = !passwordHidden">
-          <eye-icon v-if="passwordHidden" class="w-4"/>
-          <eye-slash-icon v-else else class="w-4" />
-        </button>
-      </label> -->
-
-      <button
+        <button
         class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
         @click.prevent="userEdit"
       >
@@ -98,7 +77,6 @@ const router = useRouter();
 const loading = ref(false);
 const imgLoader = ref(false);
 const image = ref();
-// const passwordHidden = ref(false)
 const editUser = ref({
   name: "",
   id: "",
@@ -129,7 +107,6 @@ const userEdit = async () => {
 };
 onMounted(async () => {
   loading.value = true;
-  // await store.getUser();
   const { name, id, bio,img }: any = store.user;
   editUser.value = {
     name: name,

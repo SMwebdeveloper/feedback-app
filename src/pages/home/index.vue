@@ -60,7 +60,7 @@ import { BookmarkIcon, HandThumbUpIcon, EllipsisHorizontalCircleIcon, } from "@h
 const save = ref(false)
 const feedbackStore = useFeedbackStore();
 const feedbacks = computed(() => feedbackStore.feedbacks);
-
+const comment = ref('')
 
 const contentHidden = (e: string) => {
   const card = document.querySelector(`#${e}`)

@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import {useRepo} from 'pinia-orm'
-import { collection, onSnapshot, query, where} from "firebase/firestore";
-import { db, auth } from "@/firebase/config";
+import { auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
 import { User } from "@/types/user";
 import { addStore, getStore } from "@/composable/fireStore";
@@ -9,7 +8,6 @@ import { Users } from "@/models/users";
 
 
 const usersRepo = useRepo(Users)
-const colRef = collection(db, "users");
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
@@ -43,8 +41,6 @@ export const useAuthStore = defineStore("auth", {
     },
     async logOut() {
       localStorage.removeItem("token");
-      this.authToken = ''
-      this.user = {}
       await signOut(auth).then(() => console.log("Log Out"));
     },
   },
