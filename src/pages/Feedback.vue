@@ -35,7 +35,7 @@
             </h2>
           </div>
           <ul class="pt-5 pb-11">
-            <li class="flex mb-2">
+            <li class="flex mb-2 bg-slate-100 p-1 rounded-lg">
               <img
                 src="@/assets/images/user-image.jpg"
                 alt="user image"
