@@ -50,6 +50,11 @@ const router = createRouter({
       component: () => import("@/pages/EditProfile.vue")
     },
     {
+      path: "/feedback",
+      name: 'feedback',
+      component: () => import("@/pages/Feedback.vue")
+    },
+    {
       path: "/login",
       name: "login",
       component: () => import("@/pages/SignUp.vue"),
