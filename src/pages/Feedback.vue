@@ -6,19 +6,22 @@
           <chevron-left-icon class="text-white w-10 font-medium mb-5" />
         </router-link>
       </a>
-      <div>
+      <div v-if="loading">
+        <loader/>
+      </div>
+      <div v-else>
         <img
-          src="@/assets/images/user-image.jpg"
+          :src="feedback?.img"
           alt="feedback image"
-          class="w-full h-[180px] border boder-slate-200 object-contain mb-4 rounded-md"
+          class="w-full h-[180px] border boder-slate-200 object-cover mb-4 rounded-md"
         />
         <div class="flex items-center">
           <img
-            src="@/assets/images/user-image.jpg"
+            :src="feedback.author?.img ? feedback.author?.img : userImage"
             alt="user image"
             class="w-10 h-10 rounded-full mr-5"
           />
-          <h2 class="text-xl text-white flex-1">Samandar</h2>
+          <h2 class="text-xl text-white flex-1 capitalize">{{feedback.author?.name}}</h2>
           <div class="flex items-center">
             <bookmark-icon class="w-8 text-white" />
             <hand-thumb-up-icon class="w-8 text-white" />
@@ -27,11 +30,10 @@
         <div class="relative h-1/2 ">
           <div class="w-full mb-4">
             <h2 class="text-xl text-slate-200 capitalize font-semibold">
-              Feedback
+              {{ feedback?.title }}
             </h2>
             <h2 class="text-sm font-bold text-slate-200">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Temporibus possimus eligendi, officiis tempora soluta nemo!
+              {{ feedback?.desc }}
             </h2>
           </div>
           <ul class="pt-5 pb-11">
@@ -75,5 +77,19 @@ import {
   BookmarkIcon,
   HandThumbUpIcon,
 } from "@heroicons/vue/24/outline";
+import { computed, onMounted, ref } from "vue";
+import {useRoute} from 'vue-router'
+import { useFeedbackStore } from '@/store/feedback'
+import userImage from '@/assets/images/user-image.jpg'
 
+const route = useRoute()
+const feedbackStore = useFeedbackStore()
+const loading = ref(false)
+
+const feedback = computed(() => feedbackStore.feedback)
+onMounted(async () => {
+    loading.value = true
+    await feedbackStore.getSingleFeedback(route.params.id)
+    loading.value = false
+})
 </script>

@@ -4,7 +4,11 @@
       <template #default class="h-full">
         <router-view />
       </template>
+      <template #fallback>
+        <loader />
+      </template>
     </suspense>
+
     <sidebar />
   </div>
 </template>
@@ -18,6 +22,6 @@ const store = useAuthStore();
 // const feedbackStore = useFeedbackStore();
 
 onMounted(async () => {
-  await store.getUsers()
-})
+  await store.getUsers();
+});
 </script>

@@ -91,12 +91,14 @@ const store = useAuthStore();
 const router = useRouter();
 const feedback = ref({
   id: "",
-  userId: store.authToken,
   title: "",
   desc: "",
   img: "",
   likes: 0,
   comments: [],
+  author: {
+    ...store.user
+  }
 });
 const uploadImage = async (item: any) => {
   imageLoading.value = true;
