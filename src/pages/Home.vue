@@ -43,15 +43,18 @@
 import { useFeedbackStore } from "@/store/feedback";
 import { computed, onMounted, ref } from "vue";
 import { BookmarkIcon, HandThumbUpIcon, } from "@heroicons/vue/24/solid";
+import {useAuthStore} from '@/store/auth'
 import userImage from '@/assets/images/user-image.jpg'
 // const likes = ref(false)
 const save = ref(false)
 const loading = ref(false)
+const store = useAuthStore()
 const feedbackStore = useFeedbackStore();
 const feedbacks = computed(() => feedbackStore.feedbacks);
 
 onMounted(async () => {
   loading.value = true
+  await store.getUsers()
   await feedbackStore.getFeedbacks()
   loading.value = false
 });

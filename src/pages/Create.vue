@@ -95,10 +95,7 @@ const feedback = ref({
   desc: "",
   img: "",
   likes: 0,
-  comments: [],
-  author: {
-    ...store.user
-  }
+  userId: store.authToken,
 });
 const uploadImage = async (item: any) => {
   imageLoading.value = true;
