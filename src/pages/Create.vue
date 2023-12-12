@@ -62,12 +62,10 @@
           class="bg-sky-600 text-xl px-5 py-2 font-bold rounded-md w-[200px]"
           @click="handleClick"
         >
-        <span v-if="loading">
-                <i class="fa fa-spinner fa-spin text-12 text-slate-200"></i>
-              </span>
-          <span v-else>
-            Create feedback
+          <span v-if="loading">
+            <i class="fa fa-spinner fa-spin text-12 text-slate-200"></i>
           </span>
+          <span v-else> Create feedback </span>
         </button>
       </form>
     </div>
@@ -108,13 +106,14 @@ const handleClick = async () => {
   const { title, desc } = feedback.value;
   loading.value = true;
   if (title && desc && image.value) {
-    await addStore({ ...feedback.value, img: image.value }, "feedbacks").then(
-      () => {
+    await addStore({ ...feedback.value, img: image.value }, "feedbacks")
+      .then(() => {
         router.push("/");
-      }
-    ).catch((error: any) => {
-      console.log(error)
-    }).finally(() => loading.value = false)
+      })
+      .catch((error: any) => {
+        console.log(error);
+      })
+      .finally(() => (loading.value = false));
   } else {
     errorMessage.value = "Please enter complete information!";
     setTimeout(() => {

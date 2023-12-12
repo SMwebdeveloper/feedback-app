@@ -51,11 +51,14 @@
           class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
         ></textarea>
       </label>
-        <button
+      <button
         class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
         @click.prevent="userEdit"
       >
-        Edit
+        <span v-if="loading">
+          <i class="fa fa-spinner fa-spin text-12 text-slate-200"></i>
+        </span>
+        <span v-else>Edit</span>
       </button>
     </form>
   </div>
@@ -90,6 +93,7 @@ const uploadImage = async (e: any) => {
   imgLoader.value = false;
 };
 const userEdit = async () => {
+  loading.value = true;
   const { name, bio } = editUser.value;
   const docRef = doc(db, "users", editUser.value.id);
   await updateDoc(docRef, {
@@ -98,22 +102,22 @@ const userEdit = async () => {
     img: image.value,
   })
     .then(() => {
-      router.push('/profile')
+      router.push("/profile");
     })
     .catch((error) => {
       console.log(error);
     })
-    
+    .finally(() => (loading.value = false));
 };
 onMounted(async () => {
   loading.value = true;
-  const { name, id, bio,img }: any = store.user;
+  const { name, id, bio, img }: any = store.user;
   editUser.value = {
     name: name,
     id: id,
     bio: bio,
   };
-  image.value = img
+  image.value = img;
   loading.value = false;
 });
 </script>
