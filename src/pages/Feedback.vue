@@ -39,17 +39,19 @@
             </h2>
           </div>
           <ul class="pt-5 pb-11">
-            <li
-              v-for="{ comment, author } in comments"
+            <second-loader v-if="commentLoading"/>
+            <h3 v-else-if="!commentLoading && comments.length === 0">Comments not found</h3>
+            <li v-else 
+              v-for="{ comment, author:{img, name} } in comments"
               class="flex mb-2 bg-slate-100 p-1 rounded-lg"
             >
               <img
-                :src="author.img"
+                :src="img"
                 alt="user image"
                 class="w-8 h-8 rounded-full mr-3"
               />
               <div>
-                <h6 class="text-sm">{{ author.name }}</h6>
+                <h6 class="text-sm">{{ name }}</h6>
                 <span class="inline-block w-full text-slate-800 font-bold">{{
                   comment
                 }}</span>
@@ -63,11 +65,11 @@
               v-model="comment.comment"
               type="text"
               placeholder="Add comments"
-              class="w-[90%] h-full rounded-bl-md bg-slate-400 outline-none font-meduim placeholder:text-slate-700 px-2 py-1"
+              class="w-[80%] h-full rounded-bl-md bg-slate-400 outline-none font-meduim placeholder:text-slate-700 px-2 py-1"
             />
             <button
               @click="addComment"
-              class="bg-slate-200 w-[10%] h-full py-1 px-2 rounded-br-md duration-150 hover:text-slate-200 hover:bg-slate-700"
+              class="bg-slate-200 w-[20%] h-full py-1 px-2 rounded-br-md duration-150 hover:text-slate-200 hover:bg-slate-700"
             >
               Add
             </button>
@@ -128,12 +130,19 @@ const addComment = async () => {
 };
 
 const feedback = computed(() => feedbackStore.feedback);
+const comments = computed(() => commentStore?.comments);
+if (comments.value.length === 0) {
+  commentLoading.value = false
+}
 onMounted(async () => {
   loading.value = true;
   await feedbackStore.getSingleFeedback(key);
-  await commentStore.getComments(key);
   loading.value = false;
+  if (commentStore.comments.length !== 0) {
+    commentLoading.value = true
+    await commentStore.getComments(key, 'feedbackId');
+  }
+  commentLoading.value = false
 });
 
-const comments = computed(() => commentStore.comments);
 </script>

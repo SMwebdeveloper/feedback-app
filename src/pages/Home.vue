@@ -1,13 +1,9 @@
 <template>
   <div class="pb-24">
     <div class="project-container mx-auto">
-      <div v-if="loading">
-        <loader/>
-      </div>
-      <div v-else-if="!loading && feedbacks.length === 0">
-         <h2 class="text-white text-lg">Feedbacks not found</h2>
-      </div>
-      <div v-else class="flex flex-col gap-y-2">
+      
+      
+      <div v-if="feedbacks.length" class="flex flex-col gap-y-2">
         <router-link :to="`/feedback/${id}`"
           v-for="{ img, id, author } in feedbacks"
           :key="id"
@@ -36,6 +32,9 @@
           </div>
         </router-link>
       </div>
+      <div v-if="loading">
+        <loader/>
+      </div>
     </div>
   </div>
 </template>
@@ -55,7 +54,7 @@ const feedbacks = computed(() => feedbackStore.feedbacks);
 onMounted(async () => {
   loading.value = true
   await store.getUsers()
-  await feedbackStore.getFeedbacks()
+  await feedbackStore.getFeedbacks()  
   loading.value = false
 });
 </script>

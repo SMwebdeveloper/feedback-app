@@ -21,9 +21,6 @@ export const useAuthStore = defineStore("auth", {
     addUser(payload: any) {
       addStore(payload, "users");
     },
-    getAuthToken() {
-
-    },
     getSingleUser() {
       const data = usersRepo.query().get()
       data.forEach(item => {

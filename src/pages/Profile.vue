@@ -46,13 +46,17 @@
       </div>
 
       <div class="w-full">
-        <div class="bg-slate-200 h-[300px] w-full rounded-md"></div>
+        <div v-for="feedback in feedbacks" :key="feedback.id"  class="bg-slate-200 h-[300px] w-full rounded-md">
+        {{ feedback.title }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
+import {useFeedbackStore} from '@/store/feedback'
+import { useCommentStore } from "@/store/comment";
 import {  computed, onMounted, ref } from "vue";
 import {
   TableCellsIcon,
@@ -62,6 +66,8 @@ import {
 import UserImg from "@/assets/images/user-image.jpg";
 
 const store = useAuthStore();
+const feedbackStore = useFeedbackStore()
+const commentStore = useCommentStore()
 const settingTable = ref(false);
 
 
@@ -72,8 +78,13 @@ const logOut = async () => {
 
 const user = computed(() => store.user)
 
+const feedbacks = computed(() => feedbackStore.myFeedbacks)
+const comments = computed(() => commentStore.comments)
 onMounted(async () => {
   await store.getUsers()
- await store.getSingleUser()
+  await store.getSingleUser()
+  await feedbackStore.getFeedbacks()
+  await feedbackStore.getMyFeedbacks()
+  await commentStore.getComments(store.authToken, 'userId')
 })
 </script>

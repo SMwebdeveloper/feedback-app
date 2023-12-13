@@ -5,15 +5,22 @@ import {usableArr} from '@/composable/usable'
 export const useCommentStore = defineStore("comment", {
   state: () => {
     return {
-      comments: <object>[],
+      comments: <any>[],
     };
   },
   actions: {
-    async getComments(payload: any) {
+    async getComments(payload: any, type:string) {
       const { newArr } = await getStore("comments");
       const {result} = usableArr(newArr.value)
       this.comments = result.filter((comment: object) => {
-        return comment.feedbackId === payload;
+        // const {userId, feedbackId} = comment
+        // return (type === "userId" ? userId : feedbackId) === payload;
+        if (type === 'userId') {
+          return comment.userId === payload
+        } else {
+          return comment.feedbackId === payload
+        }
+        
       });
     },
   },

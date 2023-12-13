@@ -55,9 +55,10 @@
         class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
         @click.prevent="userEdit"
       >
-        <span v-if="loading">
-          <i class="fa fa-spinner fa-spin text-12 text-slate-200"></i>
-        </span>
+        <i
+            v-if="loading"
+            class="fa fa-spinner fa-spin text-xl text-white"
+          ></i>
         <span v-else>Edit</span>
       </button>
     </form>
