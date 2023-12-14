@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { doc, onSnapshot} from 'firebase/firestore'
+import { doc, onSnapshot, deleteDoc} from 'firebase/firestore'
 import {db} from '@/firebase/config'
 import { getStore } from '@/composable/fireStore'
 import {usableArr} from '@/composable/usable'
@@ -41,6 +41,12 @@ export const useFeedbackStore = defineStore("feedback", {
        return item.userId === store.authToken
      })
       this.myFeedbacks = feedbacks
+    },
+    async deleteFeedback(payload: string) {
+      const docRef = doc(db, 'feedbacks', payload)
+      await deleteDoc(docRef).then(() => {
+        console.log('Feedback deleted')
+      }).catch(err =>  console.log(err))
     }
   },
 });

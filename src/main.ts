@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import Loader from "@/components/Loader.vue";
 import SecondLoader from "@/components/SecondLoader.vue";
+import Feedback from '@/components/Feedback.vue'
 import "./main.css";
 import router from "./routers/router";
 import { createPinia } from "pinia";
@@ -14,4 +15,5 @@ app.use(router);
 app.use(pinia);
 app.component("Loader", Loader);
 app.component("SecondLoader", SecondLoader);
+app.component("Feedback", Feedback)
 app.mount("#app");

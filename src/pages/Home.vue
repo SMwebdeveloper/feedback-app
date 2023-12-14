@@ -3,34 +3,8 @@
     <div class="project-container mx-auto">
       
       
-      <div v-if="feedbacks.length" class="flex flex-col gap-y-2">
-        <router-link :to="`/feedback/${id}`"
-          v-for="{ img, id, author } in feedbacks"
-          :key="id"
-          class="bg-slate-400 min-h-[170px] rounded-md shadow-sm shadow-slate-100 "
-        >
-          <div class="w-full">
-            <img
-              :src="img"
-              alt="title"
-              class="rounded-t-md border border-b-slate-200 w-full h-[170px] object-cover mb-2"
-            />
-            <div class="flex items-center justify-between w-full px-3 mb-2">
-              <div class="flex items-center">
-                <img
-                  :src="author.img ? author.img : userImage"
-                  alt=""
-                  class="w-7 h-7 border border-slate-200 object-cover rounded-full mr-2"
-                />
-                <button class="text-sm text-gray-800 font-semibold">Comments: 20</button>
-              </div>
-              <div class="flex">
-                <bookmark-icon class="w-6 cursor-pointer text-white" :class="`${save ? 'text-red-500' : 'text-white'}`" @click="save = !save"/>
-                <hand-thumb-up-icon class="w-6 cursor-pointer text-white" />
-              </div>
-            </div>
-          </div>
-        </router-link>
+      <div v-for="feedback in feedbacks" :key="feedback.id">
+       <feedback :feedback="feedback"/>
       </div>
       <div v-if="loading">
         <loader/>
@@ -41,9 +15,7 @@
 <script setup lang="ts">
 import { useFeedbackStore } from "@/store/feedback";
 import { computed, onMounted, ref } from "vue";
-import { BookmarkIcon, HandThumbUpIcon, } from "@heroicons/vue/24/solid";
 import {useAuthStore} from '@/store/auth'
-import userImage from '@/assets/images/user-image.jpg'
 // const likes = ref(false)
 const save = ref(false)
 const loading = ref(false)

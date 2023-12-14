@@ -45,9 +45,9 @@
         </div>
       </div>
 
-      <div class="w-full">
-        <div v-for="feedback in feedbacks" :key="feedback.id"  class="bg-slate-200 h-[300px] w-full rounded-md">
-        {{ feedback.title }}
+      <div class="w-full pb-16">
+        <div v-for="feedback in feedbacks" :key="feedback.id" >
+          <feedback :feedback="feedback"/>
         </div>
       </div>
     </div>
