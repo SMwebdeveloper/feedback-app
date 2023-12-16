@@ -10,17 +10,16 @@
         <loader />
       </div>
       <div v-else>
-        <single-feedback :feedback="feedback"/>
+        <single-feedback :feedback="feedback" />
         <second-loader v-if="commentLoading" />
-        <comments :comments="comments"/>
+        <comments v-else :comments="comments" />
+        <comment-form @addComment="addComment"/>
       </div>
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import {
-  ChevronLeftIcon
-} from "@heroicons/vue/24/outline";
+import { ChevronLeftIcon } from "@heroicons/vue/24/outline";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useFeedbackStore } from "@/store/feedback";
@@ -29,7 +28,7 @@ import { useCommentStore } from "@/store/comment";
 import { addStore } from "@/composable/fireStore";
 import SingleFeedback from "@/components/SingleFeedback.vue";
 import Comments from "@/components/Comments.vue";
-// import userImage from "@/assets/images/user-image.jpg";
+import CommentForm from "@/components/CommentForm.vue";
 
 const route = useRoute();
 const store = useAuthStore();
@@ -37,11 +36,6 @@ const commentStore = useCommentStore();
 const feedbackStore = useFeedbackStore();
 
 const key = route.params.id;
-const comment = ref({
-  comment: "",
-  feedbackId: key,
-  userId: store.authToken,
-});
 const errCommentMes = ref({
   error: false,
   message: "",
@@ -49,12 +43,12 @@ const errCommentMes = ref({
 const loading = ref(false);
 const commentLoading = ref(false);
 
-const addComment = async () => {
+const addComment = async (comment:string) => {
   commentLoading.value = true;
-  if (comment.value.comment !== "") {
-    await addStore(comment.value, "comments")
-      .then(async () =>
-      await commentStore.getComments(key)
+  if (comment !== "") {
+    const newComment = {comment: comment, userId:store.authToken, feedbackId:key}
+    await addStore(newComment, "comments").then(
+      async () => await commentStore.getComments(key, 'feedbackId')
     );
   } else {
     errCommentMes.value.error = true;
@@ -64,23 +58,21 @@ const addComment = async () => {
     }, 3000);
   }
   commentLoading.value = false;
-  comment.value.comment = "";
 };
 
 const feedback = computed(() => feedbackStore.feedback);
 const comments = computed(() => commentStore?.comments);
 if (comments.value.length === 0) {
-  commentLoading.value = false
+  commentLoading.value = false;
 }
 onMounted(async () => {
   loading.value = true;
   await feedbackStore.getSingleFeedback(key);
   loading.value = false;
   if (commentStore.comments.length !== 0) {
-    commentLoading.value = true
+    commentLoading.value = true;
   }
-  await commentStore.getComments(key, 'feedbackId');
-  commentLoading.value = false
+  await commentStore.getComments(key, "feedbackId");
+  commentLoading.value = false;
 });
-
 </script>

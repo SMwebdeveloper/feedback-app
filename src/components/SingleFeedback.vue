@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/outline";
 import { computed } from "vue";
+import userImage from '@/assets/images/user-image.jpg'
 const props = defineProps({
     feedback: {
         type: Object,
