@@ -13,14 +13,11 @@ export const useCommentStore = defineStore("comment", {
       const { newArr } = await getStore("comments");
       const {result} = usableArr(newArr.value)
       this.comments = result.filter((comment: object) => {
-        // const {userId, feedbackId} = comment
-        // return (type === "userId" ? userId : feedbackId) === payload;
         if (type === 'userId') {
           return comment.userId === payload
         } else {
           return comment.feedbackId === payload
         }
-        
       });
     },
   },

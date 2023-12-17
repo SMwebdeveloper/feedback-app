@@ -1,6 +1,6 @@
 import { db } from "@/firebase/config";
 import { ref, watchEffect } from "vue";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 
 // add store
 export const addStore = async (payload: object, key: string) => {
@@ -41,3 +41,13 @@ export const getStore = async (payload: string) => {
   });
   return { newArr };
 };
+
+
+// delete store
+
+export const deleteStore = async (key:string, type:string) => {
+  const docRef = doc(db, type, key)
+  await deleteDoc(docRef).then(() => {
+    console.log('Feedback deleted')
+  }).catch(err =>  console.log(err))
+}

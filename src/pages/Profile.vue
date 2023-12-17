@@ -2,52 +2,42 @@
   <div class="project-container pb-24">
     <loader v-if="!store.user?.name" />
     <div v-else>
-      <div  class="flex items-start h-[80px] mb-8">
-        <img
-          :src="user?.img !== ''? user?.img : UserImg"
-          alt="user image"
-          class="w-[80px] h-[80px] rounded-full mr-6 border border-slate-200 object-contain"
-        />
-        <div class="flex-1">
-          <h2 class="text-xl text-white capitalize">{{user?.name }}</h2>
-           <p class="text-xl text-white">{{ user?.bio }}</p>
-        </div>  
-
-        
-        <div class="text-end relative">
-          <bars-3-center-left-icon
-            class="w-7 text-white cursor-pointer"
-            @click="settingTable = !settingTable"
-          />
-          <div
-            v-show="settingTable"
-            class=" absolute top-8 right-0 w-[85px] bg-slate-200 px-3 py-1 rounded-md flex flex-col items-start text-slate-700 font-medium transition-all duration-300"
-          >
-            <router-link
-              to="/edit-profile"
-              class="hover:text-red-500 duration-100"
-              >Edit</router-link
-            >
-            <button class="hover:text-red-500 duration-100" @click="logOut">
-              Log Out
-            </button>
-          </div>
-        </div>
-      </div>
+      <profile-user-content :user="user" @logOut="logOut" />
       <div class="flex items-center justify-around mb-8">
-        <div class="text-base text-white">
-          <h4 class="flex flex-col">posts 20</h4>
+        <button
+          @click="visibleClick"
+          class="text-base text-white flex items-center cursor-pointer"
+        >
+          <h4 class="flex flex-col mr-2">posts 20</h4>
           <table-cells-icon class="w-7" />
-        </div>
-        <div class="text-base text-white">
-          <h4 class="flex flex-col">Comments 20</h4>
+        </button>
+        <button
+          @click="visibleClick"
+          class="text-base text-white flex items-center cursor-pointer"
+        >
+          <h4 class="flex flex-col mr-2">Comments 20</h4>
           <chat-bubble-left-ellipsis-icon class="w-7" />
-        </div>
+        </button>
       </div>
 
       <div class="w-full pb-16">
-        <div v-for="feedback in feedbacks" :key="feedback.id" >
-          <feedback :feedback="feedback"/>
+        <second-loader v-if="loading" />
+        <div v-if="!commentVisible">
+          <feedback
+            v-if="!loading && feedbacks.length"
+            v-for="feedback in feedbacks"
+            :key="feedback.id"
+            :feedback="feedback"
+          />
+          <h3 v-else-if="!loading && !feedbacks.length"  class="text-lg font-semibold text-white text-center">
+            Feedback not found
+          </h3>
+        </div>
+        <div v-else>
+          <comments v-if="comments.length" :comments="comments" />
+          <h3 v-else class="text-lg font-semibold text-white">
+            Comments not found
+          </h3>
         </div>
       </div>
     </div>
@@ -55,36 +45,45 @@
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
-import {useFeedbackStore} from '@/store/feedback'
+import { useFeedbackStore } from "@/store/feedback";
 import { useCommentStore } from "@/store/comment";
-import {  computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import Comments from "@/components/Comments.vue";
+import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
-  Bars3CenterLeftIcon,
 } from "@heroicons/vue/24/solid";
-import UserImg from "@/assets/images/user-image.jpg";
 
 const store = useAuthStore();
-const feedbackStore = useFeedbackStore()
-const commentStore = useCommentStore()
-const settingTable = ref(false);
-
+const feedbackStore = useFeedbackStore();
+const commentStore = useCommentStore();
+const loading = ref(false);
+const commentVisible = ref(false);
 
 const logOut = async () => {
   await store.logOut();
-  store.$reset()
+  store.$reset();
 };
 
-const user = computed(() => store.user)
+const user = computed(() => store.user);
 
-const feedbacks = computed(() => feedbackStore.myFeedbacks)
-const comments = computed(() => commentStore.comments)
+const feedbacks = computed(() => feedbackStore.myFeedbacks);
+const comments = computed(() => commentStore.comments);
+
+// const delete = () => {
+
+// }
+const visibleClick = () => {
+  return (commentVisible.value = !commentVisible.value);
+};
 onMounted(async () => {
-  await store.getUsers()
-  await store.getSingleUser()
-  await feedbackStore.getFeedbacks()
-  await feedbackStore.getMyFeedbacks()
-  await commentStore.getComments(store.authToken, 'userId')
-})
+  await store.getUsers();
+  await store.getSingleUser();
+  loading.value = true
+  await feedbackStore.getFeedbacks();
+  await feedbackStore.getMyFeedbacks();
+  await commentStore.getComments(store.authToken, "userId");
+  loading.value = false
+});
 </script>

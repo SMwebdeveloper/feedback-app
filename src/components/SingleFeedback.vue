@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-[300px] mb-4">
     <img
       :src="feedback?.img"
       alt="feedback image"
@@ -33,7 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/outline";
+import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import { computed } from "vue";
 import userImage from '@/assets/images/user-image.jpg'
 const props = defineProps({

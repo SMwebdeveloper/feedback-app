@@ -4,7 +4,7 @@
 <style scoped>
 .loader {
   display: block;
-  margin: 25px auto;
+  margin: 70px auto;
   color: #fff;
   font-size: 10px;
   width: 1em;

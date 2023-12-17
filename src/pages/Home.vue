@@ -17,7 +17,7 @@ import { useFeedbackStore } from "@/store/feedback";
 import { computed, onMounted, ref } from "vue";
 import {useAuthStore} from '@/store/auth'
 // const likes = ref(false)
-const save = ref(false)
+// const save = ref(false)
 const loading = ref(false)
 const store = useAuthStore()
 const feedbackStore = useFeedbackStore();

@@ -19,7 +19,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { ChevronLeftIcon } from "@heroicons/vue/24/outline";
+import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useFeedbackStore } from "@/store/feedback";
@@ -62,16 +62,13 @@ const addComment = async (comment:string) => {
 
 const feedback = computed(() => feedbackStore.feedback);
 const comments = computed(() => commentStore?.comments);
-if (comments.value.length === 0) {
-  commentLoading.value = false;
-}
+
 onMounted(async () => {
   loading.value = true;
+  await feedbackStore.getFeedbacks()
   await feedbackStore.getSingleFeedback(key);
   loading.value = false;
-  if (commentStore.comments.length !== 0) {
-    commentLoading.value = true;
-  }
+  commentLoading.value = true;
   await commentStore.getComments(key, "feedbackId");
   commentLoading.value = false;
 });
