@@ -11,8 +11,8 @@
             class="w-7 h-7 border border-slate-200 object-cover rounded-full mr-2"
           />
           <h3 class="flex-1 text-lg capitalize text-white font-bold">{{ feedback.author.name }}</h3>
-          <button v-if="deleteBtn">
-            <trash-icon class="w-5 text-red-500"/>
+          <button v-if="deleteBtn" class="p-1">
+            <img src="@/assets/images/trash.svg" class="w-5" data-attr="deleteBtn" :data-id="feedback.id" data-name="feedback"/>
           </button>
         </div>
       <router-link :to="`/feedback/${feedback.id}`">
@@ -49,9 +49,11 @@ const props = defineProps({
   },
 });
 
+
 const route = useRoute()
 const deleteBtn = ref(false)
 const feedback = computed(() => props.feedback);
+
 
 watchEffect(() => {
   if (route.name === 'profile') {
