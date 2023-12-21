@@ -6,6 +6,9 @@
       <div v-for="feedback in feedbacks" :key="feedback.id">
        <feedback :feedback="feedback"/>
       </div>
+      <div v-if="!feedbacks.length && !loading">
+        <h2 class="text-center text-white text-xl">Feedback not found</h2>
+      </div>
       <div v-if="loading">
         <loader/>
       </div>
@@ -26,7 +29,11 @@ const feedbacks = computed(() => feedbackStore.feedbacks);
 onMounted(async () => {
   loading.value = true
   await store.getUsers()
-  await feedbackStore.getFeedbacks()  
+  await feedbackStore.getFeedbacks().then((item) => {
+    console.log(item)
+  }).catch((error) => {
+    console.log(error)
+  } )  
   loading.value = false
 });
 </script>

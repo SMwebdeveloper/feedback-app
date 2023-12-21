@@ -40,7 +40,7 @@
         </div>
         <div v-else>
           <comments v-if="comments.length" :comments="comments" />
-          <h3 v-else class="text-lg font-semibold text-white">
+          <h3 v-else class="text-lg font-semibold text-white text-center">
             Comments not found
           </h3>
         </div>

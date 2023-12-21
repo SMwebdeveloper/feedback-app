@@ -13,6 +13,7 @@
         <single-feedback :feedback="feedback" />
         <second-loader v-if="commentLoading" />
         <comments v-else :comments="comments" />
+        <div v-if="comments.length === 0 && !commentLoading">Comments not found</div>
         <comment-form @addComment="addComment"/>
       </div>
     </div>

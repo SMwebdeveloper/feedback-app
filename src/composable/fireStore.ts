@@ -20,6 +20,7 @@ export const addStore = async (payload: object, key: string) => {
 export const getStore = async (payload: string) => {
   const newArr = ref([]);
   const colRef = collection(db, payload);
+
   const querySanpshot = await onSnapshot(colRef, (snapshot) => {
     const docs: any = [];
     snapshot.docs.forEach((doc) => {
@@ -27,15 +28,19 @@ export const getStore = async (payload: string) => {
     });
     newArr.value = docs;
   });
+  
   watchEffect((onInvalidate) => {
     onInvalidate(() => querySanpshot());
   });
 
   await new Promise<void>((resolve) => {
     const unsubscribeInitial = onSnapshot(colRef, (snapshot) => {
+      // console.log(snapshot.empty)
       if (!snapshot.empty) {
         unsubscribeInitial();
         resolve();
+      } else {
+        resolve()
       }
     });
   });
