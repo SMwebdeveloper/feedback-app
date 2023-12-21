@@ -11,8 +11,8 @@
             class="w-7 h-7 border border-slate-200 object-cover rounded-full mr-2"
           />
           <h3 class="flex-1 text-lg capitalize text-white font-bold">{{ feedback.author.name }}</h3>
-          <button v-if="deleteBtn" class="p-1">
-            <img src="@/assets/images/trash.svg" class="w-5" data-attr="deleteBtn" :data-id="feedback.id" data-name="feedback"/>
+          <button v-if="deleteBtn" class="p-1" >
+            <img src="@/assets/images/trash.svg" class="w-5" :data-id="feedback.id" data-name="feedbacks"/>
           </button>
         </div>
       <router-link :to="`/feedback/${feedback.id}`">
@@ -40,15 +40,15 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import { BookmarkIcon, HandThumbUpIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
+
 const props = defineProps({
   feedback: {
     type: Object,
     default: true,
   },
 });
-
 
 const route = useRoute()
 const deleteBtn = ref(false)

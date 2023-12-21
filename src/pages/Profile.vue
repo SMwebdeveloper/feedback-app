@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <delete-modal v-if="modal" @closeModal="modal = false" :message="modalMessage"/>
+    <delete-modal v-if="modal" @closeModal="modal = false" :message="modalMessage" @deleted="deleteFedCom"/>
   </div>
 </template>
 <script setup lang="ts">
@@ -57,6 +57,7 @@ import { computed, onMounted, ref } from "vue";
 import Comments from "@/components/Comments.vue";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
+import {deleteStore} from '@/composable/fireStore'
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -69,34 +70,68 @@ const loading = ref(false);
 const commentVisible = ref(false);
 const modal = ref(false);
 const modalMessage = ref('')
+const deletedCont = ref({
+  id: '',
+  name: ''
+})
+
+// log out 
 const logOut = async () => {
   await store.logOut();
   store.$reset();
 };
 
 const user = computed(() => store.user);
-
 const feedbacks = computed(() => feedbackStore.myFeedbacks);
 const comments = computed(() => commentStore.comments);
 
+
+// visible modal
 window.addEventListener("click", (e: any) => {
   const el = e.target;
-  if (el.getAttribute("data-name") === "feedback") {
+  const name = el.getAttribute('data-name')
+  if (name === "feedbacks") {
     modal.value = true;
     modalMessage.value = 'feedback'
-  } else if (el.getAttribute("data-name") === "user") {
+    deletedCont.value.id = el.getAttribute("data-id")
+    deletedCont.value.name = name
+  } else if (name === "comments") {
+    modal.value = true
+    modalMessage.value = 'comment'
+    deletedCont.value.id = el.getAttribute("data-id")
+    deletedCont.value.name = name
   } else {
     modal.value = false;
   }
 });
 
+// delted feedback comment
+const deleteFedCom = async () => {
+  loading.value = true
+  if (deletedCont.value.name === 'feedbacks') {
+    await deleteStore(deletedCont.value.id, deletedCont.value.name)
+    console.log(deletedCont.value.id)
+    await commentStore.getComments(deletedCont.value.id, 'feedbackId')
+    await commentStore.comments.forEach((comment:any) => {
+      if (comment.feedbackId === deletedCont.value.id) {
+        deleteStore(comment.id, 'comments')
+       }
+    });
+    await feedbackStore.getFeedbacks()
+    await feedbackStore.getMyFeedbacks()
+    await commentStore.getComments(store.authToken, "userId");
+  } 
+  if (deletedCont.value.name === 'comment') {
+    await deleteStore(deletedCont.value.id, deletedCont.value.name)
+  }
+  loading.value = false
+}
 
-// const deleteFedCom = () => {
-//    console.log()
-// }
+// visible comment and feedback
 const visibleClick = () => {
   return (commentVisible.value = !commentVisible.value);
 };
+
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
