@@ -2,9 +2,10 @@
   <section class="pt-5 h-screen">
     <div class="project-container h-full">
       <a>
-        <router-link to="/">
-          <chevron-left-icon class="text-white w-10 font-medium mb-5" />
-        </router-link>
+        <chevron-left-icon
+          @click="router.back()"
+          class="text-white w-10 font-medium mb-5 cursor-pointer"
+        />
       </a>
       <div v-if="loading">
         <loader />
@@ -13,8 +14,10 @@
         <single-feedback :feedback="feedback" />
         <second-loader v-if="commentLoading" />
         <comments v-else :comments="comments" />
-        <div v-if="comments.length === 0 && !commentLoading">Comments not found</div>
-        <comment-form @addComment="addComment"/>
+        <div v-if="comments.length === 0 && !commentLoading" class="text-center text-white text-xl">
+          Comments not found
+        </div>
+        <comment-form @addComment="addComment" />
       </div>
     </div>
   </section>
@@ -22,7 +25,7 @@
 <script setup lang="ts">
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useFeedbackStore } from "@/store/feedback";
 import { useAuthStore } from "@/store/auth";
 import { useCommentStore } from "@/store/comment";
@@ -32,6 +35,7 @@ import Comments from "@/components/Comments.vue";
 import CommentForm from "@/components/CommentForm.vue";
 
 const route = useRoute();
+const router = useRouter();
 const store = useAuthStore();
 const commentStore = useCommentStore();
 const feedbackStore = useFeedbackStore();
@@ -44,12 +48,16 @@ const errCommentMes = ref({
 const loading = ref(false);
 const commentLoading = ref(false);
 
-const addComment = async (comment:string) => {
+const addComment = async (comment: string) => {
   commentLoading.value = true;
   if (comment !== "") {
-    const newComment = {comment: comment, userId:store.authToken, feedbackId:key}
+    const newComment = {
+      comment: comment,
+      userId: store.authToken,
+      feedbackId: key,
+    };
     await addStore(newComment, "comments").then(
-      async () => await commentStore.getComments(key, 'feedbackId')
+      async () => await commentStore.getComments(key, "feedbackId")
     );
   } else {
     errCommentMes.value.error = true;
@@ -66,7 +74,7 @@ const comments = computed(() => commentStore?.comments);
 
 onMounted(async () => {
   loading.value = true;
-  await feedbackStore.getFeedbacks()
+  await feedbackStore.getFeedbacks();
   await feedbackStore.getSingleFeedback(key);
   loading.value = false;
   commentLoading.value = true;

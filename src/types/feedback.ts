@@ -4,5 +4,6 @@ export type Feedback = {
     desc: string,
     img: string,
     likes: number,
+    comments:number,
     author: object
 }

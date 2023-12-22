@@ -7,7 +7,7 @@
         <button
           @click="visibleClick"
           class="text-base text-white flex items-center cursor-pointer duration-100"
-          :class="{ ' text-slate-300 ': !commentVisible }"
+          :class="{ ' text-slate-300 font-bold ': !commentVisible }"
         >
           <h4 class="flex flex-col mr-2">Feedbacks {{ feedbacks.length }}</h4>
           <table-cells-icon class="w-7" />
@@ -15,7 +15,9 @@
         <button
           @click="visibleClick"
           class="text-base text-white flex items-center cursor-pointer duration-100"
-          :class="{ ' text-slate-300 ': commentVisible }"
+          :class="{
+            ' text-slate-300 font-bold ': commentVisible
+          }"
         >
           <h4 class="flex flex-col mr-2">Comments {{ comments.length }}</h4>
           <chat-bubble-left-ellipsis-icon class="w-7" />
@@ -39,14 +41,22 @@
           </h3>
         </div>
         <div v-else>
-          <comments v-if="comments.length" :comments="comments" />
-          <h3 v-else class="text-lg font-semibold text-white text-center">
+          <comments v-if="!loading && comments.length" :comments="comments" />
+          <h3
+            v-if="!loading && !comments.length"
+            class="text-lg font-semibold text-white text-center"
+          >
             Comments not found
           </h3>
         </div>
       </div>
     </div>
-    <delete-modal v-if="modal" @closeModal="modal = false" :message="modalMessage" @deleted="deleteFedCom"/>
+    <delete-modal
+      v-if="modal"
+      @closeModal="modal = false"
+      :message="modalMessage"
+      @deleted="deleteFedCom"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -57,7 +67,7 @@ import { computed, onMounted, ref } from "vue";
 import Comments from "@/components/Comments.vue";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
-import {deleteStore} from '@/composable/fireStore'
+import { deleteStore } from "@/composable/fireStore";
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -69,13 +79,13 @@ const commentStore = useCommentStore();
 const loading = ref(false);
 const commentVisible = ref(false);
 const modal = ref(false);
-const modalMessage = ref('')
+const modalMessage = ref("");
 const deletedCont = ref({
-  id: '',
-  name: ''
-})
+  id: "",
+  name: "",
+});
 
-// log out 
+// log out
 const logOut = async () => {
   await store.logOut();
   store.$reset();
@@ -85,21 +95,20 @@ const user = computed(() => store.user);
 const feedbacks = computed(() => feedbackStore.myFeedbacks);
 const comments = computed(() => commentStore.comments);
 
-
 // visible modal
 window.addEventListener("click", (e: any) => {
   const el = e.target;
-  const name = el.getAttribute('data-name')
+  const name = el.getAttribute("data-name");
   if (name === "feedbacks") {
     modal.value = true;
-    modalMessage.value = 'feedback'
-    deletedCont.value.id = el.getAttribute("data-id")
-    deletedCont.value.name = name
+    modalMessage.value = "feedback";
+    deletedCont.value.id = el.getAttribute("data-id");
+    deletedCont.value.name = name;
   } else if (name === "comments") {
-    modal.value = true
-    modalMessage.value = 'comment'
-    deletedCont.value.id = el.getAttribute("data-id")
-    deletedCont.value.name = name
+    modal.value = true;
+    modalMessage.value = "comment";
+    deletedCont.value.id = el.getAttribute("data-id");
+    deletedCont.value.name = name;
   } else {
     modal.value = false;
   }
@@ -107,25 +116,32 @@ window.addEventListener("click", (e: any) => {
 
 // delted feedback comment
 const deleteFedCom = async () => {
-  loading.value = true
-  if (deletedCont.value.name === 'feedbacks') {
-    await deleteStore(deletedCont.value.id, deletedCont.value.name)
-    console.log(deletedCont.value.id)
-    await commentStore.getComments(deletedCont.value.id, 'feedbackId')
-    await commentStore.comments.forEach((comment:any) => {
+  loading.value = true;
+  if (deletedCont.value.name === "feedbacks") {
+    await deleteStore(deletedCont.value.id, deletedCont.value.name).then(
+      async () => {
+        await commentStore.getComments(store.authToken, "userId");
+        await feedbackStore.getFeedbacks();
+        await feedbackStore.getMyFeedbacks();
+      }
+    );
+
+    await commentStore.comments.forEach((comment: any) => {
       if (comment.feedbackId === deletedCont.value.id) {
-        deleteStore(comment.id, 'comments')
-       }
+        deleteStore(comment.id, "comments");
+      }
     });
-    await feedbackStore.getFeedbacks()
-    await feedbackStore.getMyFeedbacks()
-    await commentStore.getComments(store.authToken, "userId");
-  } 
-  if (deletedCont.value.name === 'comment') {
-    await deleteStore(deletedCont.value.id, deletedCont.value.name)
   }
-  loading.value = false
-}
+  if (deletedCont.value.name === "comments") {
+    await deleteStore(deletedCont.value.id, deletedCont.value.name).then(
+      async () => {
+        await commentStore.getComments(store.authToken, "userId");
+      }
+    );
+  }
+
+  loading.value = false;
+};
 
 // visible comment and feedback
 const visibleClick = () => {

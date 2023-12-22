@@ -53,7 +53,6 @@ export const getStore = async (payload: string) => {
 export const deleteStore = async (key:string, type:string) => {
   const docRef = doc(db, type, key)
   await deleteDoc(docRef).then((item:any) => {
-    console.log(item)
     console.log('Feedback deleted')
   }).catch(err =>  console.log(err))
 }

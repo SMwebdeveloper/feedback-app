@@ -3,7 +3,7 @@
     <router-link to="/profile">
       <chevron-left-icon class="text-white w-10 font-medium mb-7" />
     </router-link>
-    <loader v-if="!editUser.name" />
+    <loader v-if="loading" />
     <form v-else>
       <label for="uploadImage" class="block mb-4 relative cursor-pointer">
         <div
@@ -56,7 +56,7 @@
         @click.prevent="userEdit"
       >
         <i
-            v-if="loading"
+            v-if="editLoader"
             class="fa fa-spinner fa-spin text-xl text-white"
           ></i>
         <span v-else>Edit</span>
@@ -80,6 +80,7 @@ const store = useAuthStore();
 const router = useRouter();
 const loading = ref(false);
 const imgLoader = ref(false);
+const editLoader = ref(false);
 const image = ref();
 const editUser = ref({
   name: "",
@@ -94,7 +95,7 @@ const uploadImage = async (e: any) => {
   imgLoader.value = false;
 };
 const userEdit = async () => {
-  loading.value = true;
+  editLoader.value = true;
   const { name, bio } = editUser.value;
   const docRef = doc(db, "users", editUser.value.id);
   await updateDoc(docRef, {
@@ -108,7 +109,7 @@ const userEdit = async () => {
     .catch((error) => {
       console.log(error);
     })
-    .finally(() => (loading.value = false));
+    .finally(() => (editLoader.value = false));
 };
 onMounted(async () => {
   loading.value = true;

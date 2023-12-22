@@ -29,11 +29,7 @@ const feedbacks = computed(() => feedbackStore.feedbacks);
 onMounted(async () => {
   loading.value = true
   await store.getUsers()
-  await feedbackStore.getFeedbacks().then((item) => {
-    console.log(item)
-  }).catch((error) => {
-    console.log(error)
-  } )  
+  await feedbackStore.getFeedbacks()
   loading.value = false
 });
 </script>
