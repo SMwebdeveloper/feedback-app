@@ -10,7 +10,8 @@ export class Users extends Model {
       email: this.string(""),
       img: this.string(""),
       bio: this.string(""),
-      userId: this.string("")
+      userId: this.string(""),
+      saveFeedbacks: this.attr([])
     };
   }
 }

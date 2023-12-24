@@ -73,8 +73,6 @@ import { getImage } from "@/composable/uploadImage";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { ChevronLeftIcon, PencilIcon } from "@heroicons/vue/24/solid";
-// EyeSlashIcon,
-// EyeIcon,
 
 const store = useAuthStore();
 const router = useRouter();

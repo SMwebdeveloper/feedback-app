@@ -15,7 +15,8 @@ export const useFeedbackStore = defineStore("feedback", {
     return {
       feedbacks: <Feedback[]>[],
       myFeedbacks: <Feedback[]>[],
-      feedback: <Feedback>{}
+      feedback: <Feedback>{},
+      saveFeedbacks: <Feedback[]>[]
     };
   },
   actions: {
@@ -35,13 +36,18 @@ export const useFeedbackStore = defineStore("feedback", {
         this.feedback = {...data, ...myObj}
       })
     },
+    getSaveFeedback() {
+      console.log(store.user)
+    },
     getMyFeedbacks() {
      const data = feedbackRepo.query().get()
       const feedbacks = data.filter((item) => {
        return item.userId === store.authToken
      })
       this.myFeedbacks = feedbacks
-    }
+    },
+    
   },
+
 });
 

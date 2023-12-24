@@ -37,7 +37,7 @@
             v-else-if="!loading && !feedbacks.length"
             class="text-lg font-semibold text-white text-center"
           >
-            Feedback not found
+            Feedbacks not found
           </h3>
         </div>
         <div v-else>
@@ -89,6 +89,8 @@ const deletedCont = ref({
 const logOut = async () => {
   await store.logOut();
   store.$reset();
+  feedbackStore.$reset(),
+  commentStore.$reset()
 };
 
 const user = computed(() => store.user);

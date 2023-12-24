@@ -5,7 +5,7 @@
       class="flex items-start mb-2 bg-slate-100 p-1 rounded-lg"
       :class="`${store.authToken === userId ? 'bg-slate-400' : 'bg-slate-100'}`"
     >
-      <img :src="img" alt="user image" class="w-8 h-8 rounded-full mr-3" />
+      <img :src="img ? img : userImage" alt="user image" class="w-8 h-8 rounded-full mr-3" />
       <div class="flex-1">
         <h6 class="text-sm capitalize">{{ store.authToken === userId ? "My comment" : name }}</h6>
         <span class="inline-block w-full text-slate-800 font-bold">{{
@@ -26,7 +26,8 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import {useAuthStore} from '@/store/auth'
+import { useAuthStore } from '@/store/auth'
+import userImage from '@/assets/images/user-image.jpg'
 
 const store = useAuthStore()
 const route = useRoute();

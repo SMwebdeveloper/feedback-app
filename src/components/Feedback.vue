@@ -37,27 +37,49 @@
           </router-link>
         </div>
         <div class="flex">
-          <bookmark-icon class="w-6 cursor-pointer text-white" />
-          <hand-thumb-up-icon class="w-6 cursor-pointer text-white" />
+          <bookmark-icon
+            @click="saveFeedback(feedback.id)"
+            class="w-6 cursor-pointer"
+            :class="`${save ? 'text-red-500' : 'text-white'}`"
+          />
+          <hand-thumb-up-icon
+            @click="likes = !likes"
+            class="w-6 cursor-pointer"
+            :class="`${likes ? 'text-red-500' : 'text-white'}`"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
+import { useFeedbackStore } from "@/store/feedback";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/store/auth";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "@/firebase/config";
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
 
+// const feedbackStore = useFeedbackStore();
+const likes = ref(false);
+const save = ref(false);
 const props = defineProps({
   feedback: {
     type: Object,
     default: true,
   },
 });
-
+const saveFeedback = async (key: string) => {
+  // const docRef = doc(db, 'users', store.user.id)
+  // await updateDoc(docRef, {
+  //   saveFeedbacks:
+  // })
+  return (save.value = !save.value);
+};
 const route = useRoute();
+const store = useAuthStore();
 const deleteBtn = ref(false);
 const feedback = computed(() => props.feedback);
 
@@ -67,5 +89,10 @@ watchEffect(() => {
   } else {
     deleteBtn.value = false;
   }
+});
+onMounted(async () => {
+  await store.getUsers();
+  await store.getSingleUser();
+  // await feedbackStore.getSaveFeedback()
 });
 </script>
