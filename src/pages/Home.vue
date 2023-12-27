@@ -28,7 +28,6 @@ onMounted(async () => {
   await store.getUsers()
   await store.getSingleUser()
   await feedbackStore.getFeedbacks()
-  await feedbackStore.getSaveFeedback()
   loading.value = false
 });
 </script>

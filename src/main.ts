@@ -12,8 +12,8 @@ import { createORM } from "pinia-orm";
 const app = createApp(App);
 const pinia = createPinia().use(createORM());
 
-app.use(router);
 app.use(pinia);
+app.use(router);
 app.component("Loader", Loader);
 app.component("SecondLoader", SecondLoader);
 app.component("Feedback", Feedback)

@@ -54,15 +54,12 @@
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from "vue";
-import { useFeedbackStore } from "@/store/feedback";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/store/auth";
-import { updateDoc, doc } from "firebase/firestore";
-import { db } from "@/firebase/config";
+import { useAuthStore } from '@/store/auth'
+import { useFeedbackStore } from '@/store/feedback'
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
 
-// const feedbackStore = useFeedbackStore();
 const likes = ref(false);
 const save = ref(false);
 const props = defineProps({
@@ -71,17 +68,16 @@ const props = defineProps({
     default: true,
   },
 });
-const saveFeedback = async (key: string) => {
-  // const docRef = doc(db, 'users', store.user.id)
-  // await updateDoc(docRef, {
-  //   saveFeedbacks:
-  // })
-  return (save.value = !save.value);
-};
 const route = useRoute();
+const feedbackStore = useFeedbackStore()
 const store = useAuthStore();
 const deleteBtn = ref(false);
 const feedback = computed(() => props.feedback);
+
+const saveFeedback = async (key: string) => {
+  save.value = !save.value
+  feedbackStore.toggleSaveFeedback(key, save.value)   
+};
 
 watchEffect(() => {
   if (route.name === "profile") {
@@ -93,6 +89,6 @@ watchEffect(() => {
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
-  // await feedbackStore.getSaveFeedback()
+  await feedbackStore.getSaveFeedback()
 });
 </script>

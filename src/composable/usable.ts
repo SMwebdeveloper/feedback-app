@@ -1,8 +1,8 @@
 import { useAuthStore } from "@/store/auth"
 
-const store = useAuthStore()
 
 export const usableArr = (payload: any) => {
+  const store = useAuthStore()
   const result: any = []
   let myObj:any = {}
     if (typeof payload === 'object') {

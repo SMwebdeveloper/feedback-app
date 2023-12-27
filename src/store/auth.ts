@@ -8,7 +8,6 @@ import { Users } from "@/models/users";
 
 
 const usersRepo = useRepo(Users)
-
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
