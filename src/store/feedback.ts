@@ -7,8 +7,10 @@ import { Feedback } from "@/types/feedback";
 import { useAuthStore } from "./auth";
 import { useRepo } from "pinia-orm";
 import { Feedbacks } from "@/models/feedbacks";
-const feedbackRepo = useRepo(Feedbacks);
+import { Users } from "@/models/users";
 
+const feedbackRepo = useRepo(Feedbacks);
+const userRepo = useRepo(Users)
 export const useFeedbackStore = defineStore("feedback", {
   state: () => {
     return {
@@ -39,21 +41,34 @@ export const useFeedbackStore = defineStore("feedback", {
     async getSaveFeedback() {
       this.saveFeedbacks = this.store.user.saveFeedbacks
     },
-    async toggleSaveFeedback(key:string, type: boolean) {
-      let saved = this.store.user.saveFeedbacks
-      const feedbackRef = doc(db, 'users', this.store.user.id)
-      if (type) {
-        saved.push(key)
-        console.log(saved)
-      } else {
-        saved = saved.filter((item) => {
-          return item !== key
-        })
-              }
-      await updateDoc(feedbackRef, {
-        saveFeedbacks: saved
-     })
+    async addSaveFeedbacks(key:string) {
+      const save = this.store.user.saveFeedbacks
+      save.push(key)
+      const docRef = doc(db, 'users', this.store.user.id)
+      await updateDoc(docRef, {
+        saveFeedbacks: save
+      }).then(() => {
+        console.log('Done')
+      }).catch((error) => {
+        console.log(error)
+      })
     },
+    async removeSaveFeedbacks(key:string) {
+       let save = this.store.user.saveFeedbacks
+       save = save.filter((item) =>  item !== key)
+      console.log(save)
+      const docRef = doc(db, "users", this.store.user.id)
+      await updateDoc(docRef, {
+        saveFeedbacks: save
+      }).then(async() => {
+        await this.store.getUsers()
+        await this.store.getSingleUser()
+        console.log('done')
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    
     getMyFeedbacks() {
       const data = feedbackRepo.query().get();
       const feedbacks = data.filter((item) => {

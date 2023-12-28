@@ -76,7 +76,11 @@ const feedback = computed(() => props.feedback);
 
 const saveFeedback = async (key: string) => {
   save.value = !save.value
-  feedbackStore.toggleSaveFeedback(key, save.value)   
+  if (save.value) {
+    feedbackStore.addSaveFeedbacks(key)
+  } else { 
+    feedbackStore.removeSaveFeedbacks(key)
+  }
 };
 
 watchEffect(() => {
@@ -85,10 +89,16 @@ watchEffect(() => {
   } else {
     deleteBtn.value = false;
   }
+  
 });
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
   await feedbackStore.getSaveFeedback()
+  store.user.saveFeedbacks.forEach((item:any) => {
+    if (item === feedback.value.id) {
+      save.value = true
+    }
+  })
 });
 </script>
