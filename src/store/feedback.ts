@@ -39,7 +39,19 @@ export const useFeedbackStore = defineStore("feedback", {
       });
     },
     async getSaveFeedback() {
-      this.saveFeedbacks = this.store.user.saveFeedbacks
+      const result:any = []
+      const data = feedbackRepo.query().get()
+      const saved = this.store.user.saveFeedbacks
+      data.forEach((feedback: any) => {
+        saved.forEach((save:any) => {
+          if (feedback.id === save) {
+           return result.push(feedback)
+          } else {
+            console.log('error')
+          }
+        })
+      })
+      this.saveFeedbacks = result
     },
     async addSaveFeedbacks(key:string) {
       const save = this.store.user.saveFeedbacks
@@ -63,6 +75,8 @@ export const useFeedbackStore = defineStore("feedback", {
       }).then(async() => {
         await this.store.getUsers()
         await this.store.getSingleUser()
+        await this.getFeedbacks()
+        await this.getSaveFeedback()
         console.log('done')
       }).catch((error) => {
         console.log(error)

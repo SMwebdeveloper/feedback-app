@@ -1,6 +1,7 @@
 <template>
   <div class="pb-24">
-    <div class="project-container mx-auto">
+    <div class="project-container">
+      <h2 class="text-3xl text-slate-200 font-bold mb-5">Feedbakcs</h2>
       <div v-for="feedback in feedbacks" :key="feedback.id">
        <feedback :feedback="feedback"/>
       </div>
