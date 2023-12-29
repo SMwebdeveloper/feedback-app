@@ -9,7 +9,7 @@ export class Feedbacks extends Model {
       title: this.string(""),
       img: this.string(""),
       desc: this.string(""),
-      likes: this.number(0),
+      likes: this.attr([]),
       userId: this.string(""),
       author: this.attr({}),
     };

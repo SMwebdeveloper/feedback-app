@@ -81,7 +81,7 @@ const saveFeedback = async (key: string) => {
   } else { 
     feedbackStore.removeSaveFeedbacks(key)
   }
-};
+}
 
 watchEffect(() => {
   if (route.name === "profile") {

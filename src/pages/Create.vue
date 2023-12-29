@@ -92,7 +92,7 @@ const feedback = ref({
   title: "",
   desc: "",
   img: "",
-  likes: 0,
+  likes: [],
   userId: store.authToken,
 });
 const uploadImage = async (item: any) => {

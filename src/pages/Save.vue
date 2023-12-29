@@ -6,9 +6,9 @@
         <h2 class="text-3xl text-slate-200 font-bold mb-5">Save feedbacks</h2>
         <div v-for="feedback in feedbacks" :key="feedback.id">
           <feedback :feedback="feedback" />
-          <!-- <h2>{{ feedback.title }}</h2> -->
         </div>
       </div>
+      <div v-if="!feedbacks.length" class="text-xl text-white font-bold mb-5">There are no save feedbakcs yet</div>
     </div>
   </section>
 </template>
@@ -21,7 +21,6 @@ const store = useAuthStore();
 const feedbackStore = useFeedbackStore();
 const loading = ref(false);
 
-const user = computed(() => store.user);
 const feedbacks = computed(() => feedbackStore.saveFeedbacks);
 
 onMounted(async () => {
@@ -33,4 +32,3 @@ onMounted(async () => {
   loading.value = false;
 });
 </script>
-<style scoped></style>

@@ -6,7 +6,7 @@
        <feedback :feedback="feedback"/>
       </div>
       <div v-if="!feedbacks.length && !loading">
-        <h2 class="text-center text-white text-xl">Feedback not found</h2>
+        <h2 class="text-center text-white text-xl">There are no feedbacks yet</h2>
       </div>
       <div v-if="loading">
         <loader/>
