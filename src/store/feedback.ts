@@ -10,7 +10,7 @@ import { Feedbacks } from "@/models/feedbacks";
 import { Users } from "@/models/users";
 
 const feedbackRepo = useRepo(Feedbacks);
-const userRepo = useRepo(Users)
+const userRepo = useRepo(Users);
 export const useFeedbackStore = defineStore("feedback", {
   state: () => {
     return {
@@ -39,50 +39,73 @@ export const useFeedbackStore = defineStore("feedback", {
       });
     },
     async getSaveFeedback() {
-      const result:any = []
-      const data = feedbackRepo.query().get()
-      const saved = this.store.user.saveFeedbacks
+      const result: any = [];
+      const data = feedbackRepo.query().get();
+      const saved = this.store.user.saveFeedbacks;
       data.forEach((feedback: any) => {
-        saved.forEach((save:any) => {
+        saved.forEach((save: any) => {
           if (feedback.id === save) {
-           return result.push(feedback)
-          } else {
-            console.log('error')
+            return result.push(feedback);
           }
+        });
+      });
+      this.saveFeedbacks = result;
+    },
+    async addSaveFeedbacks(key: string) {
+      const save = this.store.user.saveFeedbacks;
+      save.push(key);
+      const docRef = doc(db, "users", this.store.user.id);
+      await updateDoc(docRef, {
+        saveFeedbacks: save,
+      })
+        .then(() => {
+          console.log("Done");
         })
-      })
-      this.saveFeedbacks = result
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    async addSaveFeedbacks(key:string) {
-      const save = this.store.user.saveFeedbacks
-      save.push(key)
-      const docRef = doc(db, 'users', this.store.user.id)
+    async removeSaveFeedbacks(key: string) {
+      let save = this.store.user.saveFeedbacks;
+      save = save.filter((item) => item !== key);
+      console.log(save);
+      const docRef = doc(db, "users", this.store.user.id);
       await updateDoc(docRef, {
-        saveFeedbacks: save
-      }).then(() => {
-        console.log('Done')
-      }).catch((error) => {
-        console.log(error)
+        saveFeedbacks: save,
       })
+        .then(async () => {
+          await this.store.getUsers();
+          await this.store.getSingleUser();
+          await this.getFeedbacks();
+          await this.getSaveFeedback();
+          console.log("done");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-    async removeSaveFeedbacks(key:string) {
-       let save = this.store.user.saveFeedbacks
-       save = save.filter((item) =>  item !== key)
-      console.log(save)
-      const docRef = doc(db, "users", this.store.user.id)
+    async toggleLikesFeedbacks(key: string, type: boolean) {
+      const docRef = doc(db, "feedbacks", key);
+      let likes: any;
+      this.feedbacks.forEach((item) => {
+        if (item.id === key) {
+          likes = item.likes;
+        }
+      });
+      if (type) {
+        likes.push(this.store.authToken);
+      } else {
+        likes = likes.filter((like: any) => like !== this.store.authToken);
+      }
       await updateDoc(docRef, {
-        saveFeedbacks: save
-      }).then(async() => {
-        await this.store.getUsers()
-        await this.store.getSingleUser()
+        likes: likes,
+      }).then(async () => {
         await this.getFeedbacks()
-        await this.getSaveFeedback()
-        console.log('done')
-      }).catch((error) => {
+      }).catch((error:any) => {
         console.log(error)
       })
     },
-    
+
     getMyFeedbacks() {
       const data = feedbackRepo.query().get();
       const feedbacks = data.filter((item) => {

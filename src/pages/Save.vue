@@ -8,7 +8,7 @@
           <feedback :feedback="feedback" />
         </div>
       </div>
-      <div v-if="!feedbacks.length" class="text-xl text-white font-bold mb-5">There are no save feedbakcs yet</div>
+      <div v-if="!loading && !feedbacks.length" class="text-xl text-white font-bold mb-5">There are no save feedbakcs yet</div>
     </div>
   </section>
 </template>
