@@ -16,7 +16,7 @@
           @click="visibleClick"
           class="text-base text-white flex items-center cursor-pointer duration-100"
           :class="{
-            ' text-slate-300 font-bold ': commentVisible
+            ' text-slate-300 font-bold ': commentVisible,
           }"
         >
           <h4 class="flex flex-col mr-2">Comments {{ comments.length }}</h4>
@@ -89,8 +89,7 @@ const deletedCont = ref({
 const logOut = async () => {
   await store.logOut();
   store.$reset();
-  feedbackStore.$reset(),
-  commentStore.$reset()
+  feedbackStore.$reset(), commentStore.$reset();
 };
 
 const user = computed(() => store.user);
@@ -120,13 +119,7 @@ window.addEventListener("click", (e: any) => {
 const deleteFedCom = async () => {
   loading.value = true;
   if (deletedCont.value.name === "feedbacks") {
-    await deleteStore(deletedCont.value.id, deletedCont.value.name).then(
-      async () => {
-        await commentStore.getComments(store.authToken, "userId");
-        await feedbackStore.getFeedbacks();
-        await feedbackStore.getMyFeedbacks();
-      }
-    );
+    await deleteStore(deletedCont.value.id, deletedCont.value.name);
 
     await commentStore.comments.forEach((comment: any) => {
       if (comment.feedbackId === deletedCont.value.id) {
@@ -141,7 +134,9 @@ const deleteFedCom = async () => {
       }
     );
   }
-
+  await feedbackStore.getFeedbacks();
+  await feedbackStore.getMyFeedbacks();
+  await commentStore.getComments(store.authToken, "userId");
   loading.value = false;
 };
 

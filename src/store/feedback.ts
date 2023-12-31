@@ -101,6 +101,7 @@ export const useFeedbackStore = defineStore("feedback", {
         likes: likes,
       }).then(async () => {
         await this.getFeedbacks()
+        await this.getMyFeedbacks()
       }).catch((error:any) => {
         console.log(error)
       })

@@ -33,7 +33,7 @@
             :to="`/feedback/${feedback.id}`"
             class="text-sm text-gray-800 font-semibold"
           >
-            View comments..
+            View all {{ commentsCount }} comments
           </router-link>
         </div>
         <div class="flex">
@@ -47,7 +47,7 @@
             class="w-6 cursor-pointer"
             :class="`${likes ? 'text-red-500' : 'text-white'}`"
           />
-          <h2 class="ml-3 text-base text-slate-700 font-bold">{{ likesCount }}</h2>
+          <h2 class="ml-3 text-base text-slate-700 font-bold">{{ commentStore.comments.length }}</h2>
         </div>
       </div>
     </div>
@@ -58,24 +58,30 @@ import { computed, onMounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from '@/store/auth'
 import { useFeedbackStore } from '@/store/feedback'
+import { useCommentStore } from "@/store/comment";
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
+import { comment } from "postcss";
 
 const likes = ref(false);
-// const likesCount = ref(0)
+const deleteBtn = ref(false);
 const save = ref(false);
+// const likesCount = ref(0)
 const props = defineProps({
   feedback: {
     type: Object,
     default: true,
   },
 });
+
 const route = useRoute();
-const feedbackStore = useFeedbackStore()
 const store = useAuthStore();
-const deleteBtn = ref(false);
+const feedbackStore = useFeedbackStore()
+const commentStore = useCommentStore()
+
 const feedback = computed(() => props.feedback);
 const likesCount = computed(() => feedback.value.likes.length)
+const commentsCount = computed(() => commentStore.comments.length)
 
 const saveFeedback = async (key: string) => {
   save.value = !save.value
@@ -96,12 +102,12 @@ watchEffect(() => {
   } else {
     deleteBtn.value = false;
   }
-  
 });
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
   await feedbackStore.getSaveFeedback()
+  await commentStore.getComments(feedback.value.id, 'feedbackId')
   store.user.saveFeedbacks.forEach((item:any) => {
     if (item === feedback.value.id) {
       save.value = true
@@ -112,5 +118,6 @@ onMounted(async () => {
       likes.value = true
     }
   })
+  
 });
 </script>

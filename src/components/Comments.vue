@@ -7,7 +7,7 @@
     >
       <img :src="img ? img : userImage" alt="user image" class="w-8 h-8 rounded-full mr-3" />
       <div class="flex-1">
-        <h6 class="text-sm capitalize">{{ store.authToken === userId ? "My comment" : name }}</h6>
+        <h6 class="text-sm capitalize font-semibold">{{ store.authToken === userId ? "My comment" : name }}</h6>
         <span class="inline-block w-full text-slate-800 font-bold">{{
           comment
         }}</span>
