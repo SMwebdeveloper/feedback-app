@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import { getStore } from "@/composable/fireStore";
+import { getStore, deleteStore } from "@/composable/fireStore";
 import { usableArr } from "@/composable/usable";
 import { Feedback } from "@/types/feedback";
 import { useAuthStore } from "./auth";
@@ -106,7 +106,7 @@ export const useFeedbackStore = defineStore("feedback", {
         console.log(error)
       })
     },
-
+    
     getMyFeedbacks() {
       const data = feedbackRepo.query().get();
       const feedbacks = data.filter((item) => {
@@ -114,5 +114,9 @@ export const useFeedbackStore = defineStore("feedback", {
       });
       this.myFeedbacks = feedbacks;
     },
+    async deleteFeedbacks(key: string) {
+      await deleteStore(key, 'feedbacks')
+      this.myFeedbacks = this.myFeedbacks.filter((item) => item.id !== key)
+     },
   },
 });

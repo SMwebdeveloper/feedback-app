@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useRepo } from "pinia-orm";
 import { Comments } from "@/models/comments";
 import { Comment } from "@/types/comment";
-import { getStore } from "@/composable/fireStore";
+import { getStore, deleteStore } from "@/composable/fireStore";
 import {usableArr} from '@/composable/usable'
 
 const commentsRepo = useRepo(Comments)
@@ -26,5 +26,9 @@ export const useCommentStore = defineStore("comment", {
         }
       });
     },
+    async deleteComments(key: string) {
+      await deleteStore(key, 'comments')
+      this.comments = this.comments.filter((item) => item.id !== key)
+    }
   },
 });
