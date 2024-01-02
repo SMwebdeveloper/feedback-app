@@ -63,7 +63,7 @@
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
 import { useCommentStore } from "@/store/comment";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import Comments from "@/components/Comments.vue";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
@@ -119,24 +119,16 @@ window.addEventListener("click", (e: any) => {
 const deleteFedCom = async () => {
   loading.value = true;
   if (deletedCont.value.name === "feedbacks") {
-    await deleteStore(deletedCont.value.id, deletedCont.value.name);
-
+    await feedbackStore.deleteFeedbacks(deletedCont.value.id);
     await commentStore.comments.forEach((comment: any) => {
       if (comment.feedbackId === deletedCont.value.id) {
-        deleteStore(comment.id, "comments");
+        commentStore.deleteComments(comment.id);
       }
     });
   }
   if (deletedCont.value.name === "comments") {
-    await deleteStore(deletedCont.value.id, deletedCont.value.name).then(
-      async () => {
-        await commentStore.getComments(store.authToken, "userId");
-      }
-    );
+    await commentStore.deleteComments(deletedCont.value.id);
   }
-  await feedbackStore.getFeedbacks();
-  await feedbackStore.getMyFeedbacks();
-  await commentStore.getComments(store.authToken, "userId");
   loading.value = false;
 };
 
@@ -144,14 +136,17 @@ const deleteFedCom = async () => {
 const visibleClick = () => {
   return (commentVisible.value = !commentVisible.value);
 };
+const fetchFeedbacks = async () => {
+  await feedbackStore.getFeedbacks();
+  await feedbackStore.getMyFeedbacks();
+  await commentStore.getComments(store.authToken, "userId");
+};
 
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
   loading.value = true;
-  await feedbackStore.getFeedbacks();
-  await feedbackStore.getMyFeedbacks();
-  await commentStore.getComments(store.authToken, "userId");
+  await fetchFeedbacks();
   loading.value = false;
 });
 </script>
