@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("@/pages/home/Home.vue"),
+      component: () => import("@/pages/index.vue"),
       meta: {
         authUser: true,
       },
@@ -16,12 +16,12 @@ const router = createRouter({
         {
             path: "/",
             name: "dashboard",
-            component: () => import("@/pages/home/index.vue")
+            component: () => import("@/pages/Home.vue")
         },
         {
             path: "/add-publication",
             name: "add-publication",
-            component: () => import("@/pages/create/index.vue"),
+            component: () => import("@/pages/Create.vue"),
             meta: {
               authUser: true,
             },
@@ -29,7 +29,7 @@ const router = createRouter({
           {
             path: "/save",
             name: "save",
-            component: () => import("@/pages/save/index.vue"),
+            component: () => import("@/pages/Save.vue"),
             meta: {
               authUser: true,
             },
@@ -37,7 +37,7 @@ const router = createRouter({
           {
             path: "/profile",
             name: "profile",
-            component: () => import("@/pages/profile/index.vue"),
+            component: () => import("@/pages/Profile.vue"),
             meta: {
               authUser: true,
             },
@@ -47,17 +47,22 @@ const router = createRouter({
     {
       path: "/edit-profile",
       name: "edit-profile",
-      component: () => import("@/pages/editProfile/index.vue")
+      component: () => import("@/pages/EditProfile.vue")
+    },
+    {
+      path: "/feedback/:id",
+      name: 'feedback',
+      component: () => import("@/pages/Feedback.vue")
     },
     {
       path: "/login",
       name: "login",
-      component: () => import("@/pages/login/index.vue"),
+      component: () => import("@/pages/SignUp.vue"),
     },
     {
       path: "/sign-up",
       name: "sign-up",
-      component: () => import("@/pages/signup/index.vue"),
+      component: () => import("@/pages/SignIn.vue"),
     },
   ],
 });

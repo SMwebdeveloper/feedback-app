@@ -1,42 +1,39 @@
 import { defineStore } from "pinia";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db, auth } from "@/firebase/config";
+import {useRepo} from 'pinia-orm'
+import { auth } from "@/firebase/config";
 import { signOut } from "firebase/auth";
-import {User} from '@/types/user'
-import { addStore, getStore } from "@/usable/fireStore";
+import { User } from "@/types/user";
+import { addStore, getStore } from "@/composable/fireStore";
+import { Users } from "@/models/users";
 
+
+const usersRepo = useRepo(Users)
 export const useAuthStore = defineStore("auth", {
   state: () => {
     return {
-      user:<User>{},
-      feedbacks: <any>[],
-      authToken: localStorage.getItem("token"),
+      user: <User>{},
+      users: <any>[],
+      authToken: '',
     };
   },
   actions: {
     addUser(payload: any) {
-      addStore(payload, "followers");
+      addStore(payload, "users");
     },
-    async getUser() {
-      const colRef = collection(db, "users");
-      // const q = query(colRef, where("userId", "==", this.authToken));
-      await onSnapshot(colRef, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          console.log(doc.data());
-          if (doc.data().userId === this.authToken) {
-            this.user =  { ...doc.data(), id: doc.id }
-          }
-        });
-   
+    getSingleUser() {
+      const data = usersRepo.query().get()
+      data.forEach(item => {
+        if (item.userId === this.authToken) {
+          return this.user = item
+        }
       })
     },
-    async getFeedbacks() {
-      const colRef = collection(db, "feedbacks");
-      await onSnapshot(colRef, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          this.feedbacks.push({ ...doc.data(), id: doc.id });
-        });
-      });
+    async getUsers() {;
+      const {newArr} = await getStore("users")
+      usersRepo.save(newArr.value)
+      const data = usersRepo.query().get()      
+      this.users = data
+      
     },
     async logOut() {
       localStorage.removeItem("token");

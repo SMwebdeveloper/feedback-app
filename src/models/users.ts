@@ -5,12 +5,13 @@ export class Users extends Model {
 
   static fields(): any {
     return {
-      id: this.uid(),
+      id: this.string(""),
       name: this.string(""),
       email: this.string(""),
-      password: this.string(""),
-      image: this.string(""),
-      userId: this.string("")
+      img: this.string(""),
+      bio: this.string(""),
+      userId: this.string(""),
+      saveFeedbacks: this.attr([])
     };
   }
 }

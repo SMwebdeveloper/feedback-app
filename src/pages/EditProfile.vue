@@ -3,7 +3,7 @@
     <router-link to="/profile">
       <chevron-left-icon class="text-white w-10 font-medium mb-7" />
     </router-link>
-    <loader v-if="!editUser.name" />
+    <loader v-if="loading" />
     <form v-else>
       <label for="uploadImage" class="block mb-4 relative cursor-pointer">
         <div
@@ -51,32 +51,15 @@
           class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
         ></textarea>
       </label>
-      <!-- <label for="" class="block mb-4">
-        <input
-          type="email"
-          v-model="editUser.email"
-          placeholder="Email"
-          class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
-        />
-      </label>
-      <label for="" class="mb-4 bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full flex items-center justify-between">
-        <input
-          :type="passwordHidden ? 'text' : 'password'"
-          v-model="editUser.password"
-          placeholder="Name"
-          class="bg-transparent outline-none border-none"
-        />
-        <button @click.prevent="passwordHidden = !passwordHidden">
-          <eye-icon v-if="passwordHidden" class="w-4"/>
-          <eye-slash-icon v-else else class="w-4" />
-        </button>
-      </label> -->
-
       <button
         class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
         @click.prevent="userEdit"
       >
-        Edit
+        <i
+            v-if="editLoader"
+            class="fa fa-spinner fa-spin text-xl text-white"
+          ></i>
+        <span v-else>Edit</span>
       </button>
     </form>
   </div>
@@ -86,19 +69,17 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import userImage from "@/assets/images/user-image.jpg";
-import { getImage } from "@/usable/uploadImage";
+import { getImage } from "@/composable/uploadImage";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { ChevronLeftIcon, PencilIcon } from "@heroicons/vue/24/solid";
-// EyeSlashIcon,
-// EyeIcon,
 
 const store = useAuthStore();
 const router = useRouter();
 const loading = ref(false);
 const imgLoader = ref(false);
+const editLoader = ref(false);
 const image = ref();
-// const passwordHidden = ref(false)
 const editUser = ref({
   name: "",
   id: "",
@@ -112,6 +93,7 @@ const uploadImage = async (e: any) => {
   imgLoader.value = false;
 };
 const userEdit = async () => {
+  editLoader.value = true;
   const { name, bio } = editUser.value;
   const docRef = doc(db, "users", editUser.value.id);
   await updateDoc(docRef, {
@@ -120,23 +102,22 @@ const userEdit = async () => {
     img: image.value,
   })
     .then(() => {
-      router.push('/profile')
+      router.push("/profile");
     })
     .catch((error) => {
       console.log(error);
     })
-    
+    .finally(() => (editLoader.value = false));
 };
 onMounted(async () => {
   loading.value = true;
-  await store.getUser();
-  const { name, id, bio,img }: any = store.user;
+  const { name, id, bio, img }: any = store.user;
   editUser.value = {
     name: name,
     id: id,
     bio: bio,
   };
-  image.value = img
+  image.value = img;
   loading.value = false;
 });
 </script>
