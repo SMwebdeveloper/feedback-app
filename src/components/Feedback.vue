@@ -54,11 +54,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref, watchEffect } from "vue";
+import { computed, onMounted, ref, watchEffect, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from '@/store/auth'
 import { useFeedbackStore } from '@/store/feedback'
-import { useCommentStore } from "@/store/comment";
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
 
@@ -76,11 +75,21 @@ const props = defineProps({
 const route = useRoute();
 const store = useAuthStore();
 const feedbackStore = useFeedbackStore()
-const commentStore = useCommentStore()
+
 
 const feedback = computed(() => props.feedback);
 const likesCount = computed(() => feedback.value.likes.length)
-// const commentsCount = computed(() => commentStore.comments.length)
+
+store.user.saveFeedbacks.forEach((item:any) => {
+    if (item === feedback.value.id) {
+      save.value = true
+    }
+  })
+  feedback.value.likes.forEach((item: any) => {
+    if (item === store.authToken) {
+      likes.value = true
+    }
+  })
 
 const saveFeedback = async (key: string) => {
   save.value = !save.value
@@ -92,6 +101,9 @@ const saveFeedback = async (key: string) => {
 }
 const likeFeedbakcs = async (key: string) => {
   likes.value = !likes.value
+  feedback.value.likes = feedback.value.likes.filter((item: any) => {
+    return item !== store.authToken
+  })
   feedbackStore.toggleLikesFeedbacks(key, likes.value)
 }
 
@@ -102,21 +114,18 @@ watchEffect(() => {
     deleteBtn.value = false;
   }
 });
+
+// watch(likes, (liked, diseLiked) => {
+//   if (!liked) {
+//     feedback.value.likes = feedback.value.likes.filter((item: any) => {
+//       return item !== store.authToken
+//     })
+//   }
+//   feedbackStore.toggleLikesFeedbacks(feedback.id, likes.value)
+// })
 onMounted(async () => {
   await store.getUsers();
   await store.getSingleUser();
-  await feedbackStore.getSaveFeedback()
-  // await commentStore.getComments(feedback.value.id, 'feedbackId')
-  store.user.saveFeedbacks.forEach((item:any) => {
-    if (item === feedback.value.id) {
-      save.value = true
-    }
-  })
-  feedback.value.likes.forEach((item: any) => {
-    if (item === store.authToken) {
-      likes.value = true
-    }
-  })
-  
+  await feedbackStore.getSaveFeedback() 
 });
 </script>

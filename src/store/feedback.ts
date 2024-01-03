@@ -30,7 +30,6 @@ export const useFeedbackStore = defineStore("feedback", {
       this.feedbacks = data;
     },
     async getSingleFeedback(payload: any) {
-      await this.store.getUsers();
       const docRef = doc(db, "feedbacks", payload);
       await onSnapshot(docRef, (doc) => {
         const data = { ...doc.data(), id: doc.id };
@@ -67,17 +66,15 @@ export const useFeedbackStore = defineStore("feedback", {
     },
     async removeSaveFeedbacks(key: string) {
       let save = this.store.user.saveFeedbacks;
-      save = save.filter((item) => item !== key);
-      console.log(save);
+      save = save.filter((item: any) => item !== key);
+      this.saveFeedbacks = this.saveFeedbacks.filter((item: any) => {
+        return item.id !== key
+      })
       const docRef = doc(db, "users", this.store.user.id);
       await updateDoc(docRef, {
         saveFeedbacks: save,
       })
         .then(async () => {
-          await this.store.getUsers();
-          await this.store.getSingleUser();
-          await this.getFeedbacks();
-          await this.getSaveFeedback();
           console.log("done");
         })
         .catch((error) => {
