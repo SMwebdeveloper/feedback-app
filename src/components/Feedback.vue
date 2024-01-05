@@ -1,6 +1,5 @@
 <template>
   <div
-    :to="`/feedback/${feedback.id}`"
     class="inline-block bg-slate-400 min-h-[170px] w-full rounded-md shadow-sm shadow-slate-100 mb-5"
   >
     <div class="w-full pt-2">

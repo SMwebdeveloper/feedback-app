@@ -41,7 +41,15 @@ const router = createRouter({
             meta: {
               authUser: true,
             },
+        },
+        {
+          path: "/search",
+          name: "search",
+          component: () => import("@/pages/Search.vue"),
+          meta: {
+            authUser: true,
           },
+        },
       ],
     },
     {
@@ -64,6 +72,11 @@ const router = createRouter({
       name: "sign-up",
       component: () => import("@/pages/SignIn.vue"),
     },
+    {
+      path: "/user/:id",
+      name: "user",
+      component: () => import("@/pages/User.vue")
+    }
   ],
 });
 
