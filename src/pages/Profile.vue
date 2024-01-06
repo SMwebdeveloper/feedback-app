@@ -63,11 +63,10 @@
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
 import { useCommentStore } from "@/store/comment";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Comments from "@/components/Comments.vue";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
-import { deleteStore } from "@/composable/fireStore";
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -144,7 +143,7 @@ const fetchFeedbacks = async () => {
 
 onMounted(async () => {
   await store.getUsers();
-  await store.getSingleUser();
+  await store.getSingleUser(store.authToken, "userId");
   loading.value = true;
   await fetchFeedbacks();
   loading.value = false;

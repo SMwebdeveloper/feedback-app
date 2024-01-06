@@ -79,7 +79,7 @@ const feedbackStore = useFeedbackStore()
 const feedback = computed(() => props.feedback);
 const likesCount = computed(() => feedback.value.likes.length)
 
-store.user.saveFeedbacks.forEach((item:any) => {
+store.user.saveFeedbacks?.forEach((item:any) => {
     if (item === feedback.value.id) {
       save.value = true
     }

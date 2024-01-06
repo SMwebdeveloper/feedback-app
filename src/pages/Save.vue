@@ -26,7 +26,7 @@ const feedbacks = computed(() => feedbackStore.saveFeedbacks);
 onMounted(async () => {
   loading.value = true;
   await store.getUsers();
-  await store.getSingleUser();
+  await store.getSingleUser(store.authToken, 'userId');
   await feedbackStore.getFeedbacks();
   await feedbackStore.getSaveFeedback();
   loading.value = false;

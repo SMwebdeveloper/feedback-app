@@ -3,7 +3,7 @@ export type Feedback = {
     title: string,
     desc: string,
     img: string,
-    likes: number,
-    comments:number,
+    likes: string[],
+    // comments:string[],
     author: object
 }
