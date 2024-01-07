@@ -20,11 +20,22 @@ export const useAuthStore = defineStore("auth", {
     addUser(payload: any) {
       addStore(payload, "users");
     },
-    getSingleUser() {
+    getSingleUser(key:string, type:string) {
       const data = usersRepo.query().get()
-      data.forEach(item => {
-        if (item.userId === this.authToken) {
-          return this.user = item
+      data.forEach((item) => {
+        switch (type) {
+          case 'id':
+            if (item.id === key) {
+              this.user = item
+            }
+            break;
+          case 'userId':
+            if (item.userId === key) {
+              this.user = item
+            }
+            break;
+          default: 
+            return item
         }
       })
     },
@@ -39,5 +50,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("token");
       await signOut(auth).then(() => console.log("Log Out"));
     },
+    getFollowers() {},
+    addRemoveFollowers() {},
   },
 });

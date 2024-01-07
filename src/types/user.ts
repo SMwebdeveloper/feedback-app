@@ -4,6 +4,7 @@ export type User = {
     name: string,
     bio: string,
     img: string,
-    saved: string[],
+    saveFeedbacks: string[],
+    followers: string[],
     id: number | string
 }

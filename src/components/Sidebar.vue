@@ -4,29 +4,29 @@
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
-        <router-link to="/"> <HomeIcon /> </router-link>
+        <router-link to="/" exact-active-class="text-slate-600"> <HomeIcon /> </router-link>
       </li>
       <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
-            <MagnifyingGlassIcon/>
+            <router-link to="/search" exact-active-class="text-slate-600"> <MagnifyingGlassIcon/></router-link>
           </li >
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
-        <router-link to="/add-publication">
+        <router-link to="/add-publication" exact-active-class="text-slate-600">
           <PlusCircleIcon />
         </router-link>
       </li>
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
-        <router-link to="/save">
+        <router-link to="/save" exact-active-class="text-slate-600">
           <BookmarkIcon />
         </router-link>
       </li>
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
-        <router-link to="/profile">
+        <router-link to="/profile" exact-active-class="text-slate-600">
           <UserIcon />
         </router-link>
       </li>

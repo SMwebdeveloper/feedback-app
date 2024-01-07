@@ -7,16 +7,14 @@ import { Feedback } from "@/types/feedback";
 import { useAuthStore } from "./auth";
 import { useRepo } from "pinia-orm";
 import { Feedbacks } from "@/models/feedbacks";
-import { Users } from "@/models/users";
 
 const feedbackRepo = useRepo(Feedbacks);
-const userRepo = useRepo(Users);
 export const useFeedbackStore = defineStore("feedback", {
   state: () => {
     return {
       store: useAuthStore(),
       feedbacks: <Feedback[]>[],
-      myFeedbacks: <Feedback[]>[],
+      userFeedbacks: <Feedback[]>[],
       feedback: <Feedback>{},
       saveFeedbacks: <Feedback[]>[],
     };
@@ -30,7 +28,6 @@ export const useFeedbackStore = defineStore("feedback", {
       this.feedbacks = data;
     },
     async getSingleFeedback(payload: any) {
-      await this.store.getUsers();
       const docRef = doc(db, "feedbacks", payload);
       await onSnapshot(docRef, (doc) => {
         const data = { ...doc.data(), id: doc.id };
@@ -67,17 +64,15 @@ export const useFeedbackStore = defineStore("feedback", {
     },
     async removeSaveFeedbacks(key: string) {
       let save = this.store.user.saveFeedbacks;
-      save = save.filter((item) => item !== key);
-      console.log(save);
+      save = save.filter((item: any) => item !== key);
+      this.saveFeedbacks = this.saveFeedbacks.filter((item: any) => {
+        return item.id !== key
+      })
       const docRef = doc(db, "users", this.store.user.id);
       await updateDoc(docRef, {
         saveFeedbacks: save,
       })
         .then(async () => {
-          await this.store.getUsers();
-          await this.store.getSingleUser();
-          await this.getFeedbacks();
-          await this.getSaveFeedback();
           console.log("done");
         })
         .catch((error) => {
@@ -101,22 +96,22 @@ export const useFeedbackStore = defineStore("feedback", {
         likes: likes,
       }).then(async () => {
         await this.getFeedbacks()
-        await this.getMyFeedbacks()
-      }).catch((error:any) => {
+        await this.getUserFeedbacks(this.store.authToken)
+      }).catch((error: any) => {
         console.log(error)
       })
     },
     
-    getMyFeedbacks() {
+    getUserFeedbacks(key:string) {
       const data = feedbackRepo.query().get();
       const feedbacks = data.filter((item) => {
-        return item.userId === this.store.authToken;
+        return item.userId === key;
       });
-      this.myFeedbacks = feedbacks;
+      this.userFeedbacks = feedbacks;
     },
     async deleteFeedbacks(key: string) {
       await deleteStore(key, 'feedbacks')
-      this.myFeedbacks = this.myFeedbacks.filter((item) => item.id !== key)
+      this.userFeedbacks = this.userFeedbacks.filter((item) => item.id !== key)
      },
   },
 });

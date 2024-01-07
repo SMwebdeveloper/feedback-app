@@ -1,6 +1,13 @@
 import { db } from "@/firebase/config";
 import { ref, watchEffect } from "vue";
-import { addDoc, collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 // add store
 export const addStore = async (payload: object, key: string) => {
@@ -28,7 +35,7 @@ export const getStore = async (payload: string) => {
     });
     newArr.value = docs;
   });
-  
+
   watchEffect((onInvalidate) => {
     onInvalidate(() => querySanpshot());
   });
@@ -40,19 +47,30 @@ export const getStore = async (payload: string) => {
         unsubscribeInitial();
         resolve();
       } else {
-        resolve()
+        resolve();
       }
     });
   });
   return { newArr };
 };
 
-
 // delete store
+export const deleteStore = async (key: string, type: string) => {
+  const docRef = doc(db, type, key);
+  await deleteDoc(docRef)
+    .then(() => {
+      console.log("Store deleted");
+    })
+    .catch((err) => console.log(err));
+};
 
-export const deleteStore = async (key:string, type:string) => {
-  const docRef = doc(db, type, key)
-  await deleteDoc(docRef).then((item:any) => {
-    console.log('Feedback deleted')
-  }).catch(err =>  console.log(err))
-}
+export const updateStore = async (
+  key: string,
+  type: string,
+  updateArr: object
+) => {
+  const docRef = doc(db, type, key);
+  await updateDoc(docRef, updateArr)
+    .then(() => console.log("update store"))
+    .catch((error) => console.log(error));
+};

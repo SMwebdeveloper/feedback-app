@@ -37,7 +37,7 @@
             v-else-if="!loading && !feedbacks.length"
             class="text-lg font-semibold text-white text-center"
           >
-            Feedbacks not found
+          There are no feedbacks yet
           </h3>
         </div>
         <div v-else>
@@ -46,7 +46,7 @@
             v-if="!loading && !comments.length"
             class="text-lg font-semibold text-white text-center"
           >
-            Comments not found
+          There are no comments yet
           </h3>
         </div>
       </div>
@@ -63,11 +63,10 @@
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
 import { useCommentStore } from "@/store/comment";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Comments from "@/components/Comments.vue";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
-import { deleteStore } from "@/composable/fireStore";
 import {
   TableCellsIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -93,7 +92,7 @@ const logOut = async () => {
 };
 
 const user = computed(() => store.user);
-const feedbacks = computed(() => feedbackStore.myFeedbacks);
+const feedbacks = computed(() => feedbackStore.userFeedbacks);
 const comments = computed(() => commentStore.comments);
 
 // visible modal
@@ -138,13 +137,13 @@ const visibleClick = () => {
 };
 const fetchFeedbacks = async () => {
   await feedbackStore.getFeedbacks();
-  await feedbackStore.getMyFeedbacks();
+  await feedbackStore.getUserFeedbacks(store.authToken);
   await commentStore.getComments(store.authToken, "userId");
 };
 
 onMounted(async () => {
   await store.getUsers();
-  await store.getSingleUser();
+  await store.getSingleUser(store.authToken, "userId");
   loading.value = true;
   await fetchFeedbacks();
   loading.value = false;
