@@ -37,7 +37,7 @@
             v-else-if="!loading && !feedbacks.length"
             class="text-lg font-semibold text-white text-center"
           >
-            Feedbacks not found
+          There are no feedbacks yet
           </h3>
         </div>
         <div v-else>
@@ -46,7 +46,7 @@
             v-if="!loading && !comments.length"
             class="text-lg font-semibold text-white text-center"
           >
-            Comments not found
+          There are no comments yet
           </h3>
         </div>
       </div>
@@ -92,7 +92,7 @@ const logOut = async () => {
 };
 
 const user = computed(() => store.user);
-const feedbacks = computed(() => feedbackStore.myFeedbacks);
+const feedbacks = computed(() => feedbackStore.userFeedbacks);
 const comments = computed(() => commentStore.comments);
 
 // visible modal
@@ -137,7 +137,7 @@ const visibleClick = () => {
 };
 const fetchFeedbacks = async () => {
   await feedbackStore.getFeedbacks();
-  await feedbackStore.getMyFeedbacks();
+  await feedbackStore.getUserFeedbacks(store.authToken);
   await commentStore.getComments(store.authToken, "userId");
 };
 

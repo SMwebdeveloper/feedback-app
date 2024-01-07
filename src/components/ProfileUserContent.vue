@@ -6,40 +6,39 @@
       class="w-[80px] h-[80px] rounded-full mr-6 border border-slate-200 object-contain"
     />
     <div class="flex-1">
-      <div>
-        <div>
-          <button
-            class="text-base font-semibold bg-sky-600 px-2 py-1 text-slate-200 rounded-lg"
-          >
-            Following
-          </button>
-          <button
-            class="text-base font-semibold bg-red-600 px-2 py-1 text-slate-200 rounded-lg"
-          >
-            Unfollowing
-          </button>
-          <button
-            class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
-          >
-            Message
-          </button>
-        </div>
-        <div>
-          <h2 class="text-xl text-white capitalize">{{ user?.name }}</h2>
-          <p class="text-xl text-white">{{ user?.bio }}</p>
-        </div>
+      <div class="mb-3">
+        <h2 class="text-2xl text-white font-semibold capitalize">{{ user?.name }}</h2>
+        <p class="text-xl text-white">{{ user?.bio }}</p>
+      </div>
+      <div v-if="!table">
+        <button
+          class="text-base font-semibold bg-sky-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
+        >
+          Following
+        </button>
+        <button 
+          class="text-base font-semibold bg-red-600 px-2 py-1 text-slate-200 rounded-lg hidden"
+        >
+          Unfollowing
+        </button>
+        <button
+          class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
+        >
+          Message
+        </button>
       </div>
     </div>
 
     <div class="flex items-start">
       <div v-show="table" class="text-end relative">
         <bars-3-center-left-icon
-          class="w-7 text-white cursor-pointer border border-slate-200 ml-2 rounded-md"
+          class="w-7 text-white cursor-pointer "
           @click="settingTable = !settingTable"
         />
         <div
+          id="visibleTable"
           v-show="settingTable"
-          class="absolute top-9 right-0 w-[85px] bg-slate-200 shadow-md shadow-slate-200 px-3 py-1 rounded-md flex flex-col items-start text-slate-700 font-medium transition-all duration-300"
+          class="absolute top-9 right-0 w-[85px] bg-slate-200 shadow-sm shadow-slate-200 px-3 py-1 rounded-md flex flex-col items-start text-slate-700 font-medium transition-all duration-300"
         >
           <router-link
             to="/edit-profile"
@@ -55,8 +54,6 @@
         </div>
       </div>
     </div>
-
-    
   </div>
 </template>
 <script setup lang="ts">
@@ -74,6 +71,13 @@ const props = defineProps({
     required: true,
   },
 });
+
+// window.addEventListener('click', (e:any) => {
+//   const idName = e.target.getAttribute('id')
+//   if (idName !== 'visibleTable') {
+//     table.value = false
+//   } 
+// })
 
 const user = computed(() => props.user);
 watchEffect(() => {

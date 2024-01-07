@@ -29,14 +29,9 @@ const feedbacks = computed(() => feedbackStore.feedbacks);
 onMounted(async () => {
   loading.value = true
   await store.getUsers()
-  await store.getSingleUser()
+  await store.getSingleUser(store.authToken, 'userId')
   await feedbackStore.getFeedbacks()
   loading.value = false
 });
 </script>
 
-<style scoped>
-.block {
-  display: block;
-}
-</style>

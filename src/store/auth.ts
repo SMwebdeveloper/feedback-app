@@ -50,5 +50,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.removeItem("token");
       await signOut(auth).then(() => console.log("Log Out"));
     },
+    getFollowers() {},
+    addRemoveFollowers() {},
   },
 });
