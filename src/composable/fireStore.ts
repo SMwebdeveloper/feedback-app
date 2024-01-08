@@ -69,6 +69,6 @@ export const updateStore = async (
 ) => {
   const docRef = doc(db, type, key);
   await updateDoc(docRef, updateArr)
-    .then(() =>)
+    .then(() =>{})
     .catch((error) => console.log(error));
 };
