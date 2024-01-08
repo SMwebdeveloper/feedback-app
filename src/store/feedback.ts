@@ -63,7 +63,6 @@ export const useFeedbackStore = defineStore("feedback", {
       const updateArr = {saveFeedbacks: this.store.user.saveFeedbacks}
       await updateStore(id, "users", updateArr)
         .then(() => {
-          console.log("Done");
         })
         .catch((error) => {
           console.log(error);

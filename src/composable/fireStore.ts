@@ -16,7 +16,6 @@ export const addStore = async (payload: object, key: string) => {
     ...payload,
   })
     .then(() => {
-      console.log("add store");
     })
     .catch((error) => {
       console.log(error);
@@ -42,7 +41,6 @@ export const getStore = async (payload: string) => {
 
   await new Promise<void>((resolve) => {
     const unsubscribeInitial = onSnapshot(colRef, (snapshot) => {
-      // console.log(snapshot.empty)
       if (!snapshot.empty) {
         unsubscribeInitial();
         resolve();
@@ -59,7 +57,6 @@ export const deleteStore = async (key: string, type: string) => {
   const docRef = doc(db, type, key);
   await deleteDoc(docRef)
     .then(() => {
-      console.log("Store deleted");
     })
     .catch((err) => console.log(err));
 };
@@ -72,6 +69,6 @@ export const updateStore = async (
 ) => {
   const docRef = doc(db, type, key);
   await updateDoc(docRef, updateArr)
-    .then(() => console.log("update store"))
+    .then(() =>)
     .catch((error) => console.log(error));
 };
