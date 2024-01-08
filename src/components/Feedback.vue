@@ -63,7 +63,6 @@ import userImage from "@/assets/images/user-image.jpg";
 const likes = ref(false);
 const deleteBtn = ref(false);
 const save = ref(false);
-// const likesCount = ref(0)
 const props = defineProps({
   feedback: {
     type: Object,
@@ -92,11 +91,7 @@ store.user.saveFeedbacks?.forEach((item:any) => {
 
 const saveFeedback = async (key: string) => {
   save.value = !save.value
-  if (save.value) {
-    feedbackStore.addSaveFeedbacks(key)
-  } else { 
-    feedbackStore.removeSaveFeedbacks(key)
-  }
+  await feedbackStore.toggleSaveFeedbacks(key, save.value)
 }
 const likeFeedbakcs = async (key: string) => {
   likes.value = !likes.value

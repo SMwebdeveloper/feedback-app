@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
-import { getStore, deleteStore } from "@/composable/fireStore";
+import { getStore, deleteStore, updateStore } from "@/composable/fireStore";
 import { usableArr } from "@/composable/usable";
 import { Feedback } from "@/types/feedback";
 import { useAuthStore } from "./auth";
@@ -48,13 +48,20 @@ export const useFeedbackStore = defineStore("feedback", {
       });
       this.saveFeedbacks = result;
     },
-    async addSaveFeedbacks(key: string) {
-      const save = this.store.user.saveFeedbacks;
-      save.push(key);
-      const docRef = doc(db, "users", this.store.user.id);
-      await updateDoc(docRef, {
-        saveFeedbacks: save,
-      })
+    async toggleSaveFeedbacks(key: string, type: boolean) {
+      const id:any = this.store.user.id
+      if (type) {
+       this.store.user.saveFeedbacks.push(key)
+      } else {
+        this.store.user.saveFeedbacks = this.store.user.saveFeedbacks.filter(
+          (item: any) => item !== key
+        );
+        this.saveFeedbacks = this.saveFeedbacks.filter((item: any) => {
+          return item.id !== key;
+        });      }
+      
+      const updateArr = {saveFeedbacks: this.store.user.saveFeedbacks}
+      await updateStore(id, "users", updateArr)
         .then(() => {
           console.log("Done");
         })
@@ -62,25 +69,7 @@ export const useFeedbackStore = defineStore("feedback", {
           console.log(error);
         });
     },
-    async removeSaveFeedbacks(key: string) {
-      let save = this.store.user.saveFeedbacks;
-      save = save.filter((item: any) => item !== key);
-      this.saveFeedbacks = this.saveFeedbacks.filter((item: any) => {
-        return item.id !== key
-      })
-      const docRef = doc(db, "users", this.store.user.id);
-      await updateDoc(docRef, {
-        saveFeedbacks: save,
-      })
-        .then(async () => {
-          console.log("done");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     async toggleLikesFeedbacks(key: string, type: boolean) {
-      const docRef = doc(db, "feedbacks", key);
       let likes: any;
       this.feedbacks.forEach((item) => {
         if (item.id === key) {
@@ -92,17 +81,20 @@ export const useFeedbackStore = defineStore("feedback", {
       } else {
         likes = likes.filter((like: any) => like !== this.store.authToken);
       }
-      await updateDoc(docRef, {
+      const updateArr = {
         likes: likes,
-      }).then(async () => {
-        await this.getFeedbacks()
-        await this.getUserFeedbacks(this.store.authToken)
-      }).catch((error: any) => {
-        console.log(error)
-      })
+      };
+      await updateStore(key, "feedbacks", updateArr)
+        .then(async () => {
+          await this.getFeedbacks();
+          await this.getUserFeedbacks(this.store.authToken);
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     },
-    
-    getUserFeedbacks(key:string) {
+
+    getUserFeedbacks(key: string) {
       const data = feedbackRepo.query().get();
       const feedbacks = data.filter((item) => {
         return item.userId === key;
@@ -110,8 +102,8 @@ export const useFeedbackStore = defineStore("feedback", {
       this.userFeedbacks = feedbacks;
     },
     async deleteFeedbacks(key: string) {
-      await deleteStore(key, 'feedbacks')
-      this.userFeedbacks = this.userFeedbacks.filter((item) => item.id !== key)
-     },
+      await deleteStore(key, "feedbacks");
+      this.userFeedbacks = this.userFeedbacks.filter((item) => item.id !== key);
+    },
   },
 });
