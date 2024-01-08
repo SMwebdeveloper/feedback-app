@@ -64,6 +64,7 @@ export const deleteStore = async (key: string, type: string) => {
     .catch((err) => console.log(err));
 };
 
+// update store 
 export const updateStore = async (
   key: string,
   type: string,

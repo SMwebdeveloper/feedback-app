@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import { getStore, deleteStore, updateStore } from "@/composable/fireStore";
 import { usableArr } from "@/composable/usable";
