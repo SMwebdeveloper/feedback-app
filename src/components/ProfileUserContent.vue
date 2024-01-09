@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-start h-[80px] mb-8">
+  <div class="flex items-start  mb-8">
     <img
       :src="user?.img !== '' ? user?.img : UserImg"
       alt="user image"
@@ -11,15 +11,16 @@
         <p class="text-xl text-white">{{ user?.bio }}</p>
       </div>
       <div v-if="!table">
-        <button
+        <button v-if="!visibleButton" @click="clickFollow"
           class="text-base font-semibold bg-sky-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
         >
-          Following
+          Follow
         </button>
         <button 
-          class="text-base font-semibold bg-red-600 px-2 py-1 text-slate-200 rounded-lg hidden"
+          v-else @click="clickFollow"
+          class="text-base font-semibold bg-red-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
         >
-          Unfollowing
+          Unfollow
         </button>
         <button
           class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
@@ -47,7 +48,7 @@
           >
           <button
             class="hover:text-red-500 duration-100"
-            @click="$emit('logOut')"
+            @click="emit('logOut')"
           >
             Log Out
           </button>
@@ -61,16 +62,34 @@ import UserImg from "@/assets/images/user-image.jpg";
 import { Bars3CenterLeftIcon } from "@heroicons/vue/24/solid";
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/store/auth";
 
-const table = ref(false);
-const settingTable = ref(false);
-const route = useRoute();
 const props = defineProps({
   user: {
     type: Object,
     required: true,
   },
 });
+const emit = defineEmits(['addRemoveFollower', 'logOut'])
+
+const route = useRoute();
+const store = useAuthStore()
+const table = ref(false);
+const settingTable = ref(false);
+const visibleButton = ref(false)
+
+const user = computed(() => props.user);
+
+user.value.followers?.forEach((follow: any) => {
+  if (follow === store.authToken) {
+    visibleButton.value = true
+  }
+})
+const clickFollow = () => {
+  visibleButton.value = !visibleButton.value
+  emit('addRemoveFollower', visibleButton.value)
+}
+
 
 // window.addEventListener('click', (e:any) => {
 //   const idName = e.target.getAttribute('id')
@@ -79,7 +98,6 @@ const props = defineProps({
 //   } 
 // })
 
-const user = computed(() => props.user);
 watchEffect(() => {
   if (route.name !== "user") {
     table.value = true;

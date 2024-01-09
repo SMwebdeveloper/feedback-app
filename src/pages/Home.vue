@@ -17,13 +17,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useFeedbackStore } from "@/store/feedback";
 import { computed, onMounted, ref } from "vue";
 import {useAuthStore} from '@/store/auth'
+import { useFeedbackStore } from "@/store/feedback";
+import { useCommentStore } from "@/store/comment";
 
 const loading = ref(false)
 const store = useAuthStore()
 const feedbackStore = useFeedbackStore();
+const commentStore = useCommentStore()
 const feedbacks = computed(() => feedbackStore.feedbacks);
 
 onMounted(async () => {
@@ -31,6 +33,7 @@ onMounted(async () => {
   await store.getUsers()
   await store.getSingleUser(store.authToken, 'userId')
   await feedbackStore.getFeedbacks()
+  await commentStore.getComments('__', 'feedbackId')
   loading.value = false
 });
 </script>

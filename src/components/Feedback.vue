@@ -46,17 +46,20 @@
             class="w-6 cursor-pointer"
             :class="`${likes ? 'text-red-500' : 'text-white'}`"
           />
-          <h2 class="ml-3 text-base text-slate-700 font-bold">{{ likesCount }}</h2>
+          <h2 class="ml-3 text-base text-slate-700 font-bold">
+            {{ likesCount }}
+          </h2>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref, watchEffect, watch } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from '@/store/auth'
-import { useFeedbackStore } from '@/store/feedback'
+import { useAuthStore } from "@/store/auth";
+import { useFeedbackStore } from "@/store/feedback";
+// import { useCommentStore } from "@/store/comment";
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
 
@@ -72,34 +75,36 @@ const props = defineProps({
 
 const route = useRoute();
 const store = useAuthStore();
-const feedbackStore = useFeedbackStore()
-
+const feedbackStore = useFeedbackStore();
+// const commentStore = useCommentStore();
 
 const feedback = computed(() => props.feedback);
-const likesCount = computed(() => feedback.value.likes.length)
+const likesCount = computed(() => feedback.value.likes.length);
+// const commentsLength = commentStore.comments.filter((item:any) => item.feedbackId === feedback.value.id)
 
-store.user.saveFeedbacks?.forEach((item:any) => {
-    if (item === feedback.value.id) {
-      save.value = true
-    }
-  })
-  feedback.value.likes.forEach((item: any) => {
-    if (item === store.authToken) {
-      likes.value = true
-    }
-  })
+store.user.saveFeedbacks?.forEach((item: any) => {
+  if (item === feedback.value.id) {
+    save.value = true;
+  }
+});
+feedback.value.likes.forEach((item: any) => {
+  if (item === store.authToken) {
+    likes.value = true;
+  }
+});
+
 
 const saveFeedback = async (key: string) => {
-  save.value = !save.value
-  await feedbackStore.toggleSaveFeedbacks(key, save.value)
-}
+  save.value = !save.value;
+  await feedbackStore.toggleSaveFeedbacks(key, save.value);
+};
 const likeFeedbakcs = async (key: string) => {
-  likes.value = !likes.value
+  likes.value = !likes.value;
   feedback.value.likes = feedback.value.likes.filter((item: any) => {
-    return item !== store.authToken
-  })
-  feedbackStore.toggleLikesFeedbacks(key, likes.value)
-}
+    return item !== store.authToken;
+  });
+  feedbackStore.toggleLikesFeedbacks(key, likes.value);
+};
 
 watchEffect(() => {
   if (route.name === "profile") {
@@ -118,8 +123,7 @@ watchEffect(() => {
 //   feedbackStore.toggleLikesFeedbacks(feedback.id, likes.value)
 // })
 onMounted(async () => {
-  await store.getUsers();
-  await store.getSingleUser();
-  await feedbackStore.getSaveFeedback() 
+  await feedbackStore.getSaveFeedback();
+  // await commentStore.getComments("__", "feedbackId");
 });
 </script>

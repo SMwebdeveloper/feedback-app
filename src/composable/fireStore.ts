@@ -15,11 +15,11 @@ export const addStore = async (payload: object, key: string) => {
   await addDoc(colRef, {
     ...payload,
   })
-    .then(() => {
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  .then(() => {
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 };
 
 //  fetch store
@@ -29,10 +29,10 @@ export const getStore = async (payload: string) => {
 
   const querySanpshot = await onSnapshot(colRef, (snapshot) => {
     const docs: any = [];
-    snapshot.docs.forEach((doc) => {
+    snapshot.docs.forEach(async (doc) => {
       docs.push({ ...doc.data(), id: doc.id });
     });
-    newArr.value = docs;
+    newArr.value = docs
   });
 
   watchEffect((onInvalidate) => {
