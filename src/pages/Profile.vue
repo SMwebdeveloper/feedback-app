@@ -136,7 +136,7 @@ const visibleClick = () => {
   return (commentVisible.value = !commentVisible.value);
 };
 const fetchFeedbacks = async () => {
-  await feedbackStore.getFeedbacks();
+  await feedbackStore.getFeedbacks(); //  console.log(followers)
   await feedbackStore.getUserFeedbacks(store.authToken);
   await commentStore.getComments(store.authToken, "userId");
 };
