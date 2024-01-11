@@ -61,7 +61,7 @@
 
         <!-- users feedbacks and followrs -->
 
-        <second-loader v-if="loading"/>
+        <second-loader v-if="loading" />
         <div v-show="visibleCommponents === 'feedbacks'">
           <feedback v-for="feedback in feedbacks" :feedback="feedback" />
           <h2
@@ -72,6 +72,7 @@
           </h2>
         </div>
         <div v-show="visibleCommponents === 'followers'">
+          <user v-for="follow in followers" :key="follow.id" :follow="follow" />
           <h2
             v-if="!followers.length && !loading"
             class="text-2xl text-slate-200 font-bold text-center mt-12"
@@ -80,6 +81,8 @@
           </h2>
         </div>
         <div v-show="visibleCommponents === 'followings'">
+          <user v-for="follow in followings" :key="follow.id" :follow="follow" />
+
           <h2
             v-if="!followings.length && !loading"
             class="text-2xl text-slate-200 font-bold text-center mt-12"
@@ -98,6 +101,7 @@ import { onMounted, computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
+import User from "@/components/User.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -113,17 +117,17 @@ const user = computed(() => store.user);
 const followers = computed(() => store.followers);
 const followings = computed(() => store.following);
 
-const addRemoveFollower = async (type: boolean) => {
-  await store.addRemoveFollowers(user.value.id, type);
-};
+const addRemoveFollower = async () => {};
 onMounted(async () => {
-  await store.getUsers();
-  await store.getSingleUser(key, "id");
-  loading.value = true;
-  await feedbackStore.getFeedbacks();
-  await feedbackStore.getUserFeedbacks(user.value.userId);
-  store.getFollowers(key);
-  store.getFollowings(user.value.userId);
-  loading.value = false;
+  if (user.value.id !== key) {
+    await store.getUsers();
+    await store.getSingleUser(key, "id");
+    loading.value = true;
+    await feedbackStore.getFeedbacks();
+    await feedbackStore.getUserFeedbacks(user.value.userId);
+    await store.getFollowers(key);
+    await store.getFollowings(user.value.userId);
+    loading.value = false;
+  }
 });
 </script>

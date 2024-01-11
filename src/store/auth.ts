@@ -93,22 +93,15 @@ export const useAuthStore = defineStore("auth", {
       if (type) {
         followers?.push(this.authToken)
       } else {
-        followers = followers.filter((follower: any) => {
-          return follower !== this.authToken
+        followers = followers.filter((follow: any) => {
+          return follow !== this.authToken
         })
         this.followers = this.followers.filter((follow: any) => {
-          return follow.userId !== this.authToken  
-        })
-        this.following = this.following.filter((follower: any) => {
-          return follower.id !== this.authToken
+          return follow.userId !== this.authToken
         })
       }
      const updateArr = { followers: followers }
-      await updateStore(key, "users", updateArr).then(async () => {
-       await this.getUsers()
-       await this.getFollowers(key)
-       await this.getFollowings(key)
-     })
+      await updateStore(key, "users", updateArr)
     },
   },
 });

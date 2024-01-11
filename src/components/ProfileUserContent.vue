@@ -11,16 +11,27 @@
         <p class="text-xl text-white">{{ user?.bio }}</p>
       </div>
       <div v-if="!table">
-        <button v-if="!visibleButton" @click="clickFollow"
+        <button v-if="!visibleBtn"  @click="clickFollow"
           class="text-base font-semibold bg-sky-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
         >
-          Follow
+          <span v-if="!btnLoading">
+            Follow
+          </span>
+          <span v-else>
+            <i class="fa fa-spinner fa-spin text-8 text-slate-200"></i>
+          </span>
         </button>
         <button 
-          v-else @click="clickFollow"
-          class="text-base font-semibold bg-red-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
+          v-else
+           @click="clickFollow"
+          class="text-base font-semibold bg-sky-600 px-2 py-1 text-slate-200 rounded-lg mr-2"
         >
-          Unfollow
+        <span v-if="!btnLoading">
+            Unfollow
+          </span>
+          <span v-else>
+            <i class="fa fa-spinner fa-spin text-8 text-slate-200"></i>
+          </span>
         </button>
         <button
           class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
@@ -48,7 +59,7 @@
           >
           <button
             class="hover:text-red-500 duration-100"
-            @click="emit('logOut')"
+            @click="$emit('logOut')"
           >
             Log Out
           </button>
@@ -68,26 +79,33 @@ const props = defineProps({
   user: {
     type: Object,
     required: true,
-  },
+  }
 });
-const emit = defineEmits(['addRemoveFollower', 'logOut'])
 
 const route = useRoute();
 const store = useAuthStore()
 const table = ref(false);
+const visibleBtn = ref(false)
+const btnLoading = ref(false)
 const settingTable = ref(false);
-const visibleButton = ref(false)
 
 const user = computed(() => props.user);
 
 user.value.followers?.forEach((follow: any) => {
   if (follow === store.authToken) {
-    visibleButton.value = true
+    visibleBtn.value = true
   }
 })
-const clickFollow = () => {
-  visibleButton.value = !visibleButton.value
-  emit('addRemoveFollower', visibleButton.value)
+const clickFollow = async () => {
+  btnLoading.value = true
+  visibleBtn.value = !visibleBtn.value
+  await store.addRemoveFollowers(user.value.id, visibleBtn.value).then(async () => {
+    await store.getUsers();
+    await store.getSingleUser(user.value.id, "id");
+    await store.getFollowers(user.value.id);
+    await store.getFollowings(user.value.userId);
+  });
+  btnLoading.value = false
 }
 
 
