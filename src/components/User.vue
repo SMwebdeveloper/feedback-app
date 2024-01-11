@@ -52,7 +52,11 @@ const follow = computed(() => props.follow);
 if (follow.value.userId === store.authToken) {
   myFollowing.value = true;
 }
-
+follow.value.followers?.forEach((follow: any) => {
+    if (follow === store.authToken) {
+      visibleBtn.value = true;
+    }
+  });
 const clickFollow = async () => {
   btnLoading.value = true;
   visibleBtn.value = !visibleBtn.value;
@@ -60,15 +64,11 @@ const clickFollow = async () => {
     .addRemoveFollowers(follow.value.id, visibleBtn.value)
     .then(async () => {
       await store.getUsers();
-      await store.getSingleUser(follow.value.id, "id");
+      await store.getSingleUser(follow.value.id, "userId");
       await store.getFollowers(follow.value.id);
       await store.getFollowings(follow.value.userId);
     });
-  follow.value.followers?.forEach((follow: any) => {
-    if (follow === store.authToken) {
-      visibleBtn.value = true;
-    }
-  });
+  console.log(visibleBtn.value)
   btnLoading.value = false;
 };
 </script>
