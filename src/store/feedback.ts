@@ -8,10 +8,8 @@ import { useAuthStore } from "./auth";
 import { useCommentStore } from "./comment";
 import { useRepo } from "pinia-orm";
 import { Feedbacks } from "@/models/feedbacks";
-import { Comments } from "@/models/comments"
 
 const feedbackRepo = useRepo(Feedbacks);
-const commentRepo = useRepo(Comments)
 export const useFeedbackStore = defineStore("feedback", {
   state: () => {
     return {
@@ -28,14 +26,6 @@ export const useFeedbackStore = defineStore("feedback", {
     async getFeedbacks() {
       const { newArr }: any = await getStore("feedbacks");
       const { result } = usableArr(newArr.value);
-      // await this.commentStore.getComments('__', 'all')
-      // // const commentData = commentRepo.query().get()
-      // // const newData: any = []
-      // // const commentLength:any = []
-      // // result.forEach((item: any) => {
-        
-        
-      // // })
       feedbackRepo.save(result);
       const data = feedbackRepo.query().get();
       // console.log(data)
@@ -75,7 +65,8 @@ export const useFeedbackStore = defineStore("feedback", {
         );
         this.saveFeedbacks = this.saveFeedbacks.filter((item: any) => {
           return item.id !== key;
-        });      }
+        });
+      }
       
       const updateArr = {saveFeedbacks: this.store.user.saveFeedbacks}
       await updateStore(id, "users", updateArr)

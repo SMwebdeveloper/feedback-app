@@ -57,8 +57,8 @@ export const useAuthStore = defineStore("auth", {
     // get followers
     getFollowers(key: any) {
       const users: any = usersRepo.query().get();
-      const  followers:any = this.user.followers 
-      const result:any = []
+      const followers: any = this.user.followers;
+      const result: any = [];
       followers?.forEach((follow: any) => {
         users.forEach((user: any) => {
           if (user.userId === follow) {
@@ -66,42 +66,60 @@ export const useAuthStore = defineStore("auth", {
           }
         });
       });
-      this.followers = result
+      this.followers = result;
     },
     //  get following users
     getFollowings(key: any) {
-      const users = usersRepo.query().get()
-      const result:any = []
-       users?.forEach((user: any) => {
-          user.followers?.forEach((follow: any) => {
-           if (follow === key) {
-            result.push(user)
+      const users = usersRepo.query().get();
+      const result: any = [];
+      users?.forEach((user: any) => {
+        user.followers?.forEach((follow: any) => {
+          if (follow === key) {
+            result.push(user);
           }
-        } )
-       })
-      this.following = result
+        });
+      });
+      this.following = result;
     },
     // add remove followers
-    async addRemoveFollowers(key: string, type: boolean) {
-     let followers: any = []
-     const users = usersRepo.query().get()
+    async addRemoveFollowers(key: string, type: boolean, keyWord: any) {
+      let followers: any = [];
+      const users = usersRepo.query().get();
       users?.forEach((user: any) => {
         if (user.id === key) {
           return (followers = user.followers);
         }
       });
       if (type) {
-        followers?.push(this.authToken)
+        followers?.push(this.authToken);
       } else {
+        console.log(keyWord);
+        switch (keyWord) {
+          case "following":
+            followers = followers.filter((follow: any) => {
+              return follow !== this.authToken;
+            });
+            this.following = this.following.filter((follow: any) => {
+              return follow.userId !== this.authToken;
+            });
+            break;
+          default:
+            followers = followers.filter((follow: any) => {
+              return follow !== this.authToken;
+            });
+            this.followers = this.followers.filter((follow: any) => {
+              return follow.userId !== this.authToken;
+            });
+        }
         followers = followers.filter((follow: any) => {
-          return follow !== this.authToken
-        })
+          return follow !== this.authToken;
+        });
         this.followers = this.followers.filter((follow: any) => {
-          return follow.userId !== this.authToken
-        })
+          return follow.userId !== this.authToken;
+        });
       }
-     const updateArr = { followers: followers }
-      await updateStore(key, "users", updateArr)
+      const updateArr = { followers: followers };
+      await updateStore(key, "users", updateArr);
     },
   },
 });

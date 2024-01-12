@@ -81,7 +81,11 @@
           </h2>
         </div>
         <div v-show="visibleCommponents === 'followings'">
-          <user v-for="follow in followings" :key="follow.id" :follow="follow" />
+          <user
+            v-for="follow in followings"
+            :key="follow.id"
+            :follow="follow"
+          />
 
           <h2
             v-if="!followings.length && !loading"
@@ -97,7 +101,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
-import { onMounted, computed, ref } from "vue";
+import { onMounted, computed, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
@@ -118,16 +122,14 @@ const followers = computed(() => store.followers);
 const followings = computed(() => store.following);
 
 const addRemoveFollower = async () => {};
-onMounted(async () => {
-  if (user.value.id !== key) {
-    await store.getUsers();
-    await store.getSingleUser(key, "id");
-    loading.value = true;
-    await feedbackStore.getFeedbacks();
-    await feedbackStore.getUserFeedbacks(user.value.userId);
-    await store.getFollowers(key);
-    await store.getFollowings(user.value.userId);
-    loading.value = false;
-  }
+watchEffect(async () => {
+  await store.getUsers();
+  await store.getSingleUser(key, "id");
+  loading.value = true;
+  await feedbackStore.getFeedbacks();
+  await feedbackStore.getUserFeedbacks(user.value.userId);
+  await store.getFollowers(key);
+  await store.getFollowings(user.value.userId);
+  loading.value = false;
 });
 </script>

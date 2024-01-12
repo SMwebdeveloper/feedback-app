@@ -32,10 +32,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import userImage from "@/assets/images/user-image.jpg";
 import { useAuthStore } from "@/store/auth";
-
+import { useRoute } from "vue-router";
 const props = defineProps({
   follow: {
     type: Object,
@@ -44,9 +44,11 @@ const props = defineProps({
 });
 
 const store = useAuthStore();
+const route = useRoute()
 const btnLoading = ref(false);
 const visibleBtn = ref(false);
 const myFollowing = ref(false);
+const followKey = ref('')
 const follow = computed(() => props.follow);
 
 if (follow.value.userId === store.authToken) {
@@ -61,14 +63,20 @@ const clickFollow = async () => {
   btnLoading.value = true;
   visibleBtn.value = !visibleBtn.value;
   await store
-    .addRemoveFollowers(follow.value.id, visibleBtn.value)
+    .addRemoveFollowers(follow.value.id, visibleBtn.value, followKey)
     .then(async () => {
-      await store.getUsers();
-      await store.getSingleUser(follow.value.id, "userId");
-      await store.getFollowers(follow.value.id);
-      await store.getFollowings(follow.value.userId);
+      // // await store.getUsers();
+      // // await store.getSingleUser(follow.value.id, "userId");
+      // await store.getFollowers(follow.value.id);
+      // await store.getFollowings(follow.value.userId);
     });
-  console.log(visibleBtn.value)
   btnLoading.value = false;
 };
+watchEffect(() => {
+  if (route.name === 'profile') {
+    followKey.value = 'following'
+  } else {
+    followKey.value = 'follower'
+   }
+})
 </script>
