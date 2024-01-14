@@ -11,7 +11,8 @@ export class Users extends Model {
       img: this.string(""),
       bio: this.string(""),
       userId: this.string(""),
-      saveFeedbacks: this.attr([])
+      saveFeedbacks: this.attr([]),
+      followers: this.attr([])
     };
   }
 }

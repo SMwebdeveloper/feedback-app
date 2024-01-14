@@ -7,7 +7,7 @@
         <router-link to="/" exact-active-class="text-slate-600"> <HomeIcon /> </router-link>
       </li>
       <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
-            <router-link to="/search" exact-active-class="text-slate-600"> <MagnifyingGlassIcon/></router-link>
+            <router-link to="/users" exact-active-class="text-slate-600"> <UsersIcon/></router-link>
           </li >
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
@@ -37,7 +37,7 @@
 import {
   HomeIcon,
   PlusCircleIcon,
-  MagnifyingGlassIcon,
+  UsersIcon,
   UserIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";

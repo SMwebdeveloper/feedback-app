@@ -13,19 +13,21 @@ export const useCommentStore = defineStore("comment", {
     };
   },
   actions: {
+    // get comments
     async getComments(payload: any, type:string) {
       const { newArr } = await getStore("comments");
       const { result } = usableArr(newArr.value)
       commentsRepo.save(result)
       const data = commentsRepo.query().get()
       this.comments = data.filter((comment: object) => {
-        if (type === 'userId') {
+         if (type === 'userId') {
           return comment.userId === payload
         } else {
           return comment.feedbackId === payload
         }
       });
     },
+    // delete comments
     async deleteComments(key: string) {
       await deleteStore(key, 'comments')
       this.comments = this.comments.filter((item) => item.id !== key)

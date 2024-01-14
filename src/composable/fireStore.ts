@@ -15,12 +15,11 @@ export const addStore = async (payload: object, key: string) => {
   await addDoc(colRef, {
     ...payload,
   })
-    .then(() => {
-      console.log("add store");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  .then(() => {
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 };
 
 //  fetch store
@@ -30,10 +29,10 @@ export const getStore = async (payload: string) => {
 
   const querySanpshot = await onSnapshot(colRef, (snapshot) => {
     const docs: any = [];
-    snapshot.docs.forEach((doc) => {
+    snapshot.docs.forEach(async (doc) => {
       docs.push({ ...doc.data(), id: doc.id });
     });
-    newArr.value = docs;
+    newArr.value = docs
   });
 
   watchEffect((onInvalidate) => {
@@ -42,7 +41,6 @@ export const getStore = async (payload: string) => {
 
   await new Promise<void>((resolve) => {
     const unsubscribeInitial = onSnapshot(colRef, (snapshot) => {
-      // console.log(snapshot.empty)
       if (!snapshot.empty) {
         unsubscribeInitial();
         resolve();
@@ -59,11 +57,11 @@ export const deleteStore = async (key: string, type: string) => {
   const docRef = doc(db, type, key);
   await deleteDoc(docRef)
     .then(() => {
-      console.log("Store deleted");
     })
     .catch((err) => console.log(err));
 };
 
+// update store 
 export const updateStore = async (
   key: string,
   type: string,
@@ -71,6 +69,6 @@ export const updateStore = async (
 ) => {
   const docRef = doc(db, type, key);
   await updateDoc(docRef, updateArr)
-    .then(() => console.log("update store"))
+    .then(() =>{})
     .catch((error) => console.log(error));
 };

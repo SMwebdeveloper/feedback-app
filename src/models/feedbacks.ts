@@ -12,6 +12,7 @@ export class Feedbacks extends Model {
       likes: this.attr([]),
       userId: this.string(""),
       author: this.attr({}),
+      commentsLength: this.number(0)
     };
   }
 }

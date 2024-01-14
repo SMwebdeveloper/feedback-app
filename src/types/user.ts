@@ -6,5 +6,5 @@ export type User = {
     img: string,
     saveFeedbacks: string[],
     followers: string[],
-    id: number | string
+    id:  string
 }

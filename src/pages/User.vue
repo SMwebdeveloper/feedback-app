@@ -8,13 +8,23 @@
         />
       </a>
 
-      <loader v-if="loading" />
+      <loader v-if="!user.name" />
 
       <div v-else>
-        <profile-user-content :user="user" />
+        <profile-user-content
+          :user="user"
+          @addRemoveFollower="addRemoveFollower"
+        />
+
+        <!-- visible feedbacks and followers button -->
         <div class="flex justify-between items-start mb-4">
           <h2
-            class="text-lg text-slate-200 font-normal mr-2 border-b-2 border-b-slate-200 flex flex-col-reverse items-center"
+            @click="visibleCommponents = 'feedbacks'"
+            class="text-lg text-slate-200 flex flex-col-reverse items-center cursor-pointer duration-150"
+            :class="{
+              'border-b-2 border-b-slate-200 font-bold':
+                visibleCommponents === 'feedbacks',
+            }"
           >
             Feedbacks
             <span class="font-extrabold inline-block">{{
@@ -22,20 +32,66 @@
             }}</span>
           </h2>
           <h2
-            class="text-lg text-slate-200 font-normal mr-2 flex flex-col-reverse items-center"
+            @click="visibleCommponents = 'followers'"
+            class="text-lg text-slate-200 mr-2 flex flex-col-reverse items-center cursor-pointer duration-150"
+            :class="{
+              'border-b-2 border-b-slate-200 font-bold':
+                visibleCommponents === 'followers',
+            }"
           >
-            Followers <span class="font-extrabold inline-block">28</span>
+            Followers
+            <span class="font-extrabold inline-block">{{
+              followers.length
+            }}</span>
           </h2>
           <h2
-            class="text-lg text-slate-200 font-normal mr-2 flex flex-col-reverse items-center"
+            @click="visibleCommponents = 'followings'"
+            class="text-lg text-slate-200 mr-2 flex flex-col-reverse items-center cursor-pointer duration-150"
+            :class="{
+              'border-b-2 border-b-slate-200 font-bold':
+                visibleCommponents === 'followings',
+            }"
           >
-            Following <span class="font-extrabold inline-block">28</span>
+            Following
+            <span class="font-extrabold inline-block">{{
+              followings.length
+            }}</span>
           </h2>
         </div>
-        <div>
+
+        <!-- users feedbacks and followrs -->
+
+        <second-loader v-if="loading" />
+        <div v-show="visibleCommponents === 'feedbacks'">
           <feedback v-for="feedback in feedbacks" :feedback="feedback" />
-          <h2 v-if="!feedbacks.length && !loading" class="text-2xl text-slate-200 font-bold text-center mt-12">
+          <h2
+            v-if="!feedbacks.length && !loading"
+            class="text-2xl text-slate-200 font-bold text-center mt-12"
+          >
             There are no feedbacks yet
+          </h2>
+        </div>
+        <div v-show="visibleCommponents === 'followers'">
+          <user v-for="follow in followers" :key="follow.id" :follow="follow" />
+          <h2
+            v-if="!followers.length && !loading"
+            class="text-2xl text-slate-200 font-bold text-center mt-12"
+          >
+            There are no followers yet
+          </h2>
+        </div>
+        <div v-show="visibleCommponents === 'followings'">
+          <user
+            v-for="follow in followings"
+            :key="follow.id"
+            :follow="follow"
+          />
+
+          <h2
+            v-if="!followings.length && !loading"
+            class="text-2xl text-slate-200 font-bold text-center mt-12"
+          >
+            There are no followings yet
           </h2>
         </div>
       </div>
@@ -45,28 +101,37 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
-import { onMounted, computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
+import User from "@/components/User.vue";
 
 const route = useRoute();
 const router = useRouter();
 const store = useAuthStore();
 const feedbackStore = useFeedbackStore();
 
+const visibleCommponents = ref("feedbacks");
 const loading = ref(false);
 const key: any = route.params.id;
 
 const feedbacks = computed(() => feedbackStore.userFeedbacks);
 const user = computed(() => store.user);
+const followers = computed(() => store.followers);
+const followings = computed(() => store.following);
 
-onMounted(async () => {
-  loading.value = true;
-  await store.getUsers();
-  await store.getSingleUser(key, "id");
-  await feedbackStore.getFeedbacks();
-  await feedbackStore.getUserFeedbacks(user.value.userId);
-  loading.value = false;
+const addRemoveFollower = async () => {};
+watchEffect(async () => {
+  if (!user.value.id.includes(key)) {
+    await store.getUsers();
+    await store.getSingleUser(key, "id");
+    loading.value = true;
+    await feedbackStore.getFeedbacks();
+    await feedbackStore.getUserFeedbacks(user.value.userId);
+    await store.getFollowers(key);
+    await store.getFollowings(user.value.userId);
+    loading.value = false;
+  }
 });
 </script>
