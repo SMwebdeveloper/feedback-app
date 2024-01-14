@@ -101,7 +101,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
-import { onMounted, computed, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import ProfileUserContent from "@/components/ProfileUserContent.vue";
@@ -123,13 +123,15 @@ const followings = computed(() => store.following);
 
 const addRemoveFollower = async () => {};
 watchEffect(async () => {
-  await store.getUsers();
-  await store.getSingleUser(key, "id");
-  loading.value = true;
-  await feedbackStore.getFeedbacks();
-  await feedbackStore.getUserFeedbacks(user.value.userId);
-  await store.getFollowers(key);
-  await store.getFollowings(user.value.userId);
-  loading.value = false;
+  if (!user.value.id.includes(key)) {
+    await store.getUsers();
+    await store.getSingleUser(key, "id");
+    loading.value = true;
+    await feedbackStore.getFeedbacks();
+    await feedbackStore.getUserFeedbacks(user.value.userId);
+    await store.getFollowers(key);
+    await store.getFollowings(user.value.userId);
+    loading.value = false;
+  }
 });
 </script>

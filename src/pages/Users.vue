@@ -16,7 +16,7 @@
       <second-loader v-if="loading" />
       <ul>
         <li
-          v-for="{ id, name, img } in users"
+          v-for="{ id, name, img, userId } in users"
           v-if="!loading && users.length"
           :key="id"
           class="w-full flex items-center border border-slate-200 rounded-lg py-2 px-2 text-slate-200 shadow-sm shadow-slate-200 mb-2"
@@ -26,7 +26,10 @@
             alt="user image"
             class="w-10 h-10 rounded-full mr-3"
           />
-          <router-link :to="`/user/${id}`">
+          <router-link v-if="userId === store.authToken" to="/profile">
+            <h5 class="text-xl capitalize">{{ name }}</h5>
+          </router-link>
+          <router-link v-else :to="`/user/${id}`">
             <h5 class="text-xl capitalize">{{ name }}</h5>
           </router-link>
         </li>
