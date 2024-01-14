@@ -198,7 +198,7 @@ onMounted(async () => {
   loading.value = true;
   await fetchFeedbacks();
   await store.getFollowers(user.value.id);
-  await store.getFollowings(user.value.userId);
+  await store.getFollowings(store.authToken);
   loading.value = false;
 });
 </script>

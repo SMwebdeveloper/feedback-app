@@ -44,39 +44,38 @@ const props = defineProps({
 });
 
 const store = useAuthStore();
-const route = useRoute()
+const route = useRoute();
 const btnLoading = ref(false);
 const visibleBtn = ref(false);
 const myFollowing = ref(false);
-const followKey = ref('')
+const followKey = ref("");
 const follow = computed(() => props.follow);
 
 if (follow.value.userId === store.authToken) {
   myFollowing.value = true;
 }
 follow.value.followers?.forEach((follow: any) => {
-    if (follow === store.authToken) {
-      visibleBtn.value = true;
-    }
-  });
+  if (follow === store.authToken) {
+    visibleBtn.value = true;
+  }
+});
 const clickFollow = async () => {
   btnLoading.value = true;
   visibleBtn.value = !visibleBtn.value;
-  await store
-    .addRemoveFollowers(follow.value.id, visibleBtn.value, followKey)
-    .then(async () => {
-      // // await store.getUsers();
-      // // await store.getSingleUser(follow.value.id, "userId");
-      // await store.getFollowers(follow.value.id);
-      // await store.getFollowings(follow.value.userId);
-    });
+  await store.addRemoveFollowers(follow.value.id, visibleBtn.value, followKey).then(async () => {
+    if (followKey.value === 'following') {
+     await store.getUsers()
+     await store.getSingleUser(store.authToken, 'userId')
+     await store.getFollowings(store.authToken)
+  }
+  })  
   btnLoading.value = false;
 };
 watchEffect(() => {
-  if (route.name === 'profile') {
-    followKey.value = 'following'
+  if (route.name === "profile") {
+    followKey.value = "following";
   } else {
-    followKey.value = 'follower'
-   }
-})
+    followKey.value = "follower";
+  }
+});
 </script>

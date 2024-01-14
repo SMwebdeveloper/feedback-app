@@ -93,15 +93,27 @@ export const useAuthStore = defineStore("auth", {
       if (type) {
         followers?.push(this.authToken);
       } else {
-        followers = followers.filter((follow: any) => {
-          return follow !== this.authToken;
-        });
-        this.followers = this.followers.filter((follow: any) => {
-          return follow.userId !== this.authToken;
-        });
+        console.log(keyWord);
+        switch (keyWord) {
+          case "following":
+            followers = followers.filter((follow: any) => {
+              return follow !== this.authToken;
+            });
+            this.following = this.following.filter((follow: any) => {
+              return follow.userId !== this.authToken;
+            });
+            break;
+          default:
+            followers = followers.filter((follow: any) => {
+              return follow !== this.authToken;
+            });
+            this.followers = this.followers.filter((follow: any) => {
+              return follow.userId !== this.authToken;
+            });
+        }
       }
       const updateArr = { followers: followers };
-      await updateStore(key, "users", updateArr);
+      await updateStore(key, "users", updateArr)
     },
   },
 });
