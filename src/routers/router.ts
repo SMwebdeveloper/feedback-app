@@ -43,9 +43,9 @@ const router = createRouter({
             },
         },
         {
-          path: "/search",
-          name: "search",
-          component: () => import("@/pages/Search.vue"),
+          path: "/users",
+          name: "users",
+          component: () => import("@/pages/Users.vue"),
           meta: {
             authUser: true,
           },

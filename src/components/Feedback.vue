@@ -121,7 +121,7 @@ watchEffect(() => {
 //     })
 //   }
 //   feedbackStore.toggleLikesFeedbacks(feedback.id, likes.value)
-// })
+// })   
 onMounted(async () => {
   await feedbackStore.getSaveFeedback();
   // await commentStore.getComments("__", "feedbackId");
