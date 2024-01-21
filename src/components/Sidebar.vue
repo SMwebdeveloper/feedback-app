@@ -9,6 +9,9 @@
       <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
             <router-link to="/users" exact-active-class="text-slate-600"> <UsersIcon/></router-link>
           </li >
+          <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
+            <router-link to="/users" exact-active-class="text-slate-600"> <ChatBubbleBottomCenterTextIcon/></router-link>
+          </li >
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
       >
@@ -39,6 +42,7 @@ import {
   PlusCircleIcon,
   UsersIcon,
   UserIcon,
+  ChatBubbleBottomCenterTextIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import { useAuthStore } from "@/store/auth";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,6 +45,15 @@ const router = createRouter({
           path: "/users",
           name: "users",
           component: () => import("@/pages/Users.vue"),
+          meta: {
+            authUser: true,
+          },
+        },
+        ,
+        {
+          path: "/chats",
+          name: "chats",
+          component: () => import("@/pages/Chats.vue"),
           meta: {
             authUser: true,
           },
