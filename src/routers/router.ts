@@ -49,7 +49,6 @@ const router = createRouter({
             authUser: true,
           },
         },
-        ,
         {
           path: "/chats",
           name: "chats",

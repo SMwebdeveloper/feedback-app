@@ -10,7 +10,7 @@
             <router-link to="/users" exact-active-class="text-slate-600"> <UsersIcon/></router-link>
           </li >
           <li class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400">
-            <router-link to="/users" exact-active-class="text-slate-600"> <ChatBubbleBottomCenterTextIcon/></router-link>
+            <router-link to="/chats" exact-active-class="text-slate-600"> <ChatBubbleOvalLeftEllipsisIcon/></router-link>
           </li >
       <li
         class=" w-[40px] cursor-pointer duration-200 hover:text-slate-400"
@@ -42,15 +42,9 @@ import {
   PlusCircleIcon,
   UsersIcon,
   UserIcon,
-  ChatBubbleBottomCenterTextIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 
 
 </script>
-<!-- <style>
-
-.router-link-active {
-  color: rgb(73, 132, 180);
-}
-</style> -->
