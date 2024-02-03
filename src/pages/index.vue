@@ -9,17 +9,15 @@
       </template>
     </suspense>
 
-    <sidebar />
+    <app-footer />
   </div>
 </template>
 <script setup lang="ts">
-import Sidebar from "@/components/Sidebar.vue";
+import AppFooter from "@/components/AppFooter.vue";
 import { useAuthStore } from "@/store/auth";
-// import { useFeedbackStore } from "@/store/feedback";
 import { onMounted } from "vue";
 
 const store = useAuthStore();
-// const feedbackStore = useFeedbackStore();
 
 onMounted(async () => {
   await store.getUsers();
