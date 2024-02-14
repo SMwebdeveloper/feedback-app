@@ -6,22 +6,24 @@
         class="text-white w-10 font-medium mb-5 cursor-pointer"
       />
     </a>
-    <form>
-        <input v-model="message" type="text">
-        <button click="addMessage">add</button>
+    <form @submit.prevent="addMessage">
+      <input v-model="message" type="text" />
+      <button >add</button>
     </form>
   </div>
 </template>
 <script setup lang="ts">
-import {useRouter} from 'vue-router'
-import {ref} from 'vue'
-// import { database } from '@/firebase/config';
-import { set, ref as dataRef, set, get, child, onValue, getDatabase } from 'firebase/database'
-const router = useRouter()
-const message = ref('')
-const db = dataRef(getDatabase())
+import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
+import { useRouter, useRoute } from "vue-router";
+import { useChatStore } from "@/store/chat";
+import { ref } from "vue";
 
-const addMessage = () => {
-    
-}
+const router = useRouter();
+const route = useRoute()
+const chatStore = useChatStore()
+const message = ref("");
+
+const addMessage = async () => {
+  await chatStore.setChat(route.params.id, message.value)
+};
 </script>

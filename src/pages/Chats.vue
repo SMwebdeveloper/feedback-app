@@ -24,22 +24,14 @@
   </section>
 </template>
 <script setup lang="ts">
-// import {database} from '@/firebase/config'
-import { ref as dataRef, get, child, getDatabase } from "firebase/database";
-import { onMounted, ref } from "vue";
+import { onMounted, computed } from "vue";
+import { useChatStore } from "@/store/chat";
 
-const db = dataRef(getDatabase());
-const allChats = ref();
+const chatStore = useChatStore();
+
+const allChats = computed(() => chatStore.allChats)
 onMounted(async () => {
-  await get(child(db, "allChats")).then((snapshot: any) => {
-    if (!snapshot.exists()) {
-      console.log("Not found chats");
-    }
-    allChats.value = Object.entries(snapshot.val()).map((item: any) => {
-      const [key, value] = item;
-      return { ...value, chatId: key };
-    });
-    localStorage.setItem("allChats", allChats.value);
-  });
+  await chatStore.getAllChats();
+  console.log(allChats.value)
 });
 </script>
