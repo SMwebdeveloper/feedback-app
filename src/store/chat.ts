@@ -12,7 +12,7 @@ const chatRepo = useRepo(Chats);
 export const useChatStore = defineStore("chat", {
   state: () => {
     return {
-      allChats: <Chat[]>[],
+      allChats: <object[]>[],
       chat: <Chat>{},
       store: useAuthStore(),
     };
@@ -24,15 +24,19 @@ export const useChatStore = defineStore("chat", {
         if (!snapshot.exists()) {
           console.log("Not found chats");
         }
-        console.log(snapshot.val())
-        const newResult  = Object.entries(snapshot.val()).map((item: any) => {
+        Object.entries(snapshot.val()).map((item: any) => {
           const [id, value] = item
           if (value.users.includes(this.store.authToken)) {
+            value.users = value.users.filter((item: any) => {
+              return this.store.authToken !== item
+            })
             const { result } = usableArr(value.users)
-            return { id:id, users:result, messages:value.messages }
+            
+            return chatRepo.save(result)
           }
         })
-        console.log(newResult)
+        const data = chatRepo.query().get()
+        this.allChats = data
       });
     },
     async setChat(id: any, message: string) {

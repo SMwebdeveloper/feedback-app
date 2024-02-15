@@ -1,5 +1,6 @@
 export type Chat = {
   id: string | number;
-  users: string[];
+  users: object[];
   messages: object[];
 };
+        

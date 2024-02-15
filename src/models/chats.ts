@@ -5,9 +5,9 @@ export class Chats extends Model {
 
   static fields(): any {
     return {
-      id: this.string(""),
-      users: this.attr([]),
-      messages: this.attr([]),
+      id: this.string("") || this.number(0),
+      name: this.string(""),
+      img: this.string("")
     };
   }
 }
