@@ -13,7 +13,7 @@
       <div v-else>
         <profile-user-content
           :user="user"
-          :id="key"
+          :id="user.userId"
           @addRemoveFollower="addRemoveFollower"
         />
 

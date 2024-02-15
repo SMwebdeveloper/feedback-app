@@ -35,7 +35,7 @@
         </button>
         <router-link
           :to="`/chat/${props.id}`"
-          class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
+          class="inline-block text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
         >
           Message
         </router-link>

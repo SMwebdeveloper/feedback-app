@@ -4,6 +4,7 @@ export const usableArr = (payload: any) => {
   const store = useAuthStore();
   const result: any = [];
   let myObj: any = {};
+
   if (typeof payload === "object") {
     payload.forEach((item: any) => {
       if (typeof item === "string") {
