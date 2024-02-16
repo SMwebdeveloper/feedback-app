@@ -1,42 +1,60 @@
 <template>
   <section>
     <div class="project-container relative">
-      <loader v-if="loading "/>
+      <loader v-if="loading" />
       <ul v-else class="">
-        <li
-          v-for="item in allChats"
-          :key="item.id"
-          class="flex items-center border-b-2 border-whtie py-4"
-        >
-          
+        <li v-for="item in allChats" :key="item.id">
+          <router-link
+            :to="`/chat/${item.users.id}`"
+            class="flex items-center border-b-2 border-whtie py-4 pl-2 pr-4"
+          >
             <img
-              :src="item?.img"
+              :src="item.users.img"
               alt="user image"
-              class="w-10 h-10 rounded-full mr-8"
+              class="w-12 h-12 rounded-full mr-4"
             />
-            <h2 class="text-white text-2xl font-bold">{{ item?.name }}</h2>
-          
+            <h2 class="text-slate-100 text-xl font-bold flex-1">
+              {{ item.users.name }}
+            </h2>
+
+            <span
+              v-if="item.unreadMessage"
+              class="inline-block text-white text-base w-7 h-7 text-center bg-red-600 rounded-full"
+              >{{ item.unreadMessage }}</span
+            >
+          </router-link>
         </li>
       </ul>
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import { onMounted, computed , ref} from "vue";
+import { onMounted, computed, ref } from "vue";
 import { useChatStore } from "@/store/chat";
 import { useAuthStore } from "@/store/auth";
 
 const chatStore = useChatStore();
 const store = useAuthStore();
-const loading = ref(false)
+const loading = ref(false);
 
-const allChats = computed(() => chatStore.allChats);
+const allChats = computed(() => {
+  const result: any = [];
+  chatStore.allChats.forEach((item: any) => {
+    item.users.forEach((user: any) => {
+      result.push({
+        id: item.id,
+        users: user,
+        unreadMessage: item.unreadMessage,
+      });
+    });
+  });
+  return result;
+});
 
 onMounted(async () => {
-  loading.value = true
-  await store.getUsers()
+  loading.value = true;
+  await store.getUsers();
   await chatStore.getAllChats();
-  console.log(allChats.value)
-  loading.value = false
+  loading.value = false;
 });
 </script>

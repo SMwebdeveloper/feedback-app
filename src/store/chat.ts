@@ -31,8 +31,20 @@ export const useChatStore = defineStore("chat", {
               return this.store.authToken !== item
             })
             const { result } = usableArr(value.users)
-            
-            return chatRepo.save(result)
+            const newResult = []
+            let messagesCount: number = 0
+            console.log(result)
+            result.forEach((user: any) => {
+              if (value.users.includes(user.id)) {
+                value.messages.map((message: any) => {
+                  if (!message.visible) {
+                    messagesCount++
+                  }
+                })
+              }
+            })
+            newResult.push({id:id, users:result, messages:value.messages, unreadMessage: messagesCount})
+            return chatRepo.save(newResult)
           }
         })
         const data = chatRepo.query().get()
