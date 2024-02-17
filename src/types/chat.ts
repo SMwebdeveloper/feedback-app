@@ -1,6 +1,6 @@
 export type Chat = {
   id: string | number;
-  users: object;
+  user: object;
   messages: object[]
   unreadMessages: number
 };

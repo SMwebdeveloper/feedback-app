@@ -6,7 +6,7 @@ export class Chats extends Model {
   static fields(): any {
     return {
       id: this.string(""),
-      users: this.attr({}),
+      user: this.attr({}),
       messages: this.attr([]),
       unreadMessage:this.number(0)
     };

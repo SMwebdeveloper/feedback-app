@@ -5,16 +5,16 @@
       <ul v-else class="">
         <li v-for="item in allChats" :key="item.id">
           <router-link
-            :to="`/chat/${item.users.id}`"
+            :to="`/chat/${item?.user.id}`"
             class="flex items-center border-b-2 border-whtie py-4 pl-2 pr-4"
           >
             <img
-              :src="item.users.img"
+              :src="item?.user.img"
               alt="user image"
               class="w-12 h-12 rounded-full mr-4"
             />
             <h2 class="text-slate-100 text-xl font-bold flex-1">
-              {{ item.users.name }}
+              {{ item?.user.name }}
             </h2>
 
             <span
@@ -37,19 +37,7 @@ const chatStore = useChatStore();
 const store = useAuthStore();
 const loading = ref(false);
 
-const allChats = computed(() => {
-  const result: any = [];
-  chatStore.allChats.forEach((item: any) => {
-    item.users.forEach((user: any) => {
-      result.push({
-        id: item.id,
-        users: user,
-        unreadMessage: item.unreadMessage,
-      });
-    });
-  });
-  return result;
-});
+const allChats = computed(() => chatStore.allChats);
 
 onMounted(async () => {
   loading.value = true;
