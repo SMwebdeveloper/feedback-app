@@ -16,13 +16,14 @@
         />
         <h3 class="text-3xl text-slate-50 font-bold">{{ chat.user?.name }}</h3>
       </div>
+      <!-- <h2 v-if="!chat.messages.length" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
       <ul class="h-[78vh] flex flex-col justify-end">
         <li
-          v-for="message in chat.messages"
-          :key="message?.id"
+          v-for="{message, id} in chat.messages"
+          :key="id"
           class="w-1/2 min-h-[30px] bg-slate-400 rounded-full px-2 ml-auto"
         >
-          <h4>{{ message.message }}</h4>
+          <h4>{{ message }}</h4>
         </li>
       </ul>
       <form
@@ -57,8 +58,11 @@ const loading = ref(false);
 const message = ref("");
 
 const key = route.params.id;
+
 const addMessage = async () => {
-  await chatStore.setChat(route.params.id, message.value);
+  if (message) {
+    await chatStore.setMessage(route.params.id, message.value);
+  }
 };
 const chat = computed(() => chatStore.chat);
 

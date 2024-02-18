@@ -1,5 +1,12 @@
 import { defineStore } from "pinia";
-import { set, get, getDatabase, child, ref } from "firebase/database";
+import {
+  set,
+  get,
+  getDatabase,
+  child,
+  ref,
+  onChildAdded,
+} from "firebase/database";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
 import { Chats } from "@/models/chats";
@@ -7,7 +14,6 @@ import { useAuthStore } from "./auth";
 import { usableArr } from "@/composable/usable";
 import { generateRandomId } from "@/composable/generateId";
 
-// const db = getDatabase();
 const chatRepo = useRepo(Chats);
 export const useChatStore = defineStore("chat", {
   state: () => {
@@ -66,38 +72,54 @@ export const useChatStore = defineStore("chat", {
     },
     getSingleChat(key: any) {
       const data = chatRepo.query().get();
-      let result: object;
-      data.forEach((item: any) => {
-        if (item.user.id === key) {
-           result = item
+      let result: any = null
+
+      data.forEach(element => {
+        if (element.user.id === key) {
+          result = element
+        }
+      });
+      if (!result) {
+        this.store.users.map((user: any) => {
+          if (user.userId === key) {
+            result = {
+              id: user.userId,
+              user: { id: user.userId, name: user.name, img: user.img },
+              messages: [],
+            };
+          }
+        });
+      }
+      return (this.chat = result);
+    },
+    setMessage(id: any, message: string) {
+      this.allChats.forEach(async (user: any) => {
+        if (user.user.id !== id) {
+          const key = Math.floor(Math.random() * 1000);
+          await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
+            users: [id, this.store.authToken],
+            messages: [
+              {
+                id: key,
+                message: message,
+                userId: this.store.authToken,
+                visible: false,
+              },
+            ],
+          })
+            .then(() => {
+              console.log("done");
+            })
+            .catch((error): any => {
+              console.log(error);
+            });
         } else {
-          this.store.users.map((user: any) => {
-            if (user.userId === key) {
-              result = {
-                id: user.userId,
-                user: { id: user.userId, name: user.name, img: user.img },
-                messages: [],
-              };
-            }
+          const messageRef = ref(getDatabase(), "allChats/" + user.id);
+          onChildAdded(messageRef, (data) => {
+            console.log(data);
           });
         }
       });
-
-      return (this.chat = result);
     },
-    async setChat(id: any, message: string) {
-      const key = Math.floor(Math.random() * 1000);
-      await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
-        users: [id, this.store.authToken],
-        messages: [{ id: key, message: message, visible: false }],
-      })
-        .then(() => {
-          console.log("done");
-        })
-        .catch((error): any => {
-          console.log(error);
-        });
-    },
-    async addMessage() {},
   },
 });
