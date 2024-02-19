@@ -27,9 +27,10 @@ export const useChatStore = defineStore("chat", {
     async getAllChats() {
       const db = ref(getDatabase());
       await get(child(db, "allChats")).then((snapshot: any) => {
-        if (snapshot.exists()) {
+        if (!snapshot.exists()) {
           console.log("Not found chats");
-        } else {
+        } else { 
+          
           Object.entries(snapshot.val()).map((item: any) => {
             const [id, value] = item;
   
@@ -67,7 +68,6 @@ export const useChatStore = defineStore("chat", {
           });
         }
 
-        
         const data = chatRepo.query().get();
         this.allChats = data;
       });
