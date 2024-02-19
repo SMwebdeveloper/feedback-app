@@ -10,22 +10,22 @@
           />
         </a>
         <img
-          :src="chat.user?.img"
+          :src="chat.user?.img ? chat.user.img : userImage"
           alt="user image"
           class="w-12 h-12 rounded-full mr-4"
         />
         <h3 class="text-3xl text-slate-50 font-bold">{{ chat.user?.name }}</h3>
       </div>
-      <!-- <h2 v-if="!chat.messages.length" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
-      <ul class="h-[78vh] flex flex-col justify-end">
+      <ul class="h-[78vh] flex flex-col justify-end" v-for="{message, id} in chat.messages">
         <li
-          v-for="{message, id} in chat.messages"
+          
           :key="id"
-          class="w-1/2 min-h-[30px] bg-slate-400 rounded-full px-2 ml-auto"
+          class="w-1/2 min-h-[30px] bg-slate-400 rounded-full px-2 ml-auto text-lg text-slate-900 font-semibold"
         >
           <h4>{{ message }}</h4>
         </li>
       </ul>
+      <!-- <h2 v-if="!chat.messages.length" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
       <form
         @submit.prevent="addMessage"
         class="fixed bottom-0 mb-2 w-[390px] border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -49,6 +49,7 @@ import { useAuthStore } from "@/store/auth";
 import { useChatStore } from "@/store/chat";
 import { computed, onMounted, ref } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
+import userImage from '@/assets/images/user-image.jpg'
 
 const router = useRouter();
 const route = useRoute();
@@ -60,8 +61,9 @@ const message = ref("");
 const key = route.params.id;
 
 const addMessage = async () => {
-  if (message) {
+  if (message.value) {
     await chatStore.setMessage(route.params.id, message.value);
+    message.value = ''
   }
 };
 const chat = computed(() => chatStore.chat);

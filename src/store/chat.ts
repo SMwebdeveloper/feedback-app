@@ -27,56 +27,58 @@ export const useChatStore = defineStore("chat", {
     async getAllChats() {
       const db = ref(getDatabase());
       await get(child(db, "allChats")).then((snapshot: any) => {
-        if (!snapshot.exists()) {
+        if (snapshot.exists()) {
           console.log("Not found chats");
+        } else {
+          Object.entries(snapshot.val()).map((item: any) => {
+            const [id, value] = item;
+  
+            if (value.users.includes(this.store.authToken)) {
+              value.users = value.users.filter((item: any) => {
+                return this.store.authToken !== item;
+              });
+  
+              const { result } = usableArr(value.users);
+              const newResult = [];
+              let newUser: any = {};
+              let messagesCount: number = 0;
+  
+              result.map((user: any) => (newUser = user));
+  
+              result.forEach((user: any) => {
+                if (value.users.includes(user.id)) {
+                  value.messages.map((message: any) => {
+                    if (!message.visible) {
+                      messagesCount++;
+                    }
+                  });
+                }
+              });
+  
+              newResult.push({
+                id: id,
+                user: newUser,
+                messages: value.messages,
+                unreadMessage: messagesCount,
+              });
+  
+              return chatRepo.save(newResult);
+            }
+          });
         }
 
-        Object.entries(snapshot.val()).map((item: any) => {
-          const [id, value] = item;
-
-          if (value.users.includes(this.store.authToken)) {
-            value.users = value.users.filter((item: any) => {
-              return this.store.authToken !== item;
-            });
-
-            const { result } = usableArr(value.users);
-            const newResult = [];
-            let newUser: any = {};
-            let messagesCount: number = 0;
-
-            result.map((user: any) => (newUser = user));
-
-            result.forEach((user: any) => {
-              if (value.users.includes(user.id)) {
-                value.messages.map((message: any) => {
-                  if (!message.visible) {
-                    messagesCount++;
-                  }
-                });
-              }
-            });
-
-            newResult.push({
-              id: id,
-              user: newUser,
-              messages: value.messages,
-              unreadMessage: messagesCount,
-            });
-
-            return chatRepo.save(newResult);
-          }
-        });
+        
         const data = chatRepo.query().get();
         this.allChats = data;
       });
     },
     getSingleChat(key: any) {
       const data = chatRepo.query().get();
-      let result: any = null
+      let result: any = null;
 
-      data.forEach(element => {
+      data.forEach((element) => {
         if (element.user.id === key) {
-          result = element
+          result = element;
         }
       });
       if (!result) {
@@ -95,29 +97,31 @@ export const useChatStore = defineStore("chat", {
     setMessage(id: any, message: string) {
       this.allChats.forEach(async (user: any) => {
         if (user.user.id !== id) {
-          const key = Math.floor(Math.random() * 1000);
-          await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
-            users: [id, this.store.authToken],
-            messages: [
-              {
-                id: key,
-                message: message,
-                userId: this.store.authToken,
-                visible: false,
-              },
-            ],
-          })
-            .then(() => {
-              console.log("done");
-            })
-            .catch((error): any => {
-              console.log(error);
-            });
+          // const key = Math.floor(Math.random() * 1000);
+          // await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
+          //   users: [id, this.store.authToken],
+          //   messages: [
+          //     {
+          //       id: key,
+          //       message: message,
+          //       userId: this.store.authToken,
+          //       visible: false,
+          //     },
+          //   ],
+          // })
+          //   .then(() => {
+          //     console.log("done");
+          //   })
+          //   .catch((error): any => {
+          //     console.log(error);
+          //   });
+          console.log(id)
         } else {
-          const messageRef = ref(getDatabase(), "allChats/" + user.id);
-          onChildAdded(messageRef, (data) => {
-            console.log(data);
-          });
+          // const messageRef = ref(getDatabase(), "allChats/" + user.id);
+          // onChildAdded(messageRef, (data) => {
+          //   console.log(data);
+          // });
+          console.log(user.user.id)
         }
       });
     },
