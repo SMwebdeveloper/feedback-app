@@ -59,7 +59,6 @@ import { computed, onMounted, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useFeedbackStore } from "@/store/feedback";
-// import { useCommentStore } from "@/store/comment";
 import { BookmarkIcon, HandThumbUpIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
 
@@ -76,11 +75,10 @@ const props = defineProps({
 const route = useRoute();
 const store = useAuthStore();
 const feedbackStore = useFeedbackStore();
-// const commentStore = useCommentStore();
 
 const feedback = computed(() => props.feedback);
 const likesCount = computed(() => feedback.value.likes.length);
-// const commentsLength = commentStore.comments.filter((item:any) => item.feedbackId === feedback.value.id)
+
 
 store.user.saveFeedbacks?.forEach((item: any) => {
   if (item === feedback.value.id) {
@@ -114,16 +112,7 @@ watchEffect(() => {
   }
 });
 
-// watch(likes, (liked, diseLiked) => {
-//   if (!liked) {
-//     feedback.value.likes = feedback.value.likes.filter((item: any) => {
-//       return item !== store.authToken
-//     })
-//   }
-//   feedbackStore.toggleLikesFeedbacks(feedback.id, likes.value)
-// })   
 onMounted(async () => {
   await feedbackStore.getSaveFeedback();
-  // await commentStore.getComments("__", "feedbackId");
 });
 </script>

@@ -1,12 +1,6 @@
 import { defineStore } from "pinia";
-import {
-  set,
-  get,
-  getDatabase,
-  child,
-  ref,
-  onChildAdded,
-} from "firebase/database";
+import { set, get, getDatabase, child, ref, update } from "firebase/database";
+import { database } from "@/firebase/config";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
 import { Chats } from "@/models/chats";
@@ -24,28 +18,28 @@ export const useChatStore = defineStore("chat", {
     };
   },
   actions: {
+    // get all chats
     async getAllChats() {
       const db = ref(getDatabase());
       await get(child(db, "allChats")).then((snapshot: any) => {
         if (!snapshot.exists()) {
           console.log("Not found chats");
-        } else { 
-          
+        } else {
           Object.entries(snapshot.val()).map((item: any) => {
             const [id, value] = item;
-  
+
             if (value.users.includes(this.store.authToken)) {
               value.users = value.users.filter((item: any) => {
                 return this.store.authToken !== item;
               });
-  
+
               const { result } = usableArr(value.users);
               const newResult = [];
               let newUser: any = {};
               let messagesCount: number = 0;
-  
+
               result.map((user: any) => (newUser = user));
-  
+
               result.forEach((user: any) => {
                 if (value.users.includes(user.id)) {
                   value.messages.map((message: any) => {
@@ -55,14 +49,14 @@ export const useChatStore = defineStore("chat", {
                   });
                 }
               });
-  
+
               newResult.push({
                 id: id,
                 user: newUser,
                 messages: value.messages,
                 unreadMessage: messagesCount,
               });
-  
+
               return chatRepo.save(newResult);
             }
           });
@@ -72,6 +66,7 @@ export const useChatStore = defineStore("chat", {
         this.allChats = data;
       });
     },
+    // get single chat
     getSingleChat(key: any) {
       const data = chatRepo.query().get();
       let result: any = null;
@@ -94,36 +89,56 @@ export const useChatStore = defineStore("chat", {
       }
       return (this.chat = result);
     },
-    setMessage(id: any, message: string) {
-      this.allChats.forEach(async (user: any) => {
-        if (user.user.id !== id) {
-          // const key = Math.floor(Math.random() * 1000);
-          // await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
-          //   users: [id, this.store.authToken],
-          //   messages: [
-          //     {
-          //       id: key,
-          //       message: message,
-          //       userId: this.store.authToken,
-          //       visible: false,
-          //     },
-          //   ],
-          // })
-          //   .then(() => {
-          //     console.log("done");
-          //   })
-          //   .catch((error): any => {
-          //     console.log(error);
-          //   });
-          console.log(id)
-        } else {
-          // const messageRef = ref(getDatabase(), "allChats/" + user.id);
-          // onChildAdded(messageRef, (data) => {
-          //   console.log(data);
-          // });
-          console.log(user.user.id)
-        }
+    // add message and create new chat
+    async setMessage(id: any, message: string) {
+      const data = chatRepo.query().get();
+      const key = Math.floor(Math.random() * 1000);
+      let existsUser = false;
+      let userItem: any;
+      data?.map((user: any) => {
+        return user.user.id === id
+          ? ((existsUser = true), (userItem = user))
+          : (existsUser = false);
       });
+
+      if (existsUser) {
+        const messageRef = ref(database, "allChats/" + userItem.id);
+        userItem.messages.push({
+          id: key,
+          message: message,
+          userId: this.store.authToken,
+          visible: false,
+        });
+        await update(messageRef, userItem)
+          .then(async () => {
+            console.log("update");
+            await this.store.getUsers();
+            await this.getAllChats();
+            await this.getSingleChat(id);
+          })
+          .catch((e) => console.log(e.message));
+      } else {
+        await set(ref(getDatabase(), "allChats/" + generateRandomId()), {
+          users: [id, this.store.authToken],
+          messages: [
+            {
+              id: key,
+              message: message,
+              userId: this.store.authToken,
+              visible: false,
+            },
+          ],
+        })
+          .then(async () => {
+            await this.store.getUsers();
+            await this.getAllChats();
+            await this.getSingleChat(id);
+            console.log("done");
+          })
+          .catch((error): any => {
+            console.log(error);
+          });
+      }
     },
   },
 });

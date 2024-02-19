@@ -16,16 +16,16 @@
         />
         <h3 class="text-3xl text-slate-50 font-bold">{{ chat.user?.name }}</h3>
       </div>
-      <ul class="h-[78vh] flex flex-col justify-end" v-for="{message, id} in chat.messages">
+      <ul class="h-[78vh] flex flex-col justify-end">
         <li
-          
+          v-for="{ message, id, userId } in messages"
           :key="id"
-          class="w-1/2 min-h-[30px] bg-slate-400 rounded-full px-2 ml-auto text-lg text-slate-900 font-semibold"
+          class="w-1/2 min-h-[30px] border-2 rounded-full px-2 text-lg text-slate-900 font-semibold mb-2 last:mb-0" :class="`${userId === store.authToken ? 'bg-slate-400 ml-auto border-slate-700'  : 'bg-[rgba(255,255,255,0.7)] mr-auto border-white'}`"
         >
           <h4>{{ message }}</h4>
         </li>
       </ul>
-      <!-- <h2 v-if="!chat.messages.length" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
+      <!-- <h2 v-if="!messages" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
       <form
         @submit.prevent="addMessage"
         class="fixed bottom-0 mb-2 w-[390px] border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -33,6 +33,7 @@
         <input
           v-model="message"
           type="text"
+          placeholder="Send message"
           class="bg-transparent w-[90%] border-none outline-none text-slate-200 font-medium"
         />
         <button class="h-6">
@@ -49,7 +50,7 @@ import { useAuthStore } from "@/store/auth";
 import { useChatStore } from "@/store/chat";
 import { computed, onMounted, ref } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
-import userImage from '@/assets/images/user-image.jpg'
+import userImage from "@/assets/images/user-image.jpg";
 
 const router = useRouter();
 const route = useRoute();
@@ -63,16 +64,18 @@ const key = route.params.id;
 const addMessage = async () => {
   if (message.value) {
     await chatStore.setMessage(route.params.id, message.value);
-    message.value = ''
+    message.value = "";
   }
 };
 const chat = computed(() => chatStore.chat);
+const messages = computed(() => chat.value.messages);
 
 onMounted(async () => {
   loading.value = true;
   await store.getUsers();
   await chatStore.getAllChats();
   await chatStore.getSingleChat(key);
+  console.log(messages.value);
   loading.value = false;
 });
 </script>

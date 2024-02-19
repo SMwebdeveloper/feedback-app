@@ -9,7 +9,7 @@
             class="flex items-center border-b-2 border-whtie py-4 pl-2 pr-4"
           >
             <img
-              :src="item?.user.img"
+              :src="item?.user.img ? item.user.img : userImage"
               alt="user image"
               class="w-12 h-12 rounded-full mr-4"
             />
@@ -25,10 +25,12 @@
           </router-link>
         </li>
       </ul>
+      <h2 v-if="!loading && !allChats.length" class="text-slate-200 text-3xl font-semibold text-center mt-">Chats not yet</h2>
     </div>
   </section>
 </template>
 <script setup lang="ts">
+import userImage from '@/assets/images/user-image.jpg'
 import { onMounted, computed, ref } from "vue";
 import { useChatStore } from "@/store/chat";
 import { useAuthStore } from "@/store/auth";
