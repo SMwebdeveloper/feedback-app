@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { set, get, getDatabase, child, ref, update } from "firebase/database";
+import { set, get, getDatabase, child, ref, update, onValue, onChildAdded } from "firebase/database";
 import { database } from "@/firebase/config";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
@@ -67,7 +67,7 @@ export const useChatStore = defineStore("chat", {
       });
     },
     // get single chat
-    getSingleChat(key: any) {
+    async getSingleChat(key: any) {
       const data = chatRepo.query().get();
       let result: any = null;
 
@@ -86,7 +86,7 @@ export const useChatStore = defineStore("chat", {
             };
           }
         });
-      }
+      } 
       return (this.chat = result);
     },
     // add message and create new chat
@@ -100,7 +100,8 @@ export const useChatStore = defineStore("chat", {
           ? ((existsUser = true), (userItem = user))
           : (existsUser = false);
       });
-
+      
+      console.log(existsUser)
       if (existsUser) {
         const messageRef = ref(database, "allChats/" + userItem.id);
         userItem.messages.push({
@@ -112,9 +113,9 @@ export const useChatStore = defineStore("chat", {
         await update(messageRef, userItem)
           .then(async () => {
             console.log("update");
-            await this.store.getUsers();
-            await this.getAllChats();
-            await this.getSingleChat(id);
+            // await this.store.getUsers();
+            // await this.getAllChats();
+            // await this.getSingleChat(id);
           })
           .catch((e) => console.log(e.message));
       } else {

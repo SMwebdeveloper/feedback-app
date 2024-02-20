@@ -2,7 +2,7 @@
   <div class="project-container relative">
     <loader v-if="loading" />
     <div v-else>
-      <div class="flex items-center border-b border-slate-200 pb-2">
+      <div class="flex items-center border-b border-slate-200 pb-2 fixed top-0 w-[390px] bg-slate-600">
         <a class="h-8">
           <chevron-left-icon
             @click="router.back()"
@@ -16,7 +16,7 @@
         />
         <h3 class="text-3xl text-slate-50 font-bold">{{ chat.user?.name }}</h3>
       </div>
-      <ul class="h-[78vh] flex flex-col justify-end">
+      <ul class="max-h-[90vh] flex flex-col justify-end overflow-y-scroll">
         <li
           v-for="{ message, id, userId } in messages"
           :key="id"
@@ -28,7 +28,7 @@
       <!-- <h2 v-if="!messages" class="text-center my-[200px] text-slate-200 text-2xl font-semibold">Not yet messages</h2> -->
       <form
         @submit.prevent="addMessage"
-        class="fixed bottom-0 mb-2 w-[390px] border rounded-full border-slate-200 pl-2 py-2 flex items-center"
+        class="fixed bottom-0 mb-2 w-[390px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
       >
         <input
           v-model="message"
@@ -51,6 +51,8 @@ import { useChatStore } from "@/store/chat";
 import { computed, onMounted, ref } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
 import userImage from "@/assets/images/user-image.jpg";
+import { database } from "@/firebase/config";
+import {ref as fireRef, onChildAdded} from 'firebase/database'
 
 const router = useRouter();
 const route = useRoute();
@@ -75,7 +77,10 @@ onMounted(async () => {
   await store.getUsers();
   await chatStore.getAllChats();
   await chatStore.getSingleChat(key);
-  console.log(messages.value);
   loading.value = false;
+  const messageRef = fireRef(database, 'allChats/' + chat.value.id + '/messages') 
+        await onChildAdded(messageRef, (data) => {
+          messages.value = data.val()
+        })
 });
 </script>
