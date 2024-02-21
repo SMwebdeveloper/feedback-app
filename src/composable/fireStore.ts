@@ -12,14 +12,19 @@ import {
 // add store
 export const addStore = async (payload: object, key: string) => {
   const colRef = collection(db, key);
+  const itemId = ref("");
+
   await addDoc(colRef, {
     ...payload,
   })
-  .then(() => {
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+    .then((item) => {
+      itemId.value = item.id;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  return { itemId };
 };
 
 //  fetch store
@@ -32,7 +37,7 @@ export const getStore = async (payload: string) => {
     snapshot.docs.forEach(async (doc) => {
       docs.push({ ...doc.data(), id: doc.id });
     });
-    newArr.value = docs
+    newArr.value = docs;
   });
 
   watchEffect((onInvalidate) => {
@@ -56,12 +61,11 @@ export const getStore = async (payload: string) => {
 export const deleteStore = async (key: string, type: string) => {
   const docRef = doc(db, type, key);
   await deleteDoc(docRef)
-    .then(() => {
-    })
+    .then(() => {})
     .catch((err) => console.log(err));
 };
 
-// update store 
+// update store
 export const updateStore = async (
   key: string,
   type: string,
@@ -69,6 +73,6 @@ export const updateStore = async (
 ) => {
   const docRef = doc(db, type, key);
   await updateDoc(docRef, updateArr)
-    .then(() =>{})
+    .then(() => {})
     .catch((error) => console.log(error));
 };
