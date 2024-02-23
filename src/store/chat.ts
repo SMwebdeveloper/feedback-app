@@ -5,8 +5,6 @@ import {
   getDatabase,
   child,
   ref,
-  update,
-  onValue,
   onChildAdded,
 } from "firebase/database";
 import { database } from "@/firebase/config";
@@ -43,6 +41,7 @@ export const useChatStore = defineStore("chat", {
             message: data[key].message,
             userId: data[key].userId,
             id: key,
+            visible: data[key].visible
           });
         }
       });
@@ -55,10 +54,13 @@ export const useChatStore = defineStore("chat", {
           const { result } = usableArr(item.users);
           let newUser: object = {};
           let countMessage: number = 0;
+          console.log(allMessages)
           allMessages.forEach((message: any) => {
             if (message.chat === item.id) {
-              if (!message.visible) {
-                countMessage++;
+              if (message.userId !== this.store.authToken) {
+                if (!message.visible) {
+                  countMessage++;
+                }
               }
             }
           });
@@ -98,7 +100,7 @@ export const useChatStore = defineStore("chat", {
         const messageRef = ref(getDatabase(), "messages/");
         onChildAdded(messageRef, (snapshot) => {
           return snapshot.val().chat === result.id
-            ? this.messages.push({...snapshot.val(), id:snapshot.val().id})
+            ? this.messages.push({...snapshot.val(), id:snapshot.key})
             : false;
         });
       }
@@ -119,7 +121,6 @@ export const useChatStore = defineStore("chat", {
 
       
       if (existsUser) {
-        // const messageRef = ref(database, "allChats/" + userItem.id);
         await set(ref(getDatabase(), "messages/" + generateRandomId()), {
             chat: userItem.id,
             userId: this.store.authToken,
@@ -127,16 +128,16 @@ export const useChatStore = defineStore("chat", {
             visible: false,
             });
       } else {
-      // const obj = {
-      //   users: [id, this.store.authToken],
-      // };
-      // const { itemId }: any = await addStore(obj, "chats");
-      // await set(ref(getDatabase(), "messages/" + generateRandomId()), {
-      //   chat: itemId.value,
-      //   userId: this.store.authToken,
-      //   message: message,
-      //   visible: false,
-        // });
+      const obj = {
+        users: [id, this.store.authToken],
+      };
+      const { itemId }: any = await addStore(obj, "chats");
+      await set(ref(getDatabase(), "messages/" + generateRandomId()), {
+        chat: itemId.value,
+        userId: this.store.authToken,
+        message: message,
+        visible: false,
+        });
         console.log('not found')
       }
     },

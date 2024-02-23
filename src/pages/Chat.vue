@@ -2,7 +2,9 @@
   <div class="project-container relative">
     <loader v-if="loading" />
     <div v-else>
-      <div class="flex items-center border-b border-slate-200 pb-2 fixed top-0 w-[367px] bg-slate-600">
+      <div
+        class="flex items-center border-b border-slate-200 pb-2 fixed top-0 w-[367px] bg-slate-600"
+      >
         <a class="h-8">
           <chevron-left-icon
             @click="router.back()"
@@ -18,11 +20,20 @@
       </div>
 
       <ul class="flex flex-col justify-end pt-12 pb-8 w-full">
-       <li v-for="{message, userId, id} in chatStore.messages" :key="id" class="w-1/2 text-slate-200 font-semibold border rounded-full px-2 py-1 mb-2 last:mb-0" :class="`${userId === store.authToken ? 'border-slate-900 bg-slate-700 ml-auto':'border-slate-200 bg-slate-600 mr-auto'}`">
-        {{ message }}
-      </li>
+        <li
+          v-for="{ message, userId, id } in chatStore.messages"
+          :key="id"
+          class="w-1/2 text-slate-200 font-semibold border rounded-full px-2 py-1 mb-2 last:mb-0"
+          :class="`${
+            userId === store.authToken
+              ? 'border-slate-900 bg-slate-700 ml-auto'
+              : 'border-slate-200 bg-slate-600 mr-auto'
+          }`"
+        >
+          {{ message }}
+        </li>
       </ul>
-     
+
       <form
         @submit.prevent="addMessage"
         class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -45,9 +56,11 @@ import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useChatStore } from "@/store/chat";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
+import { update, ref as messageRef, getDatabase } from "firebase/database";
 import userImage from "@/assets/images/user-image.jpg";
+import { database } from "@/firebase/config";
 
 const router = useRouter();
 const route = useRoute();
@@ -66,7 +79,6 @@ const addMessage = async () => {
 };
 const chat = computed(() => chatStore.chat);
 const messages = computed(() => chatStore.messages);
-
 onMounted(async () => {
   loading.value = true;
   await store.getUsers();
@@ -74,5 +86,21 @@ onMounted(async () => {
   await chatStore.getSingleChat(key);
   console.log(messages.value)
   loading.value = false;
+});
+watchEffect(async () => {
+  messages.value.forEach(async (message: any) => {
+    if (message.userId !== store.authToken) {
+      if (!message.visible) {
+        const db = messageRef(database, "messages/" + message.id);
+        const newObj = {
+          chat: message.chat,
+          message: message.message,
+          userId: message.userId,
+          visible: true,
+        };
+        await update(db, newObj).then(() => console.log('done')).catch((error:any) => console.log(error.message))
+      }
+    }
+  });
 });
 </script>
