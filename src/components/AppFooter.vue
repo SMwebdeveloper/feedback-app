@@ -55,7 +55,7 @@ const store = useChatStore()
 const norifacation = ref(false);
 watchEffect(async () => {
   store.allChats.forEach((message: any) => {
-    if (message.unreadMessage) {
+    if (message.unreadMessage !== 0) {
       norifacation.value = true
     }
   })

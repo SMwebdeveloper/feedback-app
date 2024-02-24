@@ -33,7 +33,7 @@
           {{ message }}
         </li>
       </ul>
-
+       <!-- <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2> -->
       <form
         @submit.prevent="addMessage"
         class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -104,3 +104,6 @@ watchEffect(async () => {
   });
 });
 </script>
+<style scoped lang="css">
+
+</style>

@@ -8,6 +8,12 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
+import {
+  onChildAdded,
+  onValue,
+  ref as databaseRef,
+  getDatabase,
+} from "firebase/database";
 
 // add store
 export const addStore = async (payload: object, key: string) => {
@@ -75,4 +81,32 @@ export const updateStore = async (
   await updateDoc(docRef, updateArr)
     .then(() => {})
     .catch((error) => console.log(error));
+};
+
+// get messages
+export const getMessages = async (type?:string) => {
+  const allMessages:any = ref([]);
+  const db = databaseRef(getDatabase(), "messages/");
+   await onChildAdded(db, (snapshot) => {
+     if (!type) {
+       allMessages.value.push({ id: snapshot.key, ...snapshot.val() });
+       
+     } else {
+       
+     }
+  });
+  // watchEffect((onInvalidDate) => {
+  //   onInvalidDate(() => getMessage());
+  // });
+  // await new Promise<void>((resolve) => {
+  //   const unsubscribeInitial = onChildAdded(db, (data: any) => {
+  //     if (!data.empty) {
+  //       unsubscribeInitial();
+  //       resolve();
+  //     } else {
+  //       resolve();
+  //     }
+  //   });
+  // });
+  return { allMessages };
 };
