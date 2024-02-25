@@ -49,7 +49,7 @@ import {
   BookmarkIcon,
 } from "@heroicons/vue/24/outline";
 import { useChatStore } from "@/store/chat";
-import { ref, watchEffect } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 
 const store = useChatStore()
 const norifacation = ref(false);
@@ -60,4 +60,7 @@ watchEffect(async () => {
     }
   })
 });
+onMounted(async () => {
+  await store.getAllChats()
+})
 </script>

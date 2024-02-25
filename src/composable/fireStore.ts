@@ -84,29 +84,29 @@ export const updateStore = async (
 };
 
 // get messages
-export const getMessages = async (type?:string) => {
-  const allMessages:any = ref([]);
+export const getMessages = async (type?: string) => {
+  const allMessages: any = ref([]);
   const db = databaseRef(getDatabase(), "messages/");
-   await onChildAdded(db, (snapshot) => {
-     if (!type) {
-       allMessages.value.push({ id: snapshot.key, ...snapshot.val() });
-       
-     } else {
-       
-     }
+  const getMessage = await onChildAdded(db, (snapshot) => {
+    allMessages.value.push({ id: snapshot.key, ...snapshot.val() });
   });
-  // watchEffect((onInvalidDate) => {
-  //   onInvalidDate(() => getMessage());
-  // });
-  // await new Promise<void>((resolve) => {
-  //   const unsubscribeInitial = onChildAdded(db, (data: any) => {
-  //     if (!data.empty) {
-  //       unsubscribeInitial();
-  //       resolve();
-  //     } else {
-  //       resolve();
-  //     }
-  //   });
-  // });
+  if (type) {
+    allMessages.value = allMessages.value.filter((item: any) => {
+      return type === item.chat
+    })
+  }
+  watchEffect((onInvalidDate) => {
+    onInvalidDate(() => getMessage());
+  });
+  await new Promise<void>((resolve) => {
+    const unsubscribeInitial = onChildAdded(db, (data: any) => {
+      if (!data.empty) {
+        unsubscribeInitial();
+        resolve();
+      } else {
+        resolve();
+      }
+    });
+  });
   return { allMessages };
 };

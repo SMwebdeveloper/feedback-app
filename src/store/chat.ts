@@ -1,20 +1,19 @@
 import { defineStore } from "pinia";
 import {
   set,
-  get,
   getDatabase,
-  child,
   ref,
   onChildAdded,
 } from "firebase/database";
-import { database } from "@/firebase/config";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
 import { Chats } from "@/models/chats";
 import { useAuthStore } from "./auth";
 import { usableArr } from "@/composable/usable";
-import { addStore, getStore, getMessages } from "@/composable/fireStore";
+import { addStore, getStore } from "@/composable/fireStore";
 import { generateRandomId } from "@/composable/generateId";
+import { formattedDate } from "@/composable/getDate";
+import * as moment from "moment";
 
 const chatRepo = useRepo(Chats);
 export const useChatStore = defineStore("chat", {
@@ -32,7 +31,11 @@ export const useChatStore = defineStore("chat", {
       const { newArr }: any = await getStore("chats");
       let newResult: any = [];
 
-      const { allMessages } = await getMessages();
+      const db = ref(getDatabase(), 'messages') 
+      const allMessages:any = []
+      await onChildAdded(db, (snapshot) => {
+        allMessages.push({id:snapshot.key, ...snapshot.val()})
+      })
 
       newArr.value.forEach((item: any) => {
         if (item.users.includes(this.store.authToken)) {
@@ -42,10 +45,10 @@ export const useChatStore = defineStore("chat", {
           const { result } = usableArr(item.users);
           let newUser: object = {};
           let countMessage: number = 0;
-          allMessages.value.forEach((message: any) => {
+          allMessages.forEach((message: any) => {
             if (message.chat === item.id) {
               if (message.userId !== this.store.authToken) {
-                if (!message.visible) {
+                if (message.visible === false) {
                   countMessage++;
                 }
               }
@@ -84,15 +87,20 @@ export const useChatStore = defineStore("chat", {
           }
         });
       } else {
-        const { allMessages } = await getMessages('chat');
-        this.messages = allMessages.value
+        const db = ref(getDatabase(), "messages/");
+        const messages:any = []
+        await onChildAdded(db, (snapshot) => {
+          if (snapshot.val().chat === result.id) {
+            messages.push({...snapshot.val(), id:snapshot.key})
+          }
+          this.messages = messages
+        })
       }
       return (this.chat = result), this.messages;
     },
     // add message and create new chat
     async setMessage(id: any, message: string) {
       const data = chatRepo.query().get();
-      const key = Math.floor(Math.random() * 1000);
       let existsUser = false;
       let userItem: any;
 
@@ -108,6 +116,8 @@ export const useChatStore = defineStore("chat", {
           userId: this.store.authToken,
           message: message,
           visible: false,
+          time: moment().hour(),
+          date: moment().dayOfYear()
         });
       } else {
         const obj = {
@@ -120,7 +130,6 @@ export const useChatStore = defineStore("chat", {
           message: message,
           visible: false,
         });
-        console.log("not found");
       }
     },
   },

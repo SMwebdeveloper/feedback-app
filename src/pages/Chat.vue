@@ -21,9 +21,9 @@
 
       <ul class="flex flex-col justify-end pt-12 pb-8 w-full">
         <li
-          v-for="{ message, userId, id } in chatStore.messages"
+          v-for="{ message, time,date, userId, id, visible } in chatStore.messages"
           :key="id"
-          class="w-1/2 text-slate-200 font-semibold border rounded-full px-2 py-1 mb-2 last:mb-0"
+          class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
           :class="`${
             userId === store.authToken
               ? 'border-slate-900 bg-slate-700 ml-auto'
@@ -31,9 +31,14 @@
           }`"
         >
           {{ message }}
+          
+          <!-- <span v-show="userId === store.authToken" class="flex items-center justify-end">
+            <check-icon v-if="visible" class="w-3 h-3 ml-4"/>
+            <check-icon class="w-3 h-3"/>
+          </span> -->
         </li>
       </ul>
-       <!-- <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2> -->
+      <!-- <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2> -->
       <form
         @submit.prevent="addMessage"
         class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -52,13 +57,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
+import { ChevronLeftIcon, CheckIcon } from "@heroicons/vue/24/solid";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useChatStore } from "@/store/chat";
 import { computed, onMounted, ref, watchEffect } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
-import { update, ref as messageRef, getDatabase } from "firebase/database";
+import { update, ref as messageRef } from "firebase/database";
 import userImage from "@/assets/images/user-image.jpg";
 import { database } from "@/firebase/config";
 
@@ -84,9 +89,8 @@ onMounted(async () => {
   await store.getUsers();
   await chatStore.getAllChats();
   await chatStore.getSingleChat(key);
-  console.log(messages.value)
-  loading.value = false;
-});
+  loading.value = false
+})
 watchEffect(async () => {
   messages.value.forEach(async (message: any) => {
     if (message.userId !== store.authToken) {
@@ -96,6 +100,8 @@ watchEffect(async () => {
           chat: message.chat,
           message: message.message,
           userId: message.userId,
+          time: message.time,
+          date: message.date,
           visible: true,
         };
         await update(db, newObj).then(() => console.log('done')).catch((error:any) => console.log(error.message))
@@ -104,6 +110,4 @@ watchEffect(async () => {
   });
 });
 </script>
-<style scoped lang="css">
-
-</style>
+<style scoped lang="css"></style>
