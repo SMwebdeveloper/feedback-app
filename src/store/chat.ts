@@ -4,6 +4,7 @@ import {
   getDatabase,
   ref,
   onChildAdded,
+  serverTimestamp,
 } from "firebase/database";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
@@ -12,8 +13,7 @@ import { useAuthStore } from "./auth";
 import { usableArr } from "@/composable/usable";
 import { addStore, getStore } from "@/composable/fireStore";
 import { generateRandomId } from "@/composable/generateId";
-import { formattedDate } from "@/composable/getDate";
-import * as moment from "moment";
+// import { formattedDate } from "@/composable/getDate";
 
 const chatRepo = useRepo(Chats);
 export const useChatStore = defineStore("chat", {
@@ -31,11 +31,11 @@ export const useChatStore = defineStore("chat", {
       const { newArr }: any = await getStore("chats");
       let newResult: any = [];
 
-      const db = ref(getDatabase(), 'messages') 
-      const allMessages:any = []
+      const db = ref(getDatabase(), "messages");
+      const allMessages: any = [];
       await onChildAdded(db, (snapshot) => {
-        allMessages.push({id:snapshot.key, ...snapshot.val()})
-      })
+        allMessages.push({ id: snapshot.key, ...snapshot.val() });
+      });
 
       newArr.value.forEach((item: any) => {
         if (item.users.includes(this.store.authToken)) {
@@ -48,7 +48,7 @@ export const useChatStore = defineStore("chat", {
           allMessages.forEach((message: any) => {
             if (message.chat === item.id) {
               if (message.userId !== this.store.authToken) {
-                if (message.visible === false) {
+                if (!message.visible) {
                   countMessage++;
                 }
               }
@@ -88,13 +88,14 @@ export const useChatStore = defineStore("chat", {
         });
       } else {
         const db = ref(getDatabase(), "messages/");
-        const messages:any = []
+        const messages: any = [];
         await onChildAdded(db, (snapshot) => {
           if (snapshot.val().chat === result.id) {
-            messages.push({...snapshot.val(), id:snapshot.key})
+            console.log(snapshot.key);
+            messages.push({ ...snapshot.val(), id: snapshot.key });
           }
-          this.messages = messages
-        })
+          this.messages = messages;
+        });
       }
       return (this.chat = result), this.messages;
     },
@@ -116,8 +117,7 @@ export const useChatStore = defineStore("chat", {
           userId: this.store.authToken,
           message: message,
           visible: false,
-          time: moment().hour(),
-          date: moment().dayOfYear()
+          createdAt: serverTimestamp(),
         });
       } else {
         const obj = {
@@ -129,6 +129,7 @@ export const useChatStore = defineStore("chat", {
           userId: this.store.authToken,
           message: message,
           visible: false,
+          createdAt: serverTimestamp(),
         });
       }
     },

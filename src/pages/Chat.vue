@@ -21,7 +21,14 @@
 
       <ul class="flex flex-col justify-end pt-12 pb-8 w-full">
         <li
-          v-for="{ message, time,date, userId, id, visible } in chatStore.messages"
+          v-for="{
+            message,
+            time,
+            date,
+            userId,
+            id,
+            visible,
+          } in chatStore.messages"
           :key="id"
           class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
           :class="`${
@@ -31,7 +38,7 @@
           }`"
         >
           {{ message }}
-          
+
           <!-- <span v-show="userId === store.authToken" class="flex items-center justify-end">
             <check-icon v-if="visible" class="w-3 h-3 ml-4"/>
             <check-icon class="w-3 h-3"/>
@@ -84,27 +91,26 @@ const addMessage = async () => {
 };
 const chat = computed(() => chatStore.chat);
 const messages = computed(() => chatStore.messages);
+
 onMounted(async () => {
   loading.value = true;
   await store.getUsers();
   await chatStore.getAllChats();
   await chatStore.getSingleChat(key);
-  loading.value = false
-})
+  loading.value = false;
+});
 watchEffect(async () => {
-  messages.value.forEach(async (message: any) => {
+  messages.value?.forEach(async (message: any) => {
     if (message.userId !== store.authToken) {
       if (!message.visible) {
         const db = messageRef(database, "messages/" + message.id);
         const newObj = {
-          chat: message.chat,
-          message: message.message,
-          userId: message.userId,
-          time: message.time,
-          date: message.date,
+          ...message,
           visible: true,
         };
-        await update(db, newObj).then(() => console.log('done')).catch((error:any) => console.log(error.message))
+        await update(db, newObj)
+          .then(() => console.log("done"))
+          .catch((error: any) => console.log(error.message));
       }
     }
   });

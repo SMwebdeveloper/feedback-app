@@ -16,7 +16,7 @@
         /></router-link>
       </li>
       <li class="w-[40px] cursor-pointer duration-200 hover:text-slate-400 relative">
-        <span v-show="norifacation" class="inline-block absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full"></span>
+        <!-- <span v-show="norifacation" class="inline-block absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full"></span> -->
         <router-link to="/chats" exact-active-class="text-slate-600">
           <ChatBubbleOvalLeftEllipsisIcon 
         /></router-link>
