@@ -19,15 +19,13 @@
         <h3 class="text-3xl text-slate-50 font-bold">{{ chat.user?.name }}</h3>
       </div>
 
-      <ul class="flex flex-col justify-end pt-12 pb-8 w-full">
+      <ul class="flex flex-col justify-end pt-12 pb-8 w-full min-h-screen">
         <li
           v-for="{
             message,
-            time,
-            date,
             userId,
             id,
-            visible,
+            hour,
           } in chatStore.messages"
           :key="id"
           class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
@@ -37,18 +35,14 @@
               : 'border-slate-200 bg-slate-600 mr-auto'
           }`"
         >
-          {{ message }}
-
-          <!-- <span v-show="userId === store.authToken" class="flex items-center justify-end">
-            <check-icon v-if="visible" class="w-3 h-3 ml-4"/>
-            <check-icon class="w-3 h-3"/>
-          </span> -->
+          <h4>{{ message }}</h4>
+          <span class="inline-block text-sm ml-auto">{{ hour }}</span>
         </li>
       </ul>
-      <!-- <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2> -->
+      <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2>
       <form
         @submit.prevent="addMessage"
-        class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
+        class="absolute bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
       >
         <input
           v-model="message"
@@ -64,7 +58,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ChevronLeftIcon, CheckIcon } from "@heroicons/vue/24/solid";
+import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useChatStore } from "@/store/chat";
@@ -90,13 +84,18 @@ const addMessage = async () => {
   message.value = "";
 };
 const chat = computed(() => chatStore.chat);
-const messages = computed(() => chatStore.messages);
+const messages = computed(() => {
+  chatStore.messages.sort((a, b) => new Date(a.time) - new Date(b.time))
+  return chatStore.messages
+});
 
 onMounted(async () => {
   loading.value = true;
   await store.getUsers();
   await chatStore.getAllChats();
-  await chatStore.getSingleChat(key);
+  if (!chatStore.messages.length) {
+    await chatStore.getSingleChat(key);
+  }
   loading.value = false;
 });
 watchEffect(async () => {
@@ -104,6 +103,7 @@ watchEffect(async () => {
     if (message.userId !== store.authToken) {
       if (!message.visible) {
         const db = messageRef(database, "messages/" + message.id);
+        console.log(message)
         const newObj = {
           ...message,
           visible: true,
@@ -116,4 +116,6 @@ watchEffect(async () => {
   });
 });
 </script>
-<style scoped lang="css"></style>
+<style scoped lang="css">
+
+</style>

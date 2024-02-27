@@ -1,12 +1,13 @@
-const currentDate = new Date();
+export function formatTime(date:any) {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
 
-// Extract the year, month, and day from the current date
-const year = currentDate.getFullYear();
-const month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
-const day = currentDate.getDate();
-
-// Create a formatted date string
-export const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-
-// Display the formatted date
-console.log(formattedDate);
+// Function to format date as YYYY-MM-DD (e.g., 2024-02-23)
+export function formatDate(date:any) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}

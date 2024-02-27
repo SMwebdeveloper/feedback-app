@@ -1,11 +1,5 @@
 import { defineStore } from "pinia";
-import {
-  set,
-  getDatabase,
-  ref,
-  onChildAdded,
-  serverTimestamp,
-} from "firebase/database";
+import { set, getDatabase, ref, onChildAdded } from "firebase/database";
 import { Chat } from "@/types/chat";
 import { useRepo } from "pinia-orm";
 import { Chats } from "@/models/chats";
@@ -13,7 +7,7 @@ import { useAuthStore } from "./auth";
 import { usableArr } from "@/composable/usable";
 import { addStore, getStore } from "@/composable/fireStore";
 import { generateRandomId } from "@/composable/generateId";
-// import { formattedDate } from "@/composable/getDate";
+import { formatDate, formatTime } from "@/composable/getDate";
 
 const chatRepo = useRepo(Chats);
 export const useChatStore = defineStore("chat", {
@@ -88,13 +82,14 @@ export const useChatStore = defineStore("chat", {
         });
       } else {
         const db = ref(getDatabase(), "messages/");
-        const messages: any = [];
+        const startTime = new Date("2024-02-23T10:00:00");
+        const endTime = new Date("2024-02-23T11:00:00");
         await onChildAdded(db, (snapshot) => {
-          if (snapshot.val().chat === result.id) {
-            console.log(snapshot.key);
-            messages.push({ ...snapshot.val(), id: snapshot.key });
+          const data = snapshot.val();
+          if (data.chat === result.id) {
+            this.messages.push({ ...data, id: snapshot.key });
           }
-          this.messages = messages;
+        
         });
       }
       return (this.chat = result), this.messages;
@@ -102,6 +97,7 @@ export const useChatStore = defineStore("chat", {
     // add message and create new chat
     async setMessage(id: any, message: string) {
       const data = chatRepo.query().get();
+      const currentDate = new Date("2024-02-23T10:00:00");
       let existsUser = false;
       let userItem: any;
 
@@ -112,13 +108,16 @@ export const useChatStore = defineStore("chat", {
       });
 
       if (existsUser) {
-        await set(ref(getDatabase(), "messages/" + generateRandomId()), {
+        const newObj = {
           chat: userItem.id,
           userId: this.store.authToken,
+          time: new Date().toJSON(),
+          hour:formatTime(currentDate),
           message: message,
           visible: false,
-          createdAt: serverTimestamp(),
-        });
+        };
+        // console.log(newObj)
+        await set(ref(getDatabase(), "messages/" + generateRandomId()), newObj);
       } else {
         const obj = {
           users: [id, this.store.authToken],
@@ -127,9 +126,14 @@ export const useChatStore = defineStore("chat", {
         await set(ref(getDatabase(), "messages/" + generateRandomId()), {
           chat: itemId.value,
           userId: this.store.authToken,
+          time: new Date(),
+          hour:formatTime(currentDate),
           message: message,
           visible: false,
-          createdAt: serverTimestamp(),
+        }).then(async () => {
+          await this.store.getUsers();
+          await this.getAllChats();
+          await this.getSingleChat(id);
         });
       }
     },

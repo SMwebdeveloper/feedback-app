@@ -25,7 +25,7 @@
           </router-link>
         </li>
       </ul>
-      <h2 v-if="!loading && !allChats.length" class="text-slate-200 text-3xl font-semibold text-center mt-">Chats not yet</h2>
+      <h2 v-if="!loading && !allChats.length" class="text-slate-200 text-3xl font-semibold text-center mt-52">Chats not yet</h2>
     </div>
   </section>
 </template>
