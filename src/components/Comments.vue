@@ -3,9 +3,9 @@
     <li
       v-for="{id, userId, comment, author: { img, name } } in comments"
       class="flex items-start mb-2 bg-slate-100 p-1 rounded-lg"
-      :class="`${store.authToken === userId ? 'bg-slate-400' : 'bg-slate-100'}`"
+      :class="`${store.authToken === userId ? 'bg-slate-400' : 'bg-slate-300'}`"
     >
-      <img :src="img ? img : userImage" alt="user image" class="w-8 h-8 rounded-full mr-3" />
+      <img :src="img ? img : userImage" alt="user image" class="w-8 h-8 rounded-full mr-3 border border-slate-600" />
       <div class="flex-1">
         <h6 class="text-sm capitalize font-semibold">{{ store.authToken === userId ? "My comment" : name }}</h6>
         <span class="inline-block w-full text-slate-800 font-bold">{{

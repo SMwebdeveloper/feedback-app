@@ -33,11 +33,12 @@
             <i class="fa fa-spinner fa-spin text-8 text-slate-200"></i>
           </span>
         </button>
-        <button
-          class="text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
+        <router-link
+          :to="`/chat/${user.userId}`"
+          class="inline-block text-base font-semibold bg-slate-900 px-2 py-1 text-slate-200 rounded-lg"
         >
           Message
-        </button>
+        </router-link>
       </div>
     </div>
 
@@ -71,7 +72,7 @@
 <script setup lang="ts">
 import UserImg from "@/assets/images/user-image.jpg";
 import { Bars3CenterLeftIcon } from "@heroicons/vue/24/solid";
-import { computed, onBeforeMount, ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 
@@ -79,7 +80,7 @@ const props = defineProps({
   user: {
     type: Object,
     required: true,
-  },
+  }
 });
 
 const route = useRoute();
@@ -88,14 +89,13 @@ const table = ref(false);
 const visibleBtn = ref(false);
 const btnLoading = ref(false);
 const settingTable = ref(false);
-
 const user = computed(() => props.user);
 
 const clickFollow = async () => {
   btnLoading.value = true;
   visibleBtn.value = !visibleBtn.value;
   await store
-    .addRemoveFollowers(user.value.id, visibleBtn.value, 'followers')
+    .addRemoveFollowers(user.value.id, visibleBtn.value, "followers")
     .then(async () => {
       await store.getUsers();
       await store.getSingleUser(user.value.id, "id");
@@ -105,12 +105,14 @@ const clickFollow = async () => {
   btnLoading.value = false;
 };
 
+const chatLink = computed(() => {
+  
+})
 
 watchEffect(() => {
   if (route.name !== "user") {
     table.value = true;
   }
-  visibleBtn.value =  user.value.followers.includes(store.authToken);
-  
+  visibleBtn.value = user.value.followers.includes(store.authToken);
 });
 </script>

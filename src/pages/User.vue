@@ -123,15 +123,13 @@ const followings = computed(() => store.following);
 
 const addRemoveFollower = async () => {};
 watchEffect(async () => {
-  if (!user.value.id.includes(key)) {
-    await store.getUsers();
-    await store.getSingleUser(key, "id");
-    loading.value = true;
-    await feedbackStore.getFeedbacks();
-    await feedbackStore.getUserFeedbacks(user.value.userId);
-    await store.getFollowers(key);
-    await store.getFollowings(user.value.userId);
-    loading.value = false;
-  }
+  await store.getUsers();
+  await store.getSingleUser(key, "id");
+  loading.value = true;
+  await feedbackStore.getFeedbacks();
+  await feedbackStore.getUserFeedbacks(user.value.userId);
+  await store.getFollowers(key);
+  await store.getFollowings(user.value.userId);
+  loading.value = false;
 });
 </script>

@@ -26,6 +26,7 @@ export const useFeedbackStore = defineStore("feedback", {
     async getFeedbacks() {
       const { newArr }: any = await getStore("feedbacks");
       const { result } = usableArr(newArr.value);
+      const {} = await getStore('comments')
       feedbackRepo.save(result);
       const data = feedbackRepo.query().get();
       // console.log(data)
