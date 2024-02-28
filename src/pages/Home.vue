@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-24">
+  <div class="pb-16">
     <div class="project-container">
       <div v-if="loading">
         <loader/>
@@ -20,13 +20,11 @@
 import { computed, onMounted, ref } from "vue";
 import {useAuthStore} from '@/store/auth'
 import { useFeedbackStore } from "@/store/feedback";
-import { useCommentStore } from "@/store/comment";
 import {useChatStore} from '@/store/chat'
 
 const loading = ref(false)
 const store = useAuthStore()
 const feedbackStore = useFeedbackStore();
-const commentStore = useCommentStore()
 const chatStore = useChatStore()
 const feedbacks = computed(() => feedbackStore.feedbacks);
 
@@ -35,7 +33,6 @@ onMounted(async () => {
   await store.getUsers()
   await store.getSingleUser(store.authToken, 'userId')
   await feedbackStore.getFeedbacks()
-  await commentStore.getComments('__', 'feedbackId')
   await chatStore.getAllChats()
   loading.value = false
 });

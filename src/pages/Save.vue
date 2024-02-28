@@ -1,5 +1,5 @@
 <template>
-  <section class="pb-24">
+  <section class="pb-24 min-h-screen">
     <div class="project-container">
       <loader v-if="loading" />
       <div v-else>

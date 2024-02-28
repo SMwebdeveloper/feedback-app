@@ -112,7 +112,6 @@ export const useChatStore = defineStore("chat", {
           chat: userItem.id,
           userId: this.store.authToken,
           time: new Date().toJSON(),
-          hour:formatTime(currentDate),
           message: message,
           visible: false,
         };
@@ -127,7 +126,6 @@ export const useChatStore = defineStore("chat", {
           chat: itemId.value,
           userId: this.store.authToken,
           time: new Date(),
-          hour:formatTime(currentDate),
           message: message,
           visible: false,
         }).then(async () => {

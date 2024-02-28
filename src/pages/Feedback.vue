@@ -1,6 +1,6 @@
 <template>
-  <section class="pt-5 h-screen">
-    <div class="project-container h-full">
+  <section class="pt-3 hmin-h-screen">
+    <div class="project-container">
       <a>
         <chevron-left-icon
           @click="router.back()"
@@ -10,7 +10,7 @@
       <div v-if="loading">
         <loader />
       </div>
-      <div v-else>
+      <div v-else class="relative">
         <single-feedback :feedback="feedback" />
         <second-loader v-if="commentLoading" />
         <comments v-else :comments="comments" />

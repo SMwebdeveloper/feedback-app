@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 z-50 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex items-center justify-center transition-all duration-100">
+    <div class="fixed top-0 z-50 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] backdrop-blur-sm flex items-center justify-center transition-all duration-300 delay-500">
        <div class="w-[350px] h-[150px] pt-6 flex flex-col  bg-slate-200 rounded-lg">
             <h3 class="mb-auto text-center text-xl text-slate-800 font-bold">Do you really want to delete the {{message}}?</h3>
             <div class="w-full">
