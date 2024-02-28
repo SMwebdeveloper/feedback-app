@@ -22,20 +22,22 @@
           </h3>
         </div>
 
-        <ul class="mt-16 h-[80vh] overflow-y-auto pb-4">
+        <h2 v-show="!messages.length" class="mt-24 text-center text-white text-xl">There are no messages yet</h2>
+        <ul class="mt-14 h-[80vh] chat-list pt-4 pb-2">
           <li
-            v-for="{ message, userId, id } in chatStore.messages"
-            :key="id"
-            class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
-            :class="`${
-              userId === store.authToken
-                ? 'border-slate-900 bg-slate-700 ml-auto'
-                : 'border-slate-200 bg-slate-600 mr-auto'
-            }`"
+          v-for="{ message, userId, id } in chatStore.messages"
+          :key="id"
+          class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
+          :class="`${
+            userId === store.authToken
+            ? 'border-slate-900 bg-slate-700 ml-auto'
+            : 'border-slate-200 bg-slate-600 mr-auto'
+          }`"
           >
-            <h4>{{ message }}</h4>
-          </li>
-        </ul>
+          <h4>{{ message }}</h4>
+        </li>
+      </ul>
+
         <form
           @submit.prevent="addMessage"
           class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
@@ -117,12 +119,12 @@ watchEffect(async () => {
 <style scoped lang="css">
 .chat-list {
   width: 100%;
-  height: 78vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-top: 70px;
-
   overflow-y: scroll;
+}
+.chat-list::-webkit-scrollbar {
+  width: 0;
 }
 </style>
