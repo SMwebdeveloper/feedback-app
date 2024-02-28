@@ -1,5 +1,5 @@
 <template>
-  <section class="pb-24">
+  <section class="min-h-screen pb-16">
     <div class="project-container">
       <h3 class="text-3xl text-slate-200 font-bold mb-5">All users</h3>
       <label

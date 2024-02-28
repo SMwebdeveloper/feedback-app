@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="min-h-screen">
     <div class="project-container relative">
       <loader v-if="loading" />
       <ul v-else class="">

@@ -1,5 +1,5 @@
 <template>
-  <section
+  <section id="app-footer"
     class="fixed bottom-0 left-0 w-full h-[80px] py-2 bg-slate-300 shadow-sm shadow-slate-400"
   >
     <ul

@@ -1,68 +1,70 @@
 <template>
-  <div class="project-container">
-    <router-link to="/profile">
-      <chevron-left-icon class="text-white w-10 font-medium mb-7" />
-    </router-link>
-    <loader v-if="loading" />
-    <form v-else>
-      <label for="uploadImage" class="block mb-4 relative cursor-pointer">
-        <div
-          class="w-[140px] h-[140px] rounded-full flex items-center justify-center border border-slate-200"
+  <section class="min-h-screen">
+    <div class="project-container">
+      <router-link to="/profile">
+        <chevron-left-icon class="text-white w-10 font-medium mb-7" />
+      </router-link>
+      <loader v-if="loading" />
+      <form v-else>
+        <label for="uploadImage" class="block mb-4 relative cursor-pointer">
+          <div
+            class="w-[140px] h-[140px] rounded-full flex items-center justify-center border border-slate-200"
+          >
+            <i
+              v-if="imgLoader"
+              class="fa fa-spinner fa-spin text-3xl text-white"
+            ></i>
+            <img
+              v-else
+              :src="image ? image : userImage"
+              alt="user image"
+              class="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <div
+            class="absolute bottom-0 left-[100px] rounded-full p-2 inline-block bg-slate-600 border border-slate-300"
+          >
+            <pencil-icon class="text-white w-4" />
+          </div>
+          <input
+            id="uploadImage"
+            type="file"
+            accept="image/png, image/pdf, image/jpeg"
+            class="hidden"
+            @change="uploadImage"
+          />
+        </label>
+        <label for="" class="block mb-4">
+          <input
+            type="text"
+            v-model="editUser.name"
+            placeholder="Name"
+            class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
+          />
+        </label>
+        <label for="" class="block mb-4">
+          <textarea
+            name=""
+            id=""
+            rows="5"
+            placeholder="Bio"
+            v-model="editUser.bio"
+            class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
+          ></textarea>
+        </label>
+        <button
+          class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
+          @click.prevent="userEdit"
         >
           <i
-            v-if="imgLoader"
-            class="fa fa-spinner fa-spin text-3xl text-white"
-          ></i>
-          <img
-            v-else
-            :src="image ? image : userImage"
-            alt="user image"
-            class="w-full h-full rounded-full object-cover"
-          />
-        </div>
-        <div
-          class="absolute bottom-0 left-[100px] rounded-full p-2 inline-block bg-slate-600 border border-slate-300"
-        >
-          <pencil-icon class="text-white w-4" />
-        </div>
-        <input
-          id="uploadImage"
-          type="file"
-          accept="image/png, image/pdf, image/jpeg"
-          class="hidden"
-          @change="uploadImage"
-        />
-      </label>
-      <label for="" class="block mb-4">
-        <input
-          type="text"
-          v-model="editUser.name"
-          placeholder="Name"
-          class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
-        />
-      </label>
-      <label for="" class="block mb-4">
-        <textarea
-          name=""
-          id=""
-          rows="5"
-          placeholder="Bio"
-          v-model="editUser.bio"
-          class="bg-slate-800 px-2 py-1 rounded-md text-white border outline-none border-b-slate-200 w-full"
-        ></textarea>
-      </label>
-      <button
-        class="bg-green-600 text-white border-none w-1/3 py-2 text-xl font-medium rounded-md"
-        @click.prevent="userEdit"
-      >
-        <i
             v-if="editLoader"
             class="fa fa-spinner fa-spin text-xl text-white"
           ></i>
-        <span v-else>Edit</span>
-      </button>
-    </form>
-  </div>
+          <span v-else>Edit</span>
+        </button>
+      </form>
+    </div>
+  </section>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "vue";

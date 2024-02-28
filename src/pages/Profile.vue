@@ -1,5 +1,6 @@
 <template>
-  <div class="project-container pb-24 relative">
+  <section class="min-h-screen">
+    <div class="project-container pb-24 relative">
     <loader v-if="!store.user?.name" />
     <div v-else>
       <profile-user-content :user="user" @logOut="logOut" />
@@ -114,6 +115,7 @@
       @deleted="deleteFedCom"
     />
   </div>
+  </section>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store/auth";
