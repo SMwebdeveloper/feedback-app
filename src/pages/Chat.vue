@@ -21,12 +21,7 @@
 
       <ul class="flex flex-col justify-end pt-12 pb-8 w-full min-h-screen">
         <li
-          v-for="{
-            message,
-            userId,
-            id,
-            hour,
-          } in chatStore.messages"
+          v-for="{ message, userId, id } in chatStore.messages"
           :key="id"
           class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
           :class="`${
@@ -36,13 +31,18 @@
           }`"
         >
           <h4>{{ message }}</h4>
-          <span class="inline-block text-sm ml-auto">{{ hour }}</span>
+          <!-- <span class="inline-block text-sm ml-auto">{{ hour }}</span> -->
         </li>
       </ul>
-      <h2 v-if="!messages.length" class="text-2xl font-semibold text-slate-200 text-center mt-20">Don't have messages</h2>
+      <h2
+        v-if="!messages.length"
+        class="text-2xl font-semibold text-slate-200 text-center mt-20"
+      >
+        Don't have messages
+      </h2>
       <form
         @submit.prevent="addMessage"
-        class="absolute bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
+        class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
       >
         <input
           v-model="message"
@@ -85,8 +85,8 @@ const addMessage = async () => {
 };
 const chat = computed(() => chatStore.chat);
 const messages = computed(() => {
-  chatStore.messages.sort((a, b) => new Date(a.time) - new Date(b.time))
-  return chatStore.messages
+  chatStore.messages.sort((a, b) => new Date(a.time) - new Date(b.time));
+  return chatStore.messages;
 });
 
 onMounted(async () => {
@@ -98,12 +98,13 @@ onMounted(async () => {
   }
   loading.value = false;
 });
+
 watchEffect(async () => {
   messages.value?.forEach(async (message: any) => {
     if (message.userId !== store.authToken) {
       if (!message.visible) {
         const db = messageRef(database, "messages/" + message.id);
-        console.log(message)
+        console.log(message);
         const newObj = {
           ...message,
           visible: true,
@@ -116,6 +117,4 @@ watchEffect(async () => {
   });
 });
 </script>
-<style scoped lang="css">
-
-</style>
+<style scoped lang="css"></style>
