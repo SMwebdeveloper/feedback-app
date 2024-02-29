@@ -64,6 +64,7 @@ export const useChatStore = defineStore("chat", {
     async getSingleChat(key: any) {
       const data = chatRepo.query().get();
       let result: any = null;
+      const messages:any = []
 
       data.forEach((element) => {
         if (element.user.id === key) {
@@ -82,22 +83,19 @@ export const useChatStore = defineStore("chat", {
         });
       } else {
         const db = ref(getDatabase(), "messages/");
-        const startTime = new Date("2024-02-23T10:00:00");
-        const endTime = new Date("2024-02-23T11:00:00");
         await onChildAdded(db, (snapshot) => {
           const data = snapshot.val();
           if (data.chat === result.id) {
-            this.messages.push({ ...data, id: snapshot.key });
+            messages.push({ ...data, id: snapshot.key });
           }
         
         });
       }
-      return (this.chat = result), this.messages;
+      return (this.chat = result), this.messages = messages;
     },
     // add message and create new chat
     async setMessage(id: any, message: string) {
       const data = chatRepo.query().get();
-      const currentDate = new Date("2024-02-23T10:00:00");
       let existsUser = false;
       let userItem: any;
 
@@ -115,7 +113,6 @@ export const useChatStore = defineStore("chat", {
           message: message,
           visible: false,
         };
-        // console.log(newObj)
         await set(ref(getDatabase(), "messages/" + generateRandomId()), newObj);
       } else {
         const obj = {
