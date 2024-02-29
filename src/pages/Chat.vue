@@ -22,25 +22,32 @@
           </h3>
         </div>
 
-        <h2 v-show="!messages.length" class="mt-24 text-center text-white text-xl">There are no messages yet</h2>
-        <ul class="mt-14 h-[80vh] chat-list pt-4 pb-2">
+        <h2
+        v-show="!messages.length && !messageLoader"
+        class="mt-24 text-center text-white text-xl"
+        >
+        There are no messages yet
+      </h2>
+      <div v-if="messageLoader" class="mt-40">
+        <second-loader/>
+      </div>
+        <ul v-else class="mt-14 h-[80vh] chat-list pt-4 pb-2">
           <li
-          v-for="{ message, userId, id } in chatStore.messages"
-          :key="id"
-          class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
-          :class="`${
-            userId === store.authToken
-            ? 'border-slate-900 bg-slate-700 ml-auto'
-            : 'border-slate-200 bg-slate-600 mr-auto'
-          }`"
+            v-for="{ message, userId, id } in chatStore.messages"
+            :key="id"
+            class="w-1/2 text-slate-200 font-semibold border rounded-xl px-2 py-1 mb-2 last:mb-0"
+            :class="`${
+              userId === store.authToken
+                ? 'border-slate-900 bg-slate-700 ml-auto'
+                : 'border-slate-200 bg-slate-600 mr-auto'
+            }`"
           >
-          <h4>{{ message }}</h4>
-        </li>
-      </ul>
-
+            <h4>{{ message }}</h4>
+          </li>
+        </ul>
         <form
           @submit.prevent="addMessage"
-          class="fixed bottom-0 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
+          class="fixed bottom-2 w-[367px] bg-slate-600 border rounded-full border-slate-200 pl-2 py-2 flex items-center"
         >
           <input
             v-model="message"
@@ -65,6 +72,7 @@ import { computed, onMounted, ref, watchEffect } from "vue";
 import { PaperAirplaneIcon } from "@heroicons/vue/24/solid";
 import { update, ref as messageRef } from "firebase/database";
 import userImage from "@/assets/images/user-image.jpg";
+import SecondLoader from "@/components/SecondLoader.vue";
 import { database } from "@/firebase/config";
 
 const router = useRouter();
@@ -72,15 +80,18 @@ const route = useRoute();
 const store = useAuthStore();
 const chatStore = useChatStore();
 const loading = ref(false);
+const messageLoader = ref(false);
 const message = ref("");
 
 const key = route.params.id;
 
 const addMessage = async () => {
   if (message.value) {
+    messageLoader.value = true;
     await chatStore.setMessage(route.params.id, message.value);
+    message.value = "";
   }
-  message.value = "";
+  messageLoader.value = false;
 };
 const chat = computed(() => chatStore.chat);
 const messages = computed(() => {
@@ -89,16 +100,17 @@ const messages = computed(() => {
 });
 
 onMounted(async () => {
+  console.log(key)
   loading.value = true;
-  await store.getUsers();
-  await chatStore.getAllChats();
-  if (!chatStore.messages.length) {
+    await store.getUsers();
+    await chatStore.getAllChats();
     await chatStore.getSingleChat(key);
-  }
   loading.value = false;
-});
-
+})
 watchEffect(async () => {
+  messageLoader.value = true;
+  
+  messageLoader.value = false;
   messages.value?.forEach(async (message: any) => {
     if (message.userId !== store.authToken) {
       if (!message.visible) {

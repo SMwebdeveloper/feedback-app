@@ -105,9 +105,6 @@ const clickFollow = async () => {
   btnLoading.value = false;
 };
 
-const chatLink = computed(() => {
-  
-})
 
 watchEffect(() => {
   if (route.name !== "user") {
